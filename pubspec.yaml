@@ -17,14 +17,20 @@ dependencies:
 
   # State manager
   mobx:
-    path: packages/mobx-2.1.1
+    git:
+      url: https://github.com/altynbek132/utils.git
+      path: packages/mobx-2.1.1
   flutter_mobx:
-    path: packages/flutter_mobx-2.0.6+4
+    git:
+      url: https://github.com/altynbek132/utils.git
+      path: packages/flutter_mobx-2.0.6+4
   provider: ^6.0.4
 
   dart_json_mapper: ^2.2.5+1
   dart_json_mapper_mobx:
-    path: packages/dart_json_mapper_mobx-2.0.5
+    git:
+      url: https://github.com/altynbek132/utils.git
+      path: packages/dart_json_mapper_mobx-2.0.5
   dart_json_mapper_flutter: ^2.0.1
   dio: ^4.0.6
 

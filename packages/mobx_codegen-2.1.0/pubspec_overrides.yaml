@@ -1,3 +1,3 @@
-dependency_overrides:
-  mobx:
-    path: ../mobx
+#dependency_overrides:
+#  mobx:
+#    path: ../mobx

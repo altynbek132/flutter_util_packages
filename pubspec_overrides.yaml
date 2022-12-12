@@ -1,0 +1,9 @@
+dependency_overrides:
+  mobx_codegen:
+    path: packages/mobx_codegen-2.1.0
+  dart_json_mapper_mobx:
+    path: packages/dart_json_mapper_mobx-2.0.5
+  mobx:
+    path: packages/mobx-2.1.1
+  flutter_mobx:
+    path: packages/flutter_mobx-2.0.6+4
