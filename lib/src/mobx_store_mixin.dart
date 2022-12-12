@@ -35,96 +35,17 @@ class MobxStoreBase implements Disposable {
     addDisposer(() => disposers.map((e) => e()).toList());
   }
 
-  /// [l] stands for listenable
-  ///
-  /// usage:
-  ///
-  /// ```late final cityTextController = createFromListenable(
-  ///     TextEditingController(), (l) => l.addListener, (l, cb) => () {
-  ///   // unnecessary if we dispose controller
-  ///   l.removeListener(cb);
-  ///   l.dispose();
-  /// });```
   @protected
-  Observable<T> obsFromListenable<T>(
-      T l,
-      Function Function(T l) makeAddListener,
-      VoidCallback Function(T l, Function() cb) makeDisposer) {
-    final obs = Observable<T>(l);
-    final cb = Action(() => obs.manualReportChange());
-    makeAddListener(l)(cb);
-    addDisposer(makeDisposer(l, cb));
-    return obs;
-  }
-
-  @protected
-  Observable<T> obsFromValueNotifierValue<T>(ValueNotifier<T> vl) {
-    final obs = Observable<T>(vl.value);
-    final cb = Action(() => obs
-      ..value = vl.value
-      ..manualReportChange());
-    vl.addListener(cb);
-    addDisposer(() {
-      vl.removeListener(cb);
-      vl.dispose();
-    });
-    return obs;
-  }
-
-  @protected
-  Observable<T> obsFromValueNotifier<T extends ValueNotifier>(T vl) {
-    final obs = Observable<T>(vl);
-    final cb = Action(() => obs
-      ..value = vl
-      ..manualReportChange());
-    vl.addListener(cb);
-    addDisposer(() {
-      vl.removeListener(cb);
-      vl.dispose();
-    });
-    return obs;
-  }
-
-  @protected
-  Observable<T> obsFromListenable_<T extends Listenable>(T vl) {
-    final obs = Observable<T>(vl);
-    final cb = Action(() => obs
-      ..value = vl
-      ..manualReportChange());
-    vl.addListener(cb);
-    addDisposer(() {
-      vl.removeListener(cb);
-    });
-    return obs;
-  }
-
-  @protected
-  Observable<T> obsFromChangeNotifier<T extends ChangeNotifier>(T vl) {
-    final obs = Observable<T>(vl);
-    final cb = Action(() => obs
-      ..value = vl
-      ..manualReportChange());
-    vl.addListener(cb);
-    addDisposer(() {
-      vl.removeListener(cb);
-      vl.dispose();
-    });
-    return obs;
-  }
-
-  @protected
-  T makeDisposable<T>(T val, VoidCallback Function(T val) makeDispose) {
+  T makeDisposable<T>(T val, FutureOr Function() Function(T val) makeDispose) {
     addDisposer(makeDispose(val));
     return val;
   }
 
-  @protected
-  void addDisposer(VoidCallback disposer) {
+  void addDisposer(FutureOr Function() disposer) {
     _disposers.add(disposer);
   }
 
-  @protected
-  void addDisposers(Iterable<VoidCallback> disposers) {
+  void addDisposers(Iterable<FutureOr Function()> disposers) {
     _disposers.addAll(disposers);
   }
 

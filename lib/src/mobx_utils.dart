@@ -1,8 +1,11 @@
 import 'dart:async';
 
 import 'package:dio/dio.dart';
-import 'package:mobx/mobx.dart';
+import 'package:flutter/widgets.dart' hide Action;
+import 'package:mobx/mobx.dart' hide Listenable;
 import 'package:rxdart/rxdart.dart';
+
+import 'mobx_extensions.dart';
 
 class MobxUtils {
   static Stream<T> makeCancelableStreamRequest<T>(
@@ -25,7 +28,7 @@ class MobxUtils {
           Future<T> Function(CancelToken ct) request) =>
       makeCancelableStreamRequest(request).asObservable();
 
-  static Stream<T> observableFieldToStream<T>(T Function() getter) {
+  static Stream<T> fromGetter<T>(T Function() getter) {
     BehaviorSubject<T>? controller;
     ReactionDisposer? disposer;
     return controller = BehaviorSubject<T>(
@@ -34,15 +37,17 @@ class MobxUtils {
     );
   }
 
-  static ObservableStream<T> observableFieldToObsStream<T>(
-          T Function() getter) =>
-      observableFieldToStream(getter).asObservable();
-
-  static Stream<T> observableToStream<T>(Observable<T> obs) =>
-      observableFieldToStream(() => obs.value);
-
-  static ObservableStream<T> observableToObsStream<T>(Observable<T> obs) =>
-      observableToStream(obs).asObservable();
+  WithDisposer<Observable<T>> fromListenable<T extends Listenable>(T vl) {
+    final obs = Observable<T>(vl);
+    final cb = Action(() => obs
+      ..value = vl
+      ..manualReportChange());
+    vl.addListener(cb);
+    return WithDisposer(
+      obs,
+      () => vl.removeListener(cb),
+    );
+  }
 
   MobxUtils._();
 }
