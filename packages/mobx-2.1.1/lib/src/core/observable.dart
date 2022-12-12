@@ -43,7 +43,7 @@ class Observable<T> extends Atom
   final Listeners<ChangeNotification<T>> _listeners;
   final EqualityComparer<T>? equals;
 
-  void manualReportChange() {
+  void reportManualChange() {
     reportChanged();
     _listeners.notifyListeners(ChangeNotification<T>(
         newValue: value,

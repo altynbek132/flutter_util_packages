@@ -49,9 +49,9 @@ class ObservableList<T>
   /// The name used to identify for debugging purposes
   String get name => _atom.name;
 
-  void manualReportChange() {
+  void reportManualChange([ListChange<T>? notification]) {
     _atom.reportChanged();
-    _listeners.notifyListeners(ListChange<T>(list: this));
+    _listeners.notifyListeners(notification ?? ListChange<T>(list: this));
   }
 
   @override

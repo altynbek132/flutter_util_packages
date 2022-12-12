@@ -42,7 +42,7 @@ class MobxUtils {
     final obs = Observable<T>(listenable);
     final cb = Action(() => obs
       ..value = listenable
-      ..manualReportChange());
+      ..reportManualChange());
     listenable.addListener(cb);
     return WithDisposer(
       obs,
@@ -57,7 +57,7 @@ class MobxUtils {
     final obs = Observable<T>(vn.value);
     final cb = Action(() => obs
       ..value = vn.value
-      ..manualReportChange());
+      ..reportManualChange());
     vn.addListener(cb);
     return WithDisposer(
       obs,
@@ -77,7 +77,7 @@ class MobxUtils {
     final obs = Observable<T>(vn);
     final cb = Action(() => obs
       ..value = vn
-      ..manualReportChange());
+      ..reportManualChange());
     vn.addListener(cb);
     return WithDisposer(
       obs,
