@@ -1,6 +1,5 @@
 import 'dart:async';
 
-import 'package:dio/dio.dart';
 import 'package:flutter/widgets.dart' hide Action;
 import 'package:mobx/mobx.dart' hide Listenable;
 import 'package:rxdart/rxdart.dart';
@@ -8,26 +7,6 @@ import 'package:rxdart/rxdart.dart';
 import 'mobx_extensions.dart';
 
 class MobxUtils {
-  static Stream<T> makeCancelableStreamRequest<T>(
-      Future<T> Function(CancelToken ct) request,
-      {bool? startImmediately}) {
-    startImmediately ??= false;
-
-    final cancelToken = CancelToken();
-    Future<T>? requestFuture;
-    if (startImmediately) requestFuture = request(cancelToken);
-    BehaviorSubject<T>? c;
-    return c = BehaviorSubject<T>(
-      onListen: () =>
-          c!.addStream((requestFuture ?? request(cancelToken)).asStream()),
-      onCancel: () => cancelToken.cancel(),
-    );
-  }
-
-  static ObservableStream<T> makeCancelableObsStreamRequest<T>(
-          Future<T> Function(CancelToken ct) request) =>
-      makeCancelableStreamRequest(request).asObservable();
-
   static Stream<T> fromGetter<T>(T Function() getter) {
     BehaviorSubject<T>? controller;
     ReactionDisposer? disposer;

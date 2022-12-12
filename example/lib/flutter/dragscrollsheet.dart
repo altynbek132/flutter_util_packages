@@ -30,7 +30,8 @@ abstract class _DragscrollsheetVmBase with Store, MobxStoreBase, LoggerMixin {
 
   /// OBSERVABLES --------------------------------------------------------------
   final controllerRaw = DraggableScrollableController();
-  late final controller = obsFromChangeNotifier(controllerRaw);
+  late final controller =
+      MobxUtils.fromListenable(controllerRaw).disposeWithVm(this);
 
   @observable
   late double minChildSize = _minChildSize;
