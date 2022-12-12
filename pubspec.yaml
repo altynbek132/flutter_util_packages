@@ -1,0 +1,43 @@
+name: utils
+description: A new Flutter package project.
+version: 0.0.1
+publish_to: 'none'
+
+environment:
+  sdk: '>=2.18.4 <3.0.0'
+  flutter: ">=1.17.0"
+
+dependencies:
+  flutter:
+    sdk: flutter
+
+  # Other
+  logger: ^1.1.0
+  rxdart: ^0.27.5
+
+  # State manager
+  mobx:
+    path: packages/mobx-2.1.1
+  flutter_mobx:
+    path: packages/flutter_mobx-2.0.6+4
+  provider: ^6.0.4
+
+  dart_json_mapper: ^2.2.5+1
+  dart_json_mapper_mobx:
+    path: packages/dart_json_mapper_mobx-2.0.5
+  dart_json_mapper_flutter: ^2.0.1
+  dio: ^4.0.6
+
+#  cupertino_icons: ^1.0.2
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+
+  flutter_lints: ^2.0.1
+
+  # Generators
+  build_runner: ^2.3.2
+  dart_code_metrics: ^5.0.1
+  mobx_codegen:
+    path: packages/mobx_codegen-2.1.0
