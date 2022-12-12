@@ -1,11 +1,11 @@
-name: utils
-description: A new Flutter package project.
-version: 0.0.1
-publish_to: 'none'
+name: example
+description: A new Flutter project.
+
+
+version: 1.0.0+1
 
 environment:
   sdk: '>=2.18.4 <3.0.0'
-  flutter: ">=1.17.0"
 
 dependencies:
   flutter:
@@ -34,8 +34,6 @@ dependencies:
   dart_json_mapper_flutter: ^2.0.1
   dio: ^4.0.6
 
-#  cupertino_icons: ^1.0.2
-
 dev_dependencies:
   flutter_test:
     sdk: flutter
@@ -49,3 +47,8 @@ dev_dependencies:
     git:
       url: https://github.com/altynbek132/utils.git
       path: packages/mobx_codegen-2.1.0
+
+
+flutter:
+
+  uses-material-design: true
