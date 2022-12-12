@@ -37,15 +37,56 @@ class MobxUtils {
     );
   }
 
-  WithDisposer<Observable<T>> fromListenable<T extends Listenable>(T vl) {
-    final obs = Observable<T>(vl);
+  static WithDisposer<Observable<T>> fromListenable<T extends Listenable>(
+      T listenable) {
+    final obs = Observable<T>(listenable);
     final cb = Action(() => obs
-      ..value = vl
+      ..value = listenable
       ..manualReportChange());
-    vl.addListener(cb);
+    listenable.addListener(cb);
     return WithDisposer(
       obs,
-      () => vl.removeListener(cb),
+      () => listenable.removeListener(cb),
+    );
+  }
+
+  static WithDisposer<Observable<T>> fromVn<T>(
+    ValueNotifier<T> vn, {
+    bool? dispose,
+  }) {
+    final obs = Observable<T>(vn.value);
+    final cb = Action(() => obs
+      ..value = vn.value
+      ..manualReportChange());
+    vn.addListener(cb);
+    return WithDisposer(
+      obs,
+      () {
+        vn.removeListener(cb);
+        if (dispose ?? false) {
+          vn.dispose();
+        }
+      },
+    );
+  }
+
+  static WithDisposer<Observable<T>> fromVnWrap<T extends ValueNotifier>(
+    T vn, {
+    bool? dispose,
+  }) {
+    final obs = Observable<T>(vn);
+    final cb = Action(() => obs
+      ..value = vn
+      ..manualReportChange());
+    vn.addListener(cb);
+    return WithDisposer(
+      obs,
+      () {
+        vn.removeListener(cb);
+        if (dispose ?? false) {
+          vn.dispose();
+        }
+      },
     );
   }
 
