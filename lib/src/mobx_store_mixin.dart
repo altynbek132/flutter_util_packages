@@ -51,7 +51,7 @@ class MobxStoreBase implements Disposable {
       Function Function(T l) makeAddListener,
       VoidCallback Function(T l, Function() cb) makeDisposer) {
     final obs = Observable<T>(l);
-    cb() => obs.manualReportChange();
+    final cb = Action(() => obs.manualReportChange());
     makeAddListener(l)(cb);
     addDisposer(makeDisposer(l, cb));
     return obs;
@@ -60,7 +60,9 @@ class MobxStoreBase implements Disposable {
   @protected
   Observable<T> obsFromValueNotifierValue<T>(ValueNotifier<T> vl) {
     final obs = Observable<T>(vl.value);
-    cb() => obs.value = vl.value;
+    final cb = Action(() => obs
+      ..value = vl.value
+      ..manualReportChange());
     vl.addListener(cb);
     addDisposer(() {
       vl.removeListener(cb);
@@ -72,7 +74,9 @@ class MobxStoreBase implements Disposable {
   @protected
   Observable<T> obsFromValueNotifier<T extends ValueNotifier>(T vl) {
     final obs = Observable<T>(vl);
-    cb() => obs.value = vl;
+    final cb = Action(() => obs
+      ..value = vl
+      ..manualReportChange());
     vl.addListener(cb);
     addDisposer(() {
       vl.removeListener(cb);
@@ -84,7 +88,9 @@ class MobxStoreBase implements Disposable {
   @protected
   Observable<T> obsFromListenable_<T extends Listenable>(T vl) {
     final obs = Observable<T>(vl);
-    cb() => obs.value = vl;
+    final cb = Action(() => obs
+      ..value = vl
+      ..manualReportChange());
     vl.addListener(cb);
     addDisposer(() {
       vl.removeListener(cb);
@@ -95,7 +101,9 @@ class MobxStoreBase implements Disposable {
   @protected
   Observable<T> obsFromChangeNotifier<T extends ChangeNotifier>(T vl) {
     final obs = Observable<T>(vl);
-    cb() => obs.value = vl;
+    final cb = Action(() => obs
+      ..value = vl
+      ..manualReportChange());
     vl.addListener(cb);
     addDisposer(() {
       vl.removeListener(cb);
