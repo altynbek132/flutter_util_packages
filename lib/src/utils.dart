@@ -35,14 +35,16 @@ extension ObsFutureExtension<T> on Observable<ObservableFuture<T>> {
   }
 }
 
-Future<List<T>> futureWait<T>(Iterable<FutureOr<T>> futures,
-    {bool eagerError = false, void Function(T successValue)? cleanUp}) {
-  return Future.wait(
-    futures.map((e) => (() async => await e)()),
-    eagerError: eagerError,
-    cleanUp: cleanUp,
-  );
-}
+Future<List<T>> futureWait<T>(
+  Iterable<FutureOr<T>> futures, {
+  bool eagerError = false,
+  void Function(T successValue)? cleanUp,
+}) =>
+    Future.wait(
+      futures.map((e) => (() async => await e)()),
+      eagerError: eagerError,
+      cleanUp: cleanUp,
+    );
 
 T? nullOnException<T>(T Function() f) {
   try {

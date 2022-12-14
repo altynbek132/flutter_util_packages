@@ -16,6 +16,11 @@ class MobxUtils {
     );
   }
 
+  /// use it if you need to wrap [Listenable] to [Observable]
+  ///
+  /// usage:
+  /// late final listenableObs = MobxUtils.fromListenable(listenable)
+  ///     .handleDispose((disposer) => addDisposer(disposer));
   static WithDisposer<Observable<T>> fromListenable<T extends Listenable>(
       T listenable) {
     final obs = Observable<T>(listenable);
@@ -29,7 +34,12 @@ class MobxUtils {
     );
   }
 
-  static WithDisposer<Observable<T>> fromVn<T>(
+  /// use it if you need [ValueNotifier]'s values as [Observable]
+  ///
+  /// usage:
+  /// late final vnValueObs = MobxUtils.fromVnValue(VN)
+  ///     .handleDispose((disposer) => addDisposer(disposer));
+  static WithDisposer<Observable<T>> fromVnValue<T>(
     ValueNotifier<T> vn, {
     bool? dispose,
   }) {
@@ -49,7 +59,14 @@ class MobxUtils {
     );
   }
 
-  static WithDisposer<Observable<T>> fromVnWrap<T extends ValueNotifier>(
+  /// you can wrap controllers which extend [ChangeNotifier] as
+  /// [TextEditingController] and etc so that you can use notifier's value in
+  /// reactions
+  ///
+  /// usage:
+  /// late final textController = MobxUtils.fromCn(textControllerRaw)
+  ///     .handleDispose((disposer) => addDisposer(disposer));
+  static WithDisposer<Observable<T>> fromCN<T extends ChangeNotifier>(
     T vn, {
     bool? dispose,
   }) {
