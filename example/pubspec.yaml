@@ -36,6 +36,9 @@ dependencies:
       path: packages/dart_json_mapper_mobx-2.0.5
   dart_json_mapper_flutter: ^2.0.1
   dio: ^4.0.6
+  tuple: ^2.0.1
+  bottom_sheet: ^3.1.2
+  awesome_extensions: ^1.0.1
 
 dev_dependencies:
   flutter_test:

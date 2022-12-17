@@ -30,18 +30,26 @@ abstract class _DragscrollsheetVmBase with Store, MobxStoreBase, LoggerMixin {
 
   /// OBSERVABLES --------------------------------------------------------------
   final controllerRaw = DraggableScrollableController();
-  late final controller =
-      MobxUtils.fromListenable(controllerRaw).disposeWithVm(this);
+  late final controller = MobxUtils.fromCN(controllerRaw).disposeWithVm(this);
 
   @observable
-  late double minChildSize = _minChildSize;
-  final double _minChildSize = 0.1;
+  late var minChildSize = _minChildSize;
+  final _minChildSize = 0.1;
   @observable
-  late double maxChildSize = _maxChildSize;
-  final double _maxChildSize = 1;
+  late var maxChildSize = _maxChildSize;
+  final _maxChildSize = 1.0;
   @observable
-  late double initialChildSize = _initialChildSize;
-  final double _initialChildSize = 0.2;
+  late var snap = _snap;
+  final _snap = true;
+
+  // todo Altynbek: report bugfix
+  // proxy, bugfix
+  double get initialChildSize {
+    if (!controllerRaw.isAttached) {
+      return 0.2;
+    }
+    return controllerRaw.size;
+  }
 
   /// COMPUTED -----------------------------------------------------------------
   @computed
@@ -64,8 +72,10 @@ abstract class _DragscrollsheetVmBase with Store, MobxStoreBase, LoggerMixin {
 
   @action
   Future<void> close() async {
+    // initialChildSize = controller.value.size;
+    // snap = false;
+    // await Future.delayed(const Duration(milliseconds: 1000));
     minChildSize = 0;
-    // skip frame paint with min size
     WidgetsBinding.instance.addPostFrameCallback((_) => animateTo(0));
   }
 
@@ -74,7 +84,7 @@ abstract class _DragscrollsheetVmBase with Store, MobxStoreBase, LoggerMixin {
     await animateTo(_minChildSize);
     // WidgetsBinding.instance
     //     .addPostFrameCallback((_) => minChildSize = _minChildSize);
-    initialChildSize = minChildSize = _minChildSize;
+    /*initialChildSize = */ minChildSize = _minChildSize;
   }
 
   /// UTIL METHODS -------------------------------------------------------------
@@ -82,7 +92,6 @@ abstract class _DragscrollsheetVmBase with Store, MobxStoreBase, LoggerMixin {
   void _setupLoggers() {
     setupObservableLoggers([
       () => 'initialization: ${initialization.status.name}',
-      () => 'controller: ${controller}',
       // () => 'blur: ${blur}',
     ], log);
   }
@@ -122,14 +131,10 @@ class _HomePageState extends State<HomePage> {
             SizedBox.expand(
               child: DraggableScrollableSheet(
                 controller: vm.controllerRaw,
-                snap: true,
+                snap: vm.snap,
+                initialChildSize: vm.initialChildSize,
                 minChildSize: vm.minChildSize,
                 maxChildSize: vm.maxChildSize,
-                initialChildSize: vm.initialChildSize,
-                snapSizes: [
-                  0.4,
-                  0.6,
-                ],
                 builder:
                     (BuildContext context, ScrollController scrollController) {
                   return Container(

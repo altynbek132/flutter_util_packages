@@ -43,6 +43,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "2.9.0"
+  awesome_extensions:
+    dependency: "direct main"
+    description:
+      name: awesome_extensions
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "1.0.1"
   boolean_selector:
     dependency: transitive
     description:
@@ -50,6 +57,20 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "2.1.0"
+  bottom_inset_observer:
+    dependency: transitive
+    description:
+      name: bottom_inset_observer
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "3.1.0"
+  bottom_sheet:
+    dependency: "direct main"
+    description:
+      name: bottom_sheet
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "3.1.2"
   build:
     dependency: transitive
     description:
@@ -562,6 +583,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.0.0"
+  tuple:
+    dependency: "direct main"
+    description:
+      name: tuple
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "2.0.1"
   typed_data:
     dependency: transitive
     description:
@@ -613,4 +641,4 @@ packages:
     version: "3.1.1"
 sdks:
   dart: ">=2.18.4 <3.0.0"
-  flutter: ">=1.16.0"
+  flutter: ">=3.0.0"

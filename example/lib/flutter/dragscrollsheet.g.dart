@@ -48,19 +48,19 @@ mixin _$DragscrollsheetVm on _DragscrollsheetVmBase, Store {
     });
   }
 
-  late final _$initialChildSizeAtom =
-      Atom(name: '_DragscrollsheetVmBase.initialChildSize', context: context);
+  late final _$snapAtom =
+      Atom(name: '_DragscrollsheetVmBase.snap', context: context);
 
   @override
-  double get initialChildSize {
-    _$initialChildSizeAtom.reportRead();
-    return super.initialChildSize;
+  bool get snap {
+    _$snapAtom.reportRead();
+    return super.snap;
   }
 
   @override
-  set initialChildSize(double value) {
-    _$initialChildSizeAtom.reportWrite(value, super.initialChildSize, () {
-      super.initialChildSize = value;
+  set snap(bool value) {
+    _$snapAtom.reportWrite(value, super.snap, () {
+      super.snap = value;
     });
   }
 
@@ -107,7 +107,7 @@ mixin _$DragscrollsheetVm on _DragscrollsheetVmBase, Store {
     return '''
 minChildSize: ${minChildSize},
 maxChildSize: ${maxChildSize},
-initialChildSize: ${initialChildSize},
+snap: ${snap},
 blur: ${blur}
     ''';
   }
