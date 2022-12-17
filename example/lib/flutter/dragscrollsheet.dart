@@ -31,7 +31,7 @@ abstract class _DragscrollsheetVmBase with Store, MobxStoreBase, LoggerMixin {
   /// OBSERVABLES --------------------------------------------------------------
 
   late final dragScrollController = DraggableScrollableControllerWrapper(
-    initialChildSizeRef: 316 / 812,
+    initialChildSizeRef: 0,
     minChildSizeRef: 316 / 812,
     maxChildSizeRef: 707 / 812,
   )..disposeWithVm(this);

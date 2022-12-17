@@ -3,7 +3,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:mobx/mobx.dart';
 import 'package:utils/utils.dart';
-
+import 'dart:math' as math;
 part 'draggable_scrollable_controller_wrapper.g.dart';
 
 class DraggableScrollableControllerWrapper = _DraggableScrollableControllerWrapperBase
@@ -33,7 +33,7 @@ abstract class _DraggableScrollableControllerWrapperBase
   late final controller = MobxUtils.fromCN(controllerRaw).disposeWithVm(this);
 
   @observable
-  late var minChildSize = minChildSizeRef;
+  late var minChildSize = math.min(initialChildSizeRef, minChildSizeRef);
   @observable
   double minChildSizeRef;
 
