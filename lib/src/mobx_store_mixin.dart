@@ -62,4 +62,8 @@ class MobxStoreBase implements Disposable {
 
   final _disposeStreamC = StreamController<void>();
   late final disposeStream = _disposeStreamC.stream.shareReplay(maxSize: 1);
+
+  void disposeWithVm(MobxStoreBase vm) {
+    vm.addDisposer(dispose);
+  }
 }
