@@ -1,5 +1,7 @@
 //GENERATED BARREL FILE
 export 'async.dart';
+export 'dio_utils.dart';
+export 'draggable_scrollable_controller_wrapper.dart';
 export 'enum_map.dart';
 export 'exception_wrap.dart';
 export 'exception_wrap.mapper.g.dart';
