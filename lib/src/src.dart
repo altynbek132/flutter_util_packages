@@ -11,5 +11,6 @@ export './loggers/logger_mixin.dart';
 export 'mobx_extensions.dart';
 export 'mobx_store_mixin.dart';
 export 'mobx_utils.dart';
+export 'null.dart';
 export './loggers/simple_log_printer.dart';
 export 'utils.dart';
