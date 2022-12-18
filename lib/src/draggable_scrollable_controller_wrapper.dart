@@ -4,6 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:mobx/mobx.dart';
 import 'package:utils/utils.dart';
 import 'dart:math' as math;
+
+import 'other.dart';
 part 'draggable_scrollable_controller_wrapper.g.dart';
 
 class DraggableScrollableControllerWrapper = _DraggableScrollableControllerWrapperBase

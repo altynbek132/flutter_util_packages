@@ -14,9 +14,6 @@ class MobxStoreBase implements Disposable {
   late final initialization = _initCompleter.future.asObservable();
 
   @protected
-  void initLateFields(dynamic) {}
-
-  @protected
   void notifyInitSuccess() {
     _initCompleter.complete();
   }
