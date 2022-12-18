@@ -80,7 +80,7 @@ abstract class _DraggableScrollableControllerWrapperBase
       duration: duration ?? const Duration(milliseconds: 1000),
       curve: curve ?? Curves.easeInOut,
     );
-    if (controllerRaw.size == minChildSizeRef) {
+    if (controllerRaw.size >= minChildSizeRef) {
       minChildSize = minChildSizeRef;
     }
   }

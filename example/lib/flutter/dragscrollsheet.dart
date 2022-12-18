@@ -131,6 +131,10 @@ class _HomePageState extends State<HomePage> {
                     TextButton(
                         onPressed: () => vm.dragScrollController.open(),
                         child: Text('vm..open()')),
+                    TextButton(
+                        onPressed: () =>
+                            vm.dragScrollController.open(value: 0.6),
+                        child: Text('vm..open(0.6)')),
                   ],
                 ),
               ],
