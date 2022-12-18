@@ -110,9 +110,19 @@ mixin _$DraggableScrollableControllerWrapper
       context: context);
 
   @override
-  Future<void> open({Duration? duration, Curve? curve}) {
+  Future<void> open({double? value, Duration? duration, Curve? curve}) {
     return _$openAsyncAction
-        .run(() => super.open(duration: duration, curve: curve));
+        .run(() => super.open(value: value, duration: duration, curve: curve));
+  }
+
+  late final _$animateToAsyncAction = AsyncAction(
+      '_DraggableScrollableControllerWrapperBase.animateTo',
+      context: context);
+
+  @override
+  Future<void> animateTo(double value, {Duration? duration, Curve? curve}) {
+    return _$animateToAsyncAction
+        .run(() => super.animateTo(value, duration: duration, curve: curve));
   }
 
   @override

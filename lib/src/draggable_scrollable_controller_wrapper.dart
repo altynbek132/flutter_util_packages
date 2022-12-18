@@ -73,9 +73,10 @@ abstract class _DraggableScrollableControllerWrapperBase
   }
 
   @action
-  Future<void> open({Duration? duration, Curve? curve}) async {
+  Future<void> open({double? value, Duration? duration, Curve? curve}) async {
+    if (![value].contains(null)) assert(value! >= minChildSizeRef);
     await controller.value.animateTo(
-      minChildSizeRef,
+      value ?? minChildSizeRef,
       duration: duration ?? const Duration(milliseconds: 1000),
       curve: curve ?? Curves.easeInOut,
     );
