@@ -55,31 +55,26 @@ T? nullOnException<T>(T Function() f) {
   }
 }
 
-String logFunction(
+void logFunction(
   void Function(Object message) print, {
   Object? message,
   int? depth,
   bool? full,
 }) {
-  try {
-    final str = () {
-      if (full ?? false) {
-        return StackTrace.current.toString();
-      }
-      return StackTrace.current
-          .toString()
-          .split('\n')[depth ?? 2]
-          .split(' ')
-          .map((e) => e.trim())
-          .where((element) => element.isNotEmpty)
-          .skip(1)
-          .join(' ');
-    }();
-    print('function: ${str} ${message ?? ''}');
-    return str;
-  } catch (e) {
-    return 'function: ? ${message ?? ''}';
-  }
+  final str = () {
+    if (full ?? false) {
+      return StackTrace.current.toString();
+    }
+    return StackTrace.current
+        .toString()
+        .split('\n')[depth ?? 2]
+        .split(' ')
+        .map((e) => e.trim())
+        .where((element) => element.isNotEmpty)
+        .skip(1)
+        .join(' ');
+  }();
+  print('${message ?? ''}: trace: ${str}');
 }
 
 abstract class Disposable {

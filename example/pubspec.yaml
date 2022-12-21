@@ -41,6 +41,10 @@ dependencies:
   awesome_extensions: ^1.0.1
 
   go_router: ^5.2.4
+  easy_dispose: ^1.1.0
+  easy_dispose_flutter: ^1.1.0
+  easy_dispose_rxdart: ^1.1.0
+  cached_network_image: ^3.2.3
 
 dev_dependencies:
   flutter_test:

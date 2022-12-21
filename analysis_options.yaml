@@ -6,6 +6,7 @@ include: package:flutter_lints/flutter.yaml
 analyzer:
   exclude:
     - /**/_old/**
+    - packages
 
 linter:
   # true - active
