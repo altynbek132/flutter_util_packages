@@ -11,8 +11,8 @@ part 'draggable_scrollable_controller_wrapper.g.dart';
 class DraggableScrollableControllerWrapper = _DraggableScrollableControllerWrapperBase
     with _$DraggableScrollableControllerWrapper;
 
-abstract class _DraggableScrollableControllerWrapperBase
-    with Store, MobxStoreBase, LoggerMixin {
+abstract class _DraggableScrollableControllerWrapperBase extends MobxStoreBase
+    with Store, LoggerMixin {
   /// INIT ---------------------------------------------------------------------
 
   // sync init

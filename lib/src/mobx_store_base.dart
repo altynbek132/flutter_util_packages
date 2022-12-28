@@ -1,12 +1,18 @@
 import 'dart:async';
 
 import 'package:flutter/foundation.dart';
+import 'package:flutter/widgets.dart';
 import 'package:logger/logger.dart';
 import 'package:mobx/mobx.dart' hide Listenable;
 import 'package:rxdart/rxdart.dart';
 import 'package:utils/src/utils.dart';
 
 class MobxStoreBase implements Disposable {
+  MobxStoreBase({this.getState});
+
+  State Function()? getState;
+  BuildContext get bContext => getState!().context;
+
   final _initCompleter = Completer<void>();
 
   bool get inited => _initCompleter.isCompleted;
