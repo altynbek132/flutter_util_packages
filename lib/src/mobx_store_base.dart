@@ -1,7 +1,9 @@
 import 'dart:async';
 
 import 'package:disposing/disposing.dart';
+import 'package:disposing/disposing.dart';
 import 'package:flutter/widgets.dart';
+import 'package:get_it/get_it.dart' hide Disposable;
 import 'package:logger/logger.dart';
 import 'package:mobx/mobx.dart' hide Listenable;
 import 'package:rxdart/rxdart.dart';
@@ -37,6 +39,14 @@ class MobxStoreBase extends DisposableBag {
     final disposers =
         formattedValueGetters.map((e) => autorun((_) => log.i(e()))).toList();
     autoDispose(SyncCallbackDisposable(() => disposers.forEach((e) => e())));
+  }
+
+  @protected
+  void registerAsSingletonUntilDispose<T extends MobxStoreBase>() {
+    final locator = GetIt.instance;
+    locator.registerSingleton<T>(this as T);
+    SyncCallbackDisposable(() => locator.unregister<T>(instance: this))
+        .disposeOn(this);
   }
 
   @override

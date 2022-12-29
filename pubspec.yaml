@@ -39,6 +39,7 @@ dependencies:
     git:
       url: https://github.com/SKKbySSK/dart_disposing.git
       path: disposing_flutter
+  get_it: ^7.2.0
 
 #  cupertino_icons: ^1.0.2
 
