@@ -1,6 +1,8 @@
 import 'package:disposing_flutter/disposing_flutter.dart';
 import 'package:flutter/widgets.dart';
 
+import '../utils.dart';
+
 abstract class CustomState<T extends StatefulWidget> extends State<T>
     with DisposableBagStateMixin {
   late final initStateNotifier = ChangeNotifier();
@@ -50,5 +52,15 @@ abstract class CustomState<T extends StatefulWidget> extends State<T>
   void didUpdateWidget(T oldWidget) {
     didUpdateWidgetNotifier.value = oldWidget;
     super.didUpdateWidget(oldWidget);
+  }
+}
+
+mixin VM<T extends MobxStoreBase, W extends StatefulWidget> on CustomState<W> {
+  T createVM();
+  late final vm = createVM()..getState = () => this;
+  @override
+  void initState() {
+    super.initState();
+    autoDispose(vm);
   }
 }

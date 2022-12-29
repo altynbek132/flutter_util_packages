@@ -36,7 +36,7 @@ class MobxStoreBase extends DisposableBag {
     // calling toList invokes lambda
     final disposers =
         formattedValueGetters.map((e) => autorun((_) => log.i(e()))).toList();
-    addDisposable(SyncCallbackDisposable(() => disposers.forEach((e) => e())));
+    autoDispose(SyncCallbackDisposable(() => disposers.forEach((e) => e())));
   }
 
   @override
@@ -53,9 +53,9 @@ class MobxStoreBase extends DisposableBag {
 }
 
 extension DisposableBagExtension on DisposableBag {
-  void addDisposable(Disposable disposable) => add(disposable);
+  void autoDispose(Disposable disposable) => add(disposable);
 
-  void addDisposables(Iterable<Disposable> disposables) {
+  void autoDisposeList(Iterable<Disposable> disposables) {
     for (final disposable in disposables) {
       add(disposable);
     }
