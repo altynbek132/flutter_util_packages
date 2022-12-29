@@ -55,10 +55,8 @@ abstract class MobxStoreBase extends DisposableBag {
   Future<void> dispose() async {
     log.i('dispose init');
     _disposeStreamC.add(null);
-    await futureWait([
-      super.dispose(),
-      _disposeStreamC.close(),
-    ]);
+    await super.dispose();
+    _disposeStreamC.close();
     log.i('dispose finish');
   }
 
