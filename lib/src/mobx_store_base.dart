@@ -61,17 +61,3 @@ extension DisposableBagExtension on DisposableBag {
     }
   }
 }
-
-extension SyncValueDisposableExtension<T> on SyncValueDisposable<T> {
-  T disposeOnV(DisposableBag bag) {
-    disposeOn(bag);
-    return value;
-  }
-}
-
-extension AsyncValueDisposableExtension<T> on AsyncValueDisposable<T> {
-  T disposeOnV(DisposableBag bag) {
-    disposeOn(bag);
-    return value;
-  }
-}

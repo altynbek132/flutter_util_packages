@@ -2,6 +2,7 @@
 export 'anim_breakpoint.dart';
 export 'async.dart';
 export 'dio_utils.dart';
+export 'dispose_extensions.dart';
 export 'disposing.dart';
 export 'draggable_scrollable_controller_wrapper.dart';
 export 'enum_map.dart';
