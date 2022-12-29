@@ -9,7 +9,9 @@ import 'package:mobx/mobx.dart' hide Listenable;
 import 'package:rxdart/rxdart.dart';
 import 'package:utils/src/utils.dart';
 
-class MobxStoreBase extends DisposableBag {
+abstract class MobxStoreBase extends DisposableBag {
+  Logger get log;
+
   MobxStoreBase({this.getState});
 
   State Function()? getState;
@@ -51,11 +53,13 @@ class MobxStoreBase extends DisposableBag {
 
   @override
   Future<void> dispose() async {
+    log.i('dispose init');
     _disposeStreamC.add(null);
     await futureWait([
       super.dispose(),
       _disposeStreamC.close(),
     ]);
+    log.i('dispose finish');
   }
 
   final _disposeStreamC = StreamController<void>();

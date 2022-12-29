@@ -50,6 +50,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.0.1"
+  bloc:
+    dependency: "direct main"
+    description:
+      name: bloc
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "8.1.0"
   boolean_selector:
     dependency: transitive
     description:
@@ -260,6 +267,22 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "4.0.6"
+  disposing:
+    dependency: "direct main"
+    description:
+      name: disposing
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "1.0.3+1"
+  disposing_flutter:
+    dependency: "direct main"
+    description:
+      path: disposing_flutter
+      ref: HEAD
+      resolved-ref: fd125931c2a72b8b4b44a75a8fb83635c8073162
+      url: "https://github.com/SKKbySSK/dart_disposing.git"
+    source: git
+    version: "1.0.3+1"
   easy_dispose:
     dependency: "direct main"
     description:

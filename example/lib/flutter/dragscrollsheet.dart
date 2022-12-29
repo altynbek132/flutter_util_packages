@@ -10,7 +10,8 @@ part 'dragscrollsheet.g.dart';
 
 class DragscrollsheetVm = _DragscrollsheetVmBase with _$DragscrollsheetVm;
 
-abstract class _DragscrollsheetVmBase with Store, MobxStoreBase, LoggerMixin {
+abstract class _DragscrollsheetVmBase extends MobxStoreBase
+    with Store, LoggerMixin {
   /// INIT ---------------------------------------------------------------------
 
   // sync init

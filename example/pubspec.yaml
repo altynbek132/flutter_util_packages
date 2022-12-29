@@ -45,6 +45,12 @@ dependencies:
   easy_dispose_flutter: ^1.1.0
   easy_dispose_rxdart: ^1.1.0
   cached_network_image: ^3.2.3
+  bloc: ^8.1.0
+  disposing: ^1.0.3+1
+  disposing_flutter:
+    git:
+      url: https://github.com/SKKbySSK/dart_disposing.git
+      path: disposing_flutter
 
 dev_dependencies:
   flutter_test:
