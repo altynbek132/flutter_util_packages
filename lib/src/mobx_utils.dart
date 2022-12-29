@@ -1,10 +1,10 @@
 import 'dart:async';
 
+import 'package:disposing/disposing.dart';
+import 'package:disposing_flutter/disposing_flutter.dart';
 import 'package:flutter/widgets.dart' hide Action;
 import 'package:mobx/mobx.dart' hide Listenable;
 import 'package:rxdart/rxdart.dart';
-
-import 'mobx_extensions.dart';
 
 class MobxUtils {
   static Stream<T> fromGetter<T>(T Function() getter) {
@@ -21,17 +21,13 @@ class MobxUtils {
   /// usage:
   /// late final listenableObs = MobxUtils.fromListenable(listenable)
   ///     .handleDispose((disposer) => addDisposer(disposer));
-  static WithDisposer<Observable<T>> fromListenable<T extends Listenable>(
-      T listenable) {
+  static SyncValueDisposable<Observable<T>>
+      fromListenable<T extends Listenable>(T listenable) {
     final obs = Observable<T>(listenable);
-    final cb = Action(() => obs
+    final disp = listenable.addDisposableListener(Action(() => obs
       ..value = listenable
-      ..reportManualChange());
-    listenable.addListener(cb);
-    return WithDisposer(
-      obs,
-      () => listenable.removeListener(cb),
-    );
+      ..reportManualChange()));
+    return SyncValueDisposable(obs, () => disp.dispose());
   }
 
   /// use it if you need [ValueNotifier]'s values as [Observable]
@@ -39,24 +35,20 @@ class MobxUtils {
   /// usage:
   /// late final vnValueObs = MobxUtils.fromVnValue(VN)
   ///     .handleDispose((disposer) => addDisposer(disposer));
-  static WithDisposer<Observable<T>> fromVnValue<T>(
+  static SyncValueDisposable<Observable<T>> fromVnValue<T>(
     ValueNotifier<T> vn, {
     bool? dispose,
   }) {
     final obs = Observable<T>(vn.value);
-    final cb = Action(() => obs
+    final disp = vn.addDisposableListener(Action(() => obs
       ..value = vn.value
-      ..reportManualChange());
-    vn.addListener(cb);
-    return WithDisposer(
-      obs,
-      () {
-        vn.removeListener(cb);
-        if (dispose ?? false) {
-          vn.dispose();
-        }
-      },
-    );
+      ..reportManualChange()));
+    return SyncValueDisposable(obs, () {
+      disp.dispose();
+      if (dispose ?? false) {
+        vn.dispose();
+      }
+    });
   }
 
   /// you can wrap controllers which extend [ChangeNotifier] as
@@ -66,24 +58,20 @@ class MobxUtils {
   /// usage:
   /// late final textController = MobxUtils.fromCn(textControllerRaw)
   ///     .handleDispose((disposer) => addDisposer(disposer));
-  static WithDisposer<Observable<T>> fromCN<T extends ChangeNotifier>(
-    T vn, {
+  static SyncValueDisposable<Observable<T>> fromCN<T extends ChangeNotifier>(
+    T cn, {
     bool? dispose,
   }) {
-    final obs = Observable<T>(vn);
-    final cb = Action(() => obs
-      ..value = vn
-      ..reportManualChange());
-    vn.addListener(cb);
-    return WithDisposer(
-      obs,
-      () {
-        vn.removeListener(cb);
-        if (dispose ?? false) {
-          vn.dispose();
-        }
-      },
-    );
+    final obs = Observable<T>(cn);
+    final disp = cn.addDisposableListener(Action(() => obs
+      ..value = cn
+      ..reportManualChange()));
+    return SyncValueDisposable(obs, () {
+      disp.dispose();
+      if (dispose ?? false) {
+        cn.dispose();
+      }
+    });
   }
 
   MobxUtils._();

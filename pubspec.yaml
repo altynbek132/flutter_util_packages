@@ -34,6 +34,12 @@ dependencies:
   dart_json_mapper_flutter: ^2.0.1
   dio: ^4.0.6
 
+  disposing: ^1.0.3+1
+  disposing_flutter:
+    git:
+      url: https://github.com/SKKbySSK/dart_disposing.git
+      path: disposing_flutter
+
 #  cupertino_icons: ^1.0.2
 
 dev_dependencies:

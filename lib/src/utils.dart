@@ -5,17 +5,9 @@ import 'package:logger/logger.dart';
 import 'package:mobx/mobx.dart';
 import 'package:rxdart/rxdart.dart';
 
-import '../utils.dart';
-
 final seed = math.Random();
 
 double randomDouble() => (500 - seed.nextInt(1000)) / 1000;
-
-extension StreamSubscriptionExtension<T> on StreamSubscription<T> {
-  void disposeWith(MobxStoreBase vm) {
-    vm.addDisposer(() => cancel());
-  }
-}
 
 extension ListExtension<T> on List<T>? {
   List<T> get eff => this ?? [];
@@ -83,10 +75,6 @@ void logFunction(
         .join(' ');
   }();
   print('${message ?? ''}: trace: ${str}');
-}
-
-abstract class Disposable {
-  Future<void> dispose() async {}
 }
 
 extension StreamExtension<T> on Stream<T> {

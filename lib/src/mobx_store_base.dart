@@ -1,16 +1,17 @@
 import 'dart:async';
 
-import 'package:flutter/foundation.dart';
+import 'package:disposing/disposing.dart';
 import 'package:flutter/widgets.dart';
 import 'package:logger/logger.dart';
 import 'package:mobx/mobx.dart' hide Listenable;
 import 'package:rxdart/rxdart.dart';
 import 'package:utils/src/utils.dart';
 
-class MobxStoreBase implements Disposable {
+class MobxStoreBase extends DisposableBag {
   MobxStoreBase({this.getState});
 
   State Function()? getState;
+
   BuildContext get bContext => getState!().context;
 
   final _initCompleter = Completer<void>();
@@ -35,38 +36,28 @@ class MobxStoreBase implements Disposable {
     // calling toList invokes lambda
     final disposers =
         formattedValueGetters.map((e) => autorun((_) => log.i(e()))).toList();
-    addDisposer(() => disposers.map((e) => e()).toList());
+    addDisposable(SyncCallbackDisposable(() => disposers.forEach((e) => e())));
   }
-
-  @protected
-  T makeDisposable<T>(T val, FutureOr Function() Function(T val) makeDispose) {
-    addDisposer(makeDispose(val));
-    return val;
-  }
-
-  void addDisposer(FutureOr Function() disposer) {
-    _disposers.add(disposer);
-  }
-
-  void addDisposers(Iterable<FutureOr Function()> disposers) {
-    _disposers.addAll(disposers);
-  }
-
-  final _disposers = <FutureOr Function()>[];
 
   @override
   Future<void> dispose() async {
     _disposeStreamC.add(null);
     await futureWait([
-      ..._disposers.map((e) => e.call()),
+      super.dispose(),
       _disposeStreamC.close(),
     ]);
   }
 
   final _disposeStreamC = StreamController<void>();
   late final disposeStream = _disposeStreamC.stream.shareReplay(maxSize: 1);
+}
 
-  void disposeWithVm(MobxStoreBase vm) {
-    vm.addDisposer(dispose);
+extension DisposableBagExtension on DisposableBag {
+  void addDisposable(Disposable disposable) => add(disposable);
+
+  void addDisposables(Iterable<Disposable> disposables) {
+    for (final disposable in disposables) {
+      add(disposable);
+    }
   }
 }
