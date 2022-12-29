@@ -1,5 +1,6 @@
 import 'package:disposing_flutter/disposing_flutter.dart';
 import 'package:flutter/widgets.dart';
+import 'package:logger/src/logger.dart';
 
 import '../utils.dart';
 
@@ -56,11 +57,12 @@ abstract class CustomState<T extends StatefulWidget> extends State<T>
 }
 
 mixin VM<T extends MobxStoreBase, W extends StatefulWidget> on CustomState<W> {
-  T createVM();
-  late final vm = createVM()..getState = () => this;
+  T get vm;
+
   @override
   void initState() {
     super.initState();
+    vm.getState = () => this;
     autoDispose(vm);
   }
 }
