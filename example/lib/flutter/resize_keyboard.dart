@@ -1,10 +1,7 @@
 import 'dart:async';
-import 'dart:ui';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
-import 'package:mobx/mobx.dart';
-import 'package:utils/utils.dart';
 
 class HomePage extends StatefulWidget {
   HomePage({

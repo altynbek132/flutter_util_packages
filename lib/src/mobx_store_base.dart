@@ -1,13 +1,11 @@
 import 'dart:async';
 
 import 'package:disposing/disposing.dart';
-import 'package:disposing/disposing.dart';
 import 'package:flutter/widgets.dart';
 import 'package:get_it/get_it.dart' hide Disposable;
 import 'package:logger/logger.dart';
 import 'package:mobx/mobx.dart' hide Listenable;
 import 'package:rxdart/rxdart.dart';
-import 'package:utils/src/utils.dart';
 
 abstract class MobxStoreBase extends DisposableBag {
   Logger get log;

@@ -39,6 +39,7 @@ abstract class _BottomSheetDragScrollBase extends MobxStoreBase
   /// ACTIONS ------------------------------------------------------------------
 
   DraggableScrollableController? c;
+
   void close() {
     Navigator.pop(sheetContext!);
   }
@@ -91,6 +92,7 @@ abstract class _BottomSheetDragScrollBase extends MobxStoreBase
   /// CONSTRUCTOR --------------------------------------------------------------
 
   BuildContext Function()? getContext;
+
   BuildContext get bContext => getContext!();
 
   _BottomSheetDragScrollBase() {

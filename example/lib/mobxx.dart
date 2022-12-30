@@ -1,7 +1,7 @@
 import 'dart:async';
 
-import 'package:utils/utils.dart';
 import 'package:mobx/mobx.dart';
+import 'package:utils/utils.dart';
 
 part 'mobxx.g.dart';
 
