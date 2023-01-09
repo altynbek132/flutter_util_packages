@@ -57,6 +57,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "8.1.0"
+  bloc_concurrency:
+    dependency: "direct main"
+    description:
+      name: bloc_concurrency
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "0.2.0"
   boolean_selector:
     dependency: transitive
     description:
@@ -249,7 +256,7 @@ packages:
   dart_json_mapper_mobx:
     dependency: "direct main"
     description:
-      path: "../packages/dart_json_mapper_mobx-2.0.5"
+      path: "../../packages/dart_json_mapper_mobx-2.0.5"
       relative: true
     source: path
     version: "2.0.5"
@@ -361,7 +368,7 @@ packages:
   flutter_mobx:
     dependency: "direct main"
     description:
-      path: "../packages/flutter_mobx-2.0.6+4"
+      path: "../../packages/flutter_mobx-2.0.6+4"
       relative: true
     source: path
     version: "2.0.6+4"
@@ -518,14 +525,14 @@ packages:
   mobx:
     dependency: "direct main"
     description:
-      path: "../packages/mobx-2.1.1"
+      path: "../../packages/mobx-2.1.1"
       relative: true
     source: path
     version: "2.1.1"
   mobx_codegen:
     dependency: "direct dev"
     description:
-      path: "../packages/mobx_codegen-2.1.0"
+      path: "../../packages/mobx_codegen-2.1.0"
       relative: true
     source: path
     version: "2.1.0"
@@ -852,7 +859,7 @@ packages:
   utils:
     dependency: "direct main"
     description:
-      path: ".."
+      path: "../.."
       relative: true
     source: path
     version: "0.0.1"

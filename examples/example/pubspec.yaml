@@ -51,6 +51,7 @@ dependencies:
     git:
       url: https://github.com/SKKbySSK/dart_disposing.git
       path: disposing_flutter
+  bloc_concurrency: ^0.2.0
 
 dev_dependencies:
   flutter_test:

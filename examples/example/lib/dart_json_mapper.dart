@@ -14,11 +14,14 @@ Future<void> main() async {
   //     ..inner = (Imp2()..message = 'inner')
   //     ..message = 'wrap',
   // );
-  _checkSer(
-    MobxSerModel()
-      ..id = 228
-      ..list = ['asdf'].asObservable(),
-  );
+  // _checkSer(
+  //   MobxSerModel()
+  //     ..id = 228
+  //     ..list = ['asdf'].asObservable(),
+  // );
+
+  final instance = JsonMapper.deserialize<GetFridges>({});
+  print('instance: ${instance}');
 }
 
 void _checkSer<T>(T v) {
@@ -26,6 +29,27 @@ void _checkSer<T>(T v) {
   print('json: ${json}');
   final instance = JsonMapper.deserialize<T>(json);
   print('instance: ${instance}');
+}
+
+@jsonSerializable
+class GetFridges {
+  @JsonProperty(defaultValue: <int>[])
+  final List<int> fridges;
+
+  final type = OrderPaymentRequestType.newCard;
+
+  GetFridges(this.fridges);
+
+  @override
+  String toString() => JsonMapper.serialize(this);
+}
+
+@jsonSerializable
+enum OrderPaymentRequestType {
+  @JsonProperty(name: 'asdfasdf')
+  newCard,
+  card,
+  qr,
 }
 
 @jsonSerializable
