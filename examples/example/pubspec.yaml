@@ -52,6 +52,10 @@ dependencies:
       url: https://github.com/SKKbySSK/dart_disposing.git
       path: disposing_flutter
   bloc_concurrency: ^0.2.0
+  retrofit: ^3.3.1
+  get_it: ^7.2.0
+  injectable: ^1.5.4
+
 
 dev_dependencies:
   flutter_test:
@@ -62,6 +66,9 @@ dev_dependencies:
   # Generators
   build_verify: ^3.1.0
   build_runner: ^2.3.0
+  retrofit_generator: ^4.2.0
+  injectable_generator: ^1.5.4
+
   dart_code_metrics: ^4.19.2
   mobx_codegen:
     git:

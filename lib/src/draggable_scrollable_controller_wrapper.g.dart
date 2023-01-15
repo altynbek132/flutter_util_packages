@@ -100,9 +100,16 @@ mixin _$DraggableScrollableControllerWrapper
       context: context);
 
   @override
-  Future<void> close({Duration? duration, Curve? curve}) {
-    return _$closeAsyncAction
-        .run(() => super.close(duration: duration, curve: curve));
+  Future<void> close(
+      {Duration? duration,
+      Curve? curve,
+      VoidCallback? onCloseStart,
+      VoidCallback? onCloseEnd}) {
+    return _$closeAsyncAction.run(() => super.close(
+        duration: duration,
+        curve: curve,
+        onCloseStart: onCloseStart,
+        onCloseEnd: onCloseEnd));
   }
 
   late final _$openAsyncAction = AsyncAction(
@@ -110,9 +117,18 @@ mixin _$DraggableScrollableControllerWrapper
       context: context);
 
   @override
-  Future<void> open({double? value, Duration? duration, Curve? curve}) {
-    return _$openAsyncAction
-        .run(() => super.open(value: value, duration: duration, curve: curve));
+  Future<void> open(
+      {double? value,
+      Duration? duration,
+      Curve? curve,
+      VoidCallback? onOpenStart,
+      VoidCallback? onOpenEnd}) {
+    return _$openAsyncAction.run(() => super.open(
+        value: value,
+        duration: duration,
+        curve: curve,
+        onOpenStart: onOpenStart,
+        onOpenEnd: onOpenEnd));
   }
 
   late final _$animateToAsyncAction = AsyncAction(

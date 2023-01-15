@@ -67,18 +67,32 @@ abstract class _DraggableScrollableControllerWrapperBase extends MobxStoreBase
 
   /// ACTIONS ------------------------------------------------------------------
   @action
-  Future<void> close({Duration? duration, Curve? curve}) async {
+  Future<void> close({
+    Duration? duration,
+    Curve? curve,
+    VoidCallback? onCloseStart,
+    VoidCallback? onCloseEnd,
+  }) async {
+    onCloseStart?.call();
     minChildSize = 0;
-    WidgetsBinding.instance
-        .addPostFrameCallback((_) => controller.value.animateTo(
-              0,
-              duration: duration ?? const Duration(milliseconds: 1000),
-              curve: curve ?? Curves.easeInOut,
-            ));
+    WidgetsBinding.instance.addPostFrameCallback((_) async => controller.value
+        .animateTo(
+          0,
+          duration: duration ?? const Duration(milliseconds: 1000),
+          curve: curve ?? Curves.easeInOut,
+        )
+        .sideEffect((result) => onCloseEnd?.call()));
   }
 
   @action
-  Future<void> open({double? value, Duration? duration, Curve? curve}) async {
+  Future<void> open({
+    double? value,
+    Duration? duration,
+    Curve? curve,
+    VoidCallback? onOpenStart,
+    VoidCallback? onOpenEnd,
+  }) async {
+    onOpenStart?.call();
     if (![value].contains(null)) assert(value! >= minChildSizeRef);
     await controller.value.animateTo(
       value ?? minChildSizeRef,
@@ -88,6 +102,7 @@ abstract class _DraggableScrollableControllerWrapperBase extends MobxStoreBase
     if (controllerRaw.size >= minChildSizeRef) {
       minChildSize = minChildSizeRef;
     }
+    onOpenEnd?.call();
   }
 
   /// UI -----------------------------------------------------------------------
