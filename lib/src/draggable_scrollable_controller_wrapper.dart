@@ -70,10 +70,8 @@ abstract class _DraggableScrollableControllerWrapperBase extends MobxStoreBase
   Future<void> close({
     Duration? duration,
     Curve? curve,
-    VoidCallback? onCloseStart,
     VoidCallback? onCloseEnd,
   }) async {
-    onCloseStart?.call();
     minChildSize = 0;
     WidgetsBinding.instance.addPostFrameCallback((_) async => controller.value
         .animateTo(
@@ -89,10 +87,8 @@ abstract class _DraggableScrollableControllerWrapperBase extends MobxStoreBase
     double? value,
     Duration? duration,
     Curve? curve,
-    VoidCallback? onOpenStart,
     VoidCallback? onOpenEnd,
   }) async {
-    onOpenStart?.call();
     if (![value].contains(null)) assert(value! >= minChildSizeRef);
     await controller.value.animateTo(
       value ?? minChildSizeRef,
