@@ -1,4 +1,7 @@
+import 'package:example/nav/app_state.dart';
 import 'package:flutter/material.dart';
+import 'package:mobx/mobx.dart';
+import 'package:mobx/src/core.dart' show ReactionImpl;
 
 import 'model.dart';
 
@@ -10,6 +13,8 @@ class BooksApp extends StatefulWidget {
   @override
   State<StatefulWidget> createState() => _BooksAppState();
 }
+
+final globalState = AppState();
 
 class _BooksAppState extends State<BooksApp> {
   BookRouterDelegate _routerDelegate = BookRouterDelegate();
@@ -58,24 +63,26 @@ class BookRouterDelegate extends RouterDelegate<BookRoutePath>
     with ChangeNotifier, PopNavigatorRouterDelegateMixin<BookRoutePath> {
   final GlobalKey<NavigatorState> navigatorKey;
 
+  late final _reaction =
+      ReactionImpl(mainContext, notifyListeners, name: 'router delegate');
 
-
-  Book? _selectedBook;
-
-  List<Book> books = [
-    Book('Stranger in a Strange Land', 'Robert A. Heinlein'),
-    Book('Foundation', 'Isaac Asimov'),
-    Book('Fahrenheit 451', 'Ray Bradbury'),
-  ];
+  final state = globalState;
 
   BookRouterDelegate() : navigatorKey = GlobalKey<NavigatorState>();
 
-  BookRoutePath get currentConfiguration => _selectedBook == null
+  @override
+  BookRoutePath get currentConfiguration => state.selectedBook == null
       ? BookRoutePath.home()
-      : BookRoutePath.details(books.indexOf(_selectedBook!));
+      : BookRoutePath.details(state.books.indexOf(state.selectedBook!));
 
   @override
   Widget build(BuildContext context) {
+    late Widget built;
+    _reaction.track(() => built = _build(context));
+    return built;
+  }
+
+  Widget _build(BuildContext context) {
     return Navigator(
       key: navigatorKey,
       transitionDelegate: NoAnimationTransitionDelegate(),
@@ -83,20 +90,20 @@ class BookRouterDelegate extends RouterDelegate<BookRoutePath>
         MaterialPage(
           key: ValueKey('BooksListPage'),
           child: BooksListScreen(
-            books: books,
+            books: state.books.toList(),
             onTapped: _handleBookTapped,
           ),
         ),
-        if (_selectedBook != null) BookDetailsPage(book: _selectedBook!)
+        if (state.selectedBook != null)
+          BookDetailsPage(book: state.selectedBook!)
       ],
       onPopPage: (route, result) {
         if (!route.didPop(result)) {
           return false;
         }
 
-        // Update the list of pages by setting _selectedBook to null
-        _selectedBook = null;
-        notifyListeners();
+        // Update the list of pages by setting state.selectedBook to null
+        state.selectedBook = null;
 
         return true;
       },
@@ -106,19 +113,18 @@ class BookRouterDelegate extends RouterDelegate<BookRoutePath>
   @override
   Future<void> setNewRoutePath(BookRoutePath path) async {
     if (path.isDetailsPage) {
-      _selectedBook = () {
+      state.selectedBook = () {
         var id = path.id;
         if ([id].contains(null)) {
           return null;
         }
-        return books[id!];
+        return state.books[id!];
       }();
     }
   }
 
   void _handleBookTapped(Book book) {
-    _selectedBook = book;
-    notifyListeners();
+    state.selectedBook = book;
   }
 }
 
