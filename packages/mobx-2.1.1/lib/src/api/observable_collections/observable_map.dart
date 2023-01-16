@@ -36,6 +36,12 @@ class ObservableMap<K, V>
         _atom = _observableMapAtom<K, V>(context, name),
         _map = Map.of(other);
 
+  ObservableMap.identity(Map<K, V> other,
+      {ReactiveContext? context, String? name})
+      : _context = context ?? mainContext,
+        _atom = _observableMapAtom<K, V>(context, name),
+        _map = other;
+
   ObservableMap.linkedHashMapFrom(Map<K, V> other,
       {ReactiveContext? context, String? name})
       : _context = context ?? mainContext,
