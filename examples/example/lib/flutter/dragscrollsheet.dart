@@ -1,5 +1,7 @@
 import 'dart:async';
 
+import 'package:disposing/disposing.dart';
+import 'package:disposing_flutter/disposing_flutter.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:mobx/mobx.dart';
@@ -34,7 +36,7 @@ abstract class _DragscrollsheetVmBase extends MobxStoreBase
     initialChildSizeRef: 0,
     minChildSizeRef: 316 / 812,
     maxChildSizeRef: 707 / 812,
-  )..disposeWithVm(this);
+  )..disposeOn(this);
 
   /// COMPUTED -----------------------------------------------------------------
 
@@ -71,78 +73,108 @@ class HomePage extends StatefulWidget {
   State<HomePage> createState() => _HomePageState();
 }
 
-class _HomePageState extends State<HomePage> {
+class _HomePageState extends State<HomePage> with DisposableBagStateMixin {
   final vm = DragscrollsheetVm();
 
   @override
+  void initState() {
+    super.initState();
+    () async {
+      await Future.delayed(const Duration(milliseconds: 100));
+      final sub = Stream.periodic(Duration(milliseconds: 100)).listen((event) {
+        if (refresh) setState(() {});
+      });
+      autoDispose(sub.asDisposable());
+    }();
+  }
+
+  bool refresh = false;
+
+  @override
   Widget build(BuildContext context) {
-    return Observer(builder: (context) {
-      return Scaffold(
-        appBar: AppBar(
-          title: const Text('DraggableScrollableSheet'),
-        ),
-        body: Stack(
-          children: [
-            SizedBox.expand(
-              child: Observer(builder: (context) {
-                final vm = this.vm.dragScrollController;
-                return DraggableScrollableSheet(
-                  controller: vm.controllerRaw,
-                  initialChildSize: vm.initialChildSize,
-                  minChildSize: vm.minChildSize,
-                  maxChildSize: vm.maxChildSize,
-                  snap: true,
-                  builder: (BuildContext context,
-                      ScrollController scrollController) {
-                    return Container(
-                      color: Colors.blue[100],
-                      child: ListView.builder(
-                        controller: scrollController,
-                        itemCount: 25,
-                        itemBuilder: (BuildContext context, int index) {
-                          return ListTile(title: Text('Item $index'));
-                        },
+    return Observer(
+        warnWhenNoObservables: false,
+        builder: (context) {
+          return GestureDetector(
+            onTap: () {
+              FocusManager.instance.primaryFocus?.unfocus();
+            },
+            child: Scaffold(
+              resizeToAvoidBottomInset: false,
+              appBar: AppBar(
+                title: const Text('DraggableScrollableSheet'),
+              ),
+              body: Stack(
+                children: [
+                  SizedBox.expand(
+                    child: CustomDraggableScrollableSheet(
+                      controller: this.vm.dragScrollController.controllerRaw,
+                      initialChildSize:
+                          this.vm.dragScrollController.initialChildSize,
+                      minChildSize: this.vm.dragScrollController.minChildSize,
+                      maxChildSize: this.vm.dragScrollController.maxChildSize,
+                      snap: true,
+                      builder: (BuildContext context,
+                          ScrollController scrollController) {
+                        return Container(
+                          color: Colors.blue[100],
+                          child: ListView.builder(
+                            controller: scrollController,
+                            itemCount: 25,
+                            itemBuilder: (BuildContext context, int index) {
+                              return ListTile(title: Text('Item $index'));
+                            },
+                          ),
+                        );
+                      },
+                    ),
+                  ),
+                  Column(
+                    children: [
+                      TextField(),
+                      TextButton(
+                          onPressed: () {
+                            refresh = !refresh;
+                            setState(() {});
+                          },
+                          child: Text('set refresh: ${!refresh}')),
+                      Row(
+                        children: [
+                          TextButton(
+                              onPressed: () =>
+                                  vm.dragScrollController.animateTo(0.5),
+                              child: Text('vm.animateTo(0.5)')),
+                          TextButton(
+                              onPressed: () =>
+                                  vm.dragScrollController.animateTo(0),
+                              child: Text('vm.animateTo(0)')),
+                          TextButton(
+                              onPressed: () =>
+                                  vm.dragScrollController.animateTo(1),
+                              child: Text('vm.animateTo(1)')),
+                        ],
                       ),
-                    );
-                  },
-                );
-              }),
+                      Row(
+                        children: [
+                          TextButton(
+                              onPressed: () => vm.dragScrollController.close(),
+                              child: Text('vm..close()')),
+                          TextButton(
+                              onPressed: () => vm.dragScrollController.open(),
+                              child: Text('vm..open()')),
+                          TextButton(
+                              onPressed: () =>
+                                  vm.dragScrollController.open(value: 0.6),
+                              child: Text('vm..open(0.6)')),
+                        ],
+                      ),
+                    ],
+                  ),
+                ],
+              ),
             ),
-            Column(
-              children: [
-                Row(
-                  children: [
-                    TextButton(
-                        onPressed: () => vm.dragScrollController.animateTo(0.5),
-                        child: Text('vm.animateTo(0.5)')),
-                    TextButton(
-                        onPressed: () => vm.dragScrollController.animateTo(0),
-                        child: Text('vm.animateTo(0)')),
-                    TextButton(
-                        onPressed: () => vm.dragScrollController.animateTo(1),
-                        child: Text('vm.animateTo(1)')),
-                  ],
-                ),
-                Row(
-                  children: [
-                    TextButton(
-                        onPressed: () => vm.dragScrollController.close(),
-                        child: Text('vm..close()')),
-                    TextButton(
-                        onPressed: () => vm.dragScrollController.open(),
-                        child: Text('vm..open()')),
-                    TextButton(
-                        onPressed: () =>
-                            vm.dragScrollController.open(value: 0.6),
-                        child: Text('vm..open(0.6)')),
-                  ],
-                ),
-              ],
-            ),
-          ],
-        ),
-      );
-    });
+          );
+        });
   }
 }
 

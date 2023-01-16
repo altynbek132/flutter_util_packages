@@ -4,6 +4,7 @@ import 'dart:math' as math;
 import 'package:disposing/disposing.dart';
 import 'package:flutter/material.dart';
 import 'package:mobx/mobx.dart';
+import 'package:utils/src/draggable_scrollable_sheet.dart';
 import 'package:utils/utils.dart';
 
 import 'other.dart';
@@ -33,7 +34,7 @@ abstract class _DraggableScrollableControllerWrapperBase extends MobxStoreBase
   /// PROXY --------------------------------------------------------------------
 
   /// OBSERVABLES --------------------------------------------------------------
-  final controllerRaw = DraggableScrollableController();
+  final controllerRaw = CustomDraggableScrollableController();
   late final controller =
       (MobxUtils.fromCN(controllerRaw)..disposeOn(this)).value;
 

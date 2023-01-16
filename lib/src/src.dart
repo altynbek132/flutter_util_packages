@@ -18,3 +18,4 @@ export 'other.dart';
 export './loggers/simple_log_printer.dart';
 export 'state_with_notifier.dart';
 export 'utils.dart';
+export 'draggable_scrollable_sheet.dart';

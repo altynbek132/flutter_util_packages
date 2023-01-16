@@ -1,6 +1,8 @@
 import 'dart:async';
 
 import 'package:bottom_sheet/bottom_sheet.dart';
+import 'package:disposing/disposing.dart';
+import 'package:disposing_flutter/disposing_flutter.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:mobx/mobx.dart';
@@ -115,7 +117,7 @@ class HomePage extends StatefulWidget {
   State<HomePage> createState() => _HomePageState();
 }
 
-class _HomePageState extends State<HomePage> {
+class _HomePageState extends State<HomePage> with DisposableBagStateMixin {
   late final vm = BottomSheetDragScroll();
 
   @override
