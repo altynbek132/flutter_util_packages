@@ -7,6 +7,8 @@ import 'package:logger/logger.dart';
 import 'package:mobx/mobx.dart' hide Listenable;
 import 'package:rxdart/rxdart.dart';
 
+import '../utils.dart';
+
 abstract class MobxStoreBase extends DisposableBag {
   Logger get log;
 
@@ -30,6 +32,16 @@ abstract class MobxStoreBase extends DisposableBag {
   @protected
   void notifyInitError(Object e, [StackTrace? st]) {
     _initCompleter.completeError(e, st);
+  }
+
+  @protected
+  void logOnStringChange(ValueGetter getter) {
+    MobxUtils.fromGetter(getter)
+        .takeUntil(disposeStream)
+        .map((event) => event.toString())
+        .distinct()
+        .listen((event) => log.i('camera: ${event}'))
+        .disposeOn(this);
   }
 
   @protected
