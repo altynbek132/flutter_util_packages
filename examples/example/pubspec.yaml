@@ -55,7 +55,8 @@ dependencies:
   retrofit: ^3.3.1
   get_it: ^7.2.0
   injectable: ^1.5.4
-
+  auto_route: ^5.0.4
+  beamer: ^1.5.3
 
 dev_dependencies:
   flutter_test:
@@ -74,6 +75,7 @@ dev_dependencies:
     git:
       url: https://github.com/altynbek132/utils.git
       path: packages/mobx_codegen-2.1.0
+  auto_route_generator: ^5.0.2
 
 
 flutter:

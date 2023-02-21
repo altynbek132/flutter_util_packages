@@ -14,7 +14,7 @@ class BooksApp extends StatefulWidget {
   State<StatefulWidget> createState() => _BooksAppState();
 }
 
-final globalState = AppState();
+final routerState = AppState();
 
 class _BooksAppState extends State<BooksApp> {
   BookRouterDelegate _routerDelegate = BookRouterDelegate();
@@ -66,7 +66,7 @@ class BookRouterDelegate extends RouterDelegate<BookRoutePath>
   late final _reaction =
       ReactionImpl(mainContext, notifyListeners, name: 'router delegate');
 
-  final state = globalState;
+  final state = routerState;
 
   BookRouterDelegate() : navigatorKey = GlobalKey<NavigatorState>();
 

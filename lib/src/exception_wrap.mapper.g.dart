@@ -16,15 +16,3 @@ final exceptionWrapGeneratedAdapter = JsonMapperAdapter(
   enumValues: {
 
 });
-
-Future<JsonMapper> initializeJsonMapperAsync({Iterable<JsonMapperAdapter> adapters = const [], SerializationOptions? serializationOptions, DeserializationOptions? deserializationOptions}) => Future(() => initializeJsonMapper(adapters: adapters, serializationOptions: serializationOptions, deserializationOptions: deserializationOptions));
-
-JsonMapper initializeJsonMapper({Iterable<JsonMapperAdapter> adapters = const [], SerializationOptions? serializationOptions, DeserializationOptions? deserializationOptions}) {
-  JsonMapper.globalSerializationOptions = serializationOptions ?? JsonMapper.globalSerializationOptions;
-  JsonMapper.globalDeserializationOptions = deserializationOptions ?? JsonMapper.globalDeserializationOptions;    
-  JsonMapper.enumerateAdapters([...adapters, exceptionWrapGeneratedAdapter], (JsonMapperAdapter adapter) {
-    
-    JsonMapper().useAdapter(adapter);
-  });
-  return JsonMapper();
-}
