@@ -21,8 +21,9 @@ class SimpleLogPrinter extends LogPrinter {
 
   @override
   List<String> log(LogEvent event) {
-    final color = PrettyPrinter.levelColors[event.level];
-    final prefix = SimplePrinter.levelPrefixes[event.level] ?? '[UNKNOWN]';
+    final now = DateTime.now();
+    final prefix =
+        '${SimplePrinter.levelPrefixes[event.level] ?? '[UNKNOWN]'} [${now.hour.toString().padLeft(2, '0')}:${now.minute.toString().padLeft(2, '0')}:${now.second.toString().padLeft(2, '0')}]';
 
     var methodNameSection = printCallingFunctionName;
     var stackLog = event.stackTrace.toString();
