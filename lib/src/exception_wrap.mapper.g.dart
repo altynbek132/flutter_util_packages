@@ -2,17 +2,23 @@
 // https://github.com/k-paxian/dart-json-mapper
 // @dart = 2.12
 import 'exception_wrap.dart' as x0 show ExceptionBase;
-import 'package:dart_json_mapper/dart_json_mapper.dart' show JsonMapper, JsonMapperAdapter, SerializationOptions, DeserializationOptions, typeOf;
+import 'package:dart_json_mapper/dart_json_mapper.dart'
+    show
+        JsonMapper,
+        JsonMapperAdapter,
+        SerializationOptions,
+        DeserializationOptions,
+        typeOf;
+
 // No output from reflectable, there is no `main`.
 final exceptionWrapGeneratedAdapter = JsonMapperAdapter(
-  title: 'utils',
-  url: 'package:utils/src/exception_wrap.dart',
-  reflectableData: null,
-  memberSymbolMap: null,
-  valueDecorators: {
-    typeOf<List<x0.ExceptionBase>>(): (value) => value.cast<x0.ExceptionBase>(),
-    typeOf<Set<x0.ExceptionBase>>(): (value) => value.cast<x0.ExceptionBase>()
-},
-  enumValues: {
-
-});
+    title: 'utils',
+    url: 'package:utils/src/exception_wrap.dart',
+    reflectableData: null,
+    memberSymbolMap: null,
+    valueDecorators: {
+      typeOf<List<x0.ExceptionBase>>(): (value) =>
+          value.cast<x0.ExceptionBase>(),
+      typeOf<Set<x0.ExceptionBase>>(): (value) => value.cast<x0.ExceptionBase>()
+    },
+    enumValues: {});
