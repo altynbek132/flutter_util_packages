@@ -18,6 +18,7 @@ import 'package:flutter/material.dart';
 typedef ScrollableWidgetBuilder = Widget Function(
   BuildContext context,
   ScrollController scrollController,
+  Widget? child,
 );
 
 /// Controls a [CustomDraggableScrollableSheet].
@@ -283,6 +284,7 @@ class CustomDraggableScrollableSheet extends StatefulWidget {
     this.snap = false,
     this.snapSizes,
     this.controller,
+    this.child,
     required this.builder,
   })  : assert(initialChildSize != null),
         assert(minChildSize != null),
@@ -293,6 +295,8 @@ class CustomDraggableScrollableSheet extends StatefulWidget {
         assert(initialChildSize <= maxChildSize),
         assert(expand != null),
         assert(builder != null);
+
+  final Widget? child;
 
   /// The initial fractional value of the parent container's height to use when
   /// displaying the widget.
@@ -656,7 +660,7 @@ class _DraggableScrollableSheetState
         final Widget sheet = FractionallySizedBox(
           heightFactor: _extent.currentSize,
           alignment: Alignment.bottomCenter,
-          child: widget.builder(context, _scrollController),
+          child: widget.builder(context, _scrollController, widget.child),
         );
         return widget.expand ? SizedBox.expand(child: sheet) : sheet;
       },
