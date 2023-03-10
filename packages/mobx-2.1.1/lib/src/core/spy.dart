@@ -51,6 +51,12 @@ class ObservableValueSpyEvent extends SpyEvent {
   String toString() => '${super.toString()}=$newValue, previously=$oldValue';
 }
 
+/// Used for reporting value changes on an Observable
+class AtomChangedSpyEvent extends SpyEvent {
+  AtomChangedSpyEvent(dynamic object, {required String name})
+      : super._(object, type: 'atom-change', name: name);
+}
+
 class ComputedValueSpyEvent extends SpyEvent {
   ComputedValueSpyEvent(object, {required String name})
       : super._(object,

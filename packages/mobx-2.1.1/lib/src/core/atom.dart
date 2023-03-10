@@ -55,7 +55,10 @@ class Atom {
     _context._reportObserved(this);
   }
 
-  void reportChanged() {
+  void reportChanged({bool areSpiesNotified = false}) {
+    if (!areSpiesNotified) {
+      context.spyReport(AtomChangedSpyEvent(this, name: name));
+    }
     _context
       ..startBatch()
       ..propagateChanged(this)
