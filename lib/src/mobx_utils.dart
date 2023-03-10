@@ -24,9 +24,12 @@ class MobxUtils {
   static SyncValueDisposable<Observable<T>>
       fromListenable<T extends Listenable>(T listenable) {
     final obs = Observable<T>(listenable);
-    final disp = listenable.addDisposableListener(Action(() => obs
-      ..value = listenable
-      ..reportManualChange()));
+    final disp = listenable.addDisposableListener(Action(() {
+      obs.value = listenable;
+      if (obs.hasObservers) {
+        obs.reportManualChange();
+      }
+    }));
     return SyncValueDisposable(obs, () => disp.dispose());
   }
 
@@ -40,9 +43,12 @@ class MobxUtils {
     bool? dispose,
   }) {
     final obs = Observable<T>(vn.value);
-    final disp = vn.addDisposableListener(Action(() => obs
-      ..value = vn.value
-      ..reportManualChange()));
+    final disp = vn.addDisposableListener(Action(() {
+      obs.value = vn.value;
+      if (obs.hasObservers) {
+        obs.reportManualChange();
+      }
+    }));
     return SyncValueDisposable(obs, () {
       disp.dispose();
       if (dispose ?? false) {
@@ -56,16 +62,19 @@ class MobxUtils {
   /// reactions
   ///
   /// usage:
-  /// late final textController = MobxUtils.fromCn(textControllerRaw)
-  ///     .handleDispose((disposer) => addDisposer(disposer));
+  /// late final textController = MobxUtils.fromCN(textControllerRaw)
+  ///   ..disposeOn(this);
   static SyncValueDisposable<Observable<T>> fromCN<T extends ChangeNotifier>(
     T cn, {
     bool? dispose,
   }) {
     final obs = Observable<T>(cn);
-    final disp = cn.addDisposableListener(Action(() => obs
-      ..value = cn
-      ..reportManualChange()));
+    final disp = cn.addDisposableListener(Action(() {
+      obs.value = cn;
+      if (obs.hasObservers) {
+        obs.reportManualChange();
+      }
+    }));
     return SyncValueDisposable(obs, () {
       disp.dispose();
       if (dispose ?? false) {
