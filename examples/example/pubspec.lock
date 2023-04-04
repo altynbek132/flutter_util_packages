@@ -298,18 +298,16 @@ packages:
   disposing:
     dependency: "direct main"
     description:
-      name: disposing
-      url: "https://pub.dartlang.org"
-    source: hosted
+      path: "../../packages/disposing"
+      relative: true
+    source: path
     version: "1.0.3+1"
   disposing_flutter:
     dependency: "direct main"
     description:
-      path: disposing_flutter
-      ref: HEAD
-      resolved-ref: fd125931c2a72b8b4b44a75a8fb83635c8073162
-      url: "https://github.com/SKKbySSK/dart_disposing.git"
-    source: git
+      path: "../../packages/disposing_flutter"
+      relative: true
+    source: path
     version: "1.0.3+1"
   easy_dispose:
     dependency: "direct main"
@@ -332,6 +330,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.1.0"
+  elementary:
+    dependency: "direct main"
+    description:
+      path: "../../packages/elementary-2.0.0"
+      relative: true
+    source: path
+    version: "2.0.0"
   fake_async:
     dependency: transitive
     description:

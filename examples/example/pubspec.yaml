@@ -23,6 +23,10 @@ dependencies:
     git:
       url: https://github.com/altynbek132/utils.git
       path: packages/mobx-2.1.1
+  elementary:
+    git:
+      url: https://github.com/altynbek132/utils.git
+      path: packages/elementary-2.0.0
   flutter_mobx:
     git:
       url: https://github.com/altynbek132/utils.git
@@ -46,11 +50,14 @@ dependencies:
   easy_dispose_rxdart: ^1.1.0
   cached_network_image: ^3.2.3
   bloc: ^8.1.0
-  disposing: ^1.0.3+1
+  disposing:
+    git:
+      url: https://github.com/altynbek132/utils.git
+      path: packages/disposing
   disposing_flutter:
     git:
-      url: https://github.com/SKKbySSK/dart_disposing.git
-      path: disposing_flutter
+      url: https://github.com/altynbek132/utils.git
+      path: packages/disposing_flutter
   bloc_concurrency: ^0.2.0
   retrofit: ^3.3.1
   get_it: ^7.2.0

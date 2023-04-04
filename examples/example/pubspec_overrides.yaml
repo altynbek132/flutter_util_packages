@@ -5,7 +5,13 @@ dependency_overrides:
     path: ../../packages/dart_json_mapper_mobx-2.0.5
   mobx:
     path: ../../packages/mobx-2.1.1
+  elementary:
+    path: ../../packages/elementary-2.0.0
   flutter_mobx:
     path: ../../packages/flutter_mobx-2.0.6+4
   utils:
     path: ../..
+  disposing:
+    path: ../../packages/disposing
+  disposing_flutter:
+    path: ../../packages/disposing_flutter
