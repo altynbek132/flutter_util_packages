@@ -1,13 +1,14 @@
-import 'package:elementary/elementary.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:flutter/widgets.dart';
 
+import '../../elementary.dart';
+
 /// Single ticker provider for [WidgetModel]
 /// based on [SingleTickerProviderStateMixin]
 /// https://api.flutter.dev/flutter/widgets/SingleTickerProviderStateMixin-mixin.html
-mixin SingleTickerProviderWidgetModelMixin<W extends ElementaryWidget,
-    M extends ElementaryModel> on WidgetModel<W, M> implements TickerProvider {
+mixin SingleTickerProviderWidgetModelMixin<W extends ElementaryWidget>
+    on WidgetModel<W> implements TickerProvider {
   Ticker? _ticker;
 
   @override
@@ -65,8 +66,8 @@ mixin SingleTickerProviderWidgetModelMixin<W extends ElementaryWidget,
 /// Ticker provider for [WidgetModel]
 /// based on [TickerProviderStateMixin]
 /// https://api.flutter.dev/flutter/widgets/TickerProviderStateMixin-mixin.html
-mixin TickerProviderWidgetModelMixin<W extends ElementaryWidget,
-    M extends ElementaryModel> on WidgetModel<W, M> implements TickerProvider {
+mixin TickerProviderWidgetModelMixin<W extends ElementaryWidget>
+    on WidgetModel<W> implements TickerProvider {
   final _tickers = <Ticker>{};
 
   @override

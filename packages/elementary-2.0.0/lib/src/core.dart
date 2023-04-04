@@ -1,4 +1,3 @@
-import 'package:elementary/elementary.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
@@ -30,9 +29,7 @@ abstract class ElementaryWidget<I extends IWidgetModel> extends Widget {
   ///
   /// It is uncommon for subclasses to override this method.
   @override
-  Element createElement() {
-    return Elementary(this);
-  }
+  Element createElement() => Elementary(this);
 
   /// Describes the part of the user interface represented by this widget.
   ///
@@ -43,16 +40,10 @@ abstract class ElementaryWidget<I extends IWidgetModel> extends Widget {
 }
 
 /// Entity that contains all presentation logic of the widget.
-abstract class WidgetModel<W extends ElementaryWidget,
-    M extends ElementaryModel> with Diagnosticable implements IWidgetModel {
-  final M _model;
-
-  /// [ElementaryModel] for this WidgetModel.
-  /// Only one of business-logic dependencies, that WidgetModel needs.
-  @protected
-  @visibleForTesting
-  M get model => _model;
-
+abstract class WidgetModel<W extends ElementaryWidget>
+    // with Diagnosticable
+    implements
+        IWidgetModel {
   /// Widget that use WidgetModel for build.
   @protected
   @visibleForTesting
@@ -79,18 +70,11 @@ abstract class WidgetModel<W extends ElementaryWidget,
   Elementary? _element;
   W? _widget;
 
-  /// Create an instance of WidgetModel.
-  WidgetModel(this._model);
-
   /// Called at first build for initialization of this Widget Model.
   @protected
   @mustCallSuper
   @visibleForTesting
-  void initWidgetModel() {
-    _model
-      ..init()
-      .._wmHandler = onErrorHandle;
-  }
+  void initWidgetModel() {}
 
   /// Called whenever the widget configuration changes.
   @protected
@@ -109,14 +93,6 @@ abstract class WidgetModel<W extends ElementaryWidget,
   @protected
   @visibleForTesting
   void didChangeDependencies() {}
-
-  /// Called whenever the Model use method handleError.
-  ///
-  /// This method is the place for presentation handling error like a
-  /// showing snackbar or something else.
-  @protected
-  @visibleForTesting
-  void onErrorHandle(Object error) {}
 
   /// Called when this WidgetModel and Elementary are removed from the tree.
   ///
@@ -155,9 +131,7 @@ abstract class WidgetModel<W extends ElementaryWidget,
   @protected
   @mustCallSuper
   @visibleForTesting
-  void dispose() {
-    _model.dispose();
-  }
+  void dispose() {}
 
   /// Called whenever the application is reassembled during debugging, for
   /// example during hot reload. Most cases therefore do not need to do
@@ -270,87 +244,4 @@ class Elementary extends ComponentElement {
 
     _wm.reassemble();
   }
-
-  @override
-  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
-    super.debugFillProperties(properties);
-
-    properties
-      ..add(
-        DiagnosticsProperty<WidgetModel>(
-          'widget model',
-          _wm,
-          defaultValue: null,
-        ),
-      )
-      ..add(
-        DiagnosticsProperty<ElementaryModel>(
-          'model',
-          _wm.model,
-          defaultValue: null,
-        ),
-      );
-  }
-}
-
-/// Class that contains a business logic for Widget.
-///
-/// You can write this freestyle. It may be collection of methods,
-/// streams or something else.
-///
-/// This class can take [ErrorHandler] for handling caught error
-/// like a logging or something else. This realize by using
-/// [handleError] method. This method also notifies the Widget Model about the
-/// error that has occurred. You can use onErrorHandle method of Widget Model
-/// to handle on UI like show snackbar or something else.
-abstract class ElementaryModel {
-  final ErrorHandler? _errorHandler;
-  void Function(Object)? _wmHandler;
-
-  /// Create an instance of ElementaryModel.
-  ElementaryModel({ErrorHandler? errorHandler}) : _errorHandler = errorHandler;
-
-  /// Should be used for report error Error Handler if it was set and notify
-  /// Widget Model about error.
-  @protected
-  @mustCallSuper
-  @visibleForTesting
-  void handleError(Object error, {StackTrace? stackTrace}) {
-    _errorHandler?.handleError(error, stackTrace: stackTrace);
-    _wmHandler?.call(error);
-  }
-
-  /// Method for initialize this Model.
-  ///
-  /// Will be call at first build when Widget Model created.
-  void init() {}
-
-  /// Called when Widget Model disposing.
-  void dispose() {}
-
-  /// Method for setup ElementaryModel for testing.
-  /// This method can be used to WidgetModels error handler.
-  @visibleForTesting
-  // ignore: use_setters_to_change_properties
-  void setupWmHandler(Function(Object)? function) {
-    _wmHandler = function;
-  }
-}
-
-/// Mock that helps to prevent [NoSuchMethodError] exception when we mock ElementaryModel
-@visibleForTesting
-mixin MockElementaryModelMixin implements ElementaryModel {
-  @override
-  set _wmHandler(Function(Object)? _) {}
-}
-
-/// Mock that helps to prevent [NoSuchMethodError] exception when we mock WidgetModel
-@visibleForTesting
-mixin MockWidgetModelMixin<W extends ElementaryWidget,
-    M extends ElementaryModel> implements WidgetModel<W, M> {
-  @override
-  set _element(Elementary? _) {}
-
-  @override
-  set _widget(W? _) {}
 }
