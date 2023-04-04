@@ -42,7 +42,7 @@ abstract class StoreTemplate {
 
   String get actionControllerField => actions.isEmpty
       ? ''
-      : "late final $actionControllerName = ActionController(name: '$parentTypeName', context: context);";
+      : "late final $actionControllerName = ActionController(name: '$parentTypeName', context: reactiveContext);";
 
   String get toStringMethod {
     if (!generateToString) {

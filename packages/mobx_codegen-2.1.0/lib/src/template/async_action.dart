@@ -25,7 +25,7 @@ class AsyncActionTemplate {
 
   @override
   String toString() => """
-  late final $_actionField = AsyncAction('${storeTemplate.parentTypeName}.${method.name}', context: context);
+  late final $_actionField = AsyncAction('${storeTemplate.parentTypeName}.${method.name}', context: reactiveContext);
 
   @override
   $_futureType${method.returnTypeArgs} ${method.name}${method.typeParams}(${method.params}) {
