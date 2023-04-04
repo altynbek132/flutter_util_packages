@@ -18,15 +18,6 @@ abstract class _DraggableScrollableControllerWrapperBase extends MobxStoreBase
     with Store, LoggerMixin {
   /// INIT ---------------------------------------------------------------------
 
-  // sync init
-  void _init() {
-    _setupLoggers();
-    initLateFields([]);
-  }
-
-  // async init
-  Future<void> _asyncInit() async {}
-
   /// DEPENDENCIES -------------------------------------------------------------
 
   /// FIELDS -------------------------------------------------------------------
@@ -126,10 +117,5 @@ abstract class _DraggableScrollableControllerWrapperBase extends MobxStoreBase
     required this.initialChildSizeRef,
     required this.minChildSizeRef,
     required this.maxChildSizeRef,
-  }) {
-    _init();
-    _asyncInit()
-        .then((_) => notifyInitSuccess())
-        .onErrorNullable(cb: notifyInitError);
-  }
+  });
 }

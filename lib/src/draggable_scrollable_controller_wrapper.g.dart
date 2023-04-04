@@ -12,7 +12,7 @@ mixin _$DraggableScrollableControllerWrapper
     on _DraggableScrollableControllerWrapperBase, Store {
   late final _$minChildSizeAtom = Atom(
       name: '_DraggableScrollableControllerWrapperBase.minChildSize',
-      context: context);
+      context: reactiveContext);
 
   @override
   double get minChildSize {
@@ -29,7 +29,7 @@ mixin _$DraggableScrollableControllerWrapper
 
   late final _$minChildSizeRefAtom = Atom(
       name: '_DraggableScrollableControllerWrapperBase.minChildSizeRef',
-      context: context);
+      context: reactiveContext);
 
   @override
   double get minChildSizeRef {
@@ -46,7 +46,7 @@ mixin _$DraggableScrollableControllerWrapper
 
   late final _$maxChildSizeAtom = Atom(
       name: '_DraggableScrollableControllerWrapperBase.maxChildSize',
-      context: context);
+      context: reactiveContext);
 
   @override
   double get maxChildSize {
@@ -63,7 +63,7 @@ mixin _$DraggableScrollableControllerWrapper
 
   late final _$maxChildSizeRefAtom = Atom(
       name: '_DraggableScrollableControllerWrapperBase.maxChildSizeRef',
-      context: context);
+      context: reactiveContext);
 
   @override
   double get maxChildSizeRef {
@@ -80,7 +80,7 @@ mixin _$DraggableScrollableControllerWrapper
 
   late final _$initialChildSizeRefAtom = Atom(
       name: '_DraggableScrollableControllerWrapperBase.initialChildSizeRef',
-      context: context);
+      context: reactiveContext);
 
   @override
   double get initialChildSizeRef {
@@ -97,7 +97,7 @@ mixin _$DraggableScrollableControllerWrapper
 
   late final _$closeAsyncAction = AsyncAction(
       '_DraggableScrollableControllerWrapperBase.close',
-      context: context);
+      context: reactiveContext);
 
   @override
   Future<void> close(
@@ -108,7 +108,7 @@ mixin _$DraggableScrollableControllerWrapper
 
   late final _$openAsyncAction = AsyncAction(
       '_DraggableScrollableControllerWrapperBase.open',
-      context: context);
+      context: reactiveContext);
 
   @override
   Future<void> open(
@@ -122,7 +122,7 @@ mixin _$DraggableScrollableControllerWrapper
 
   late final _$animateToAsyncAction = AsyncAction(
       '_DraggableScrollableControllerWrapperBase.animateTo',
-      context: context);
+      context: reactiveContext);
 
   @override
   Future<void> animateTo(double value, {Duration? duration, Curve? curve}) {

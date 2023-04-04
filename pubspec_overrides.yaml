@@ -7,3 +7,9 @@ dependency_overrides:
     path: packages/mobx-2.1.1
   flutter_mobx:
     path: packages/flutter_mobx-2.0.6+4
+  elementary:
+    path: packages/elementary-2.0.0
+  disposing:
+    path: packages/disposing
+  disposing_flutter:
+    path: packages/disposing_flutter

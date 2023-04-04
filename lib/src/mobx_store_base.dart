@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:disposing/disposing.dart';
+import 'package:elementary/elementary.dart';
 import 'package:flutter/widgets.dart';
 import 'package:get_it/get_it.dart' hide Disposable;
 import 'package:logger/logger.dart';
@@ -9,30 +10,17 @@ import 'package:rxdart/rxdart.dart';
 
 import '../utils.dart';
 
-abstract class MobxStoreBase extends DisposableBag {
-  Logger get log;
-
-  MobxStoreBase({this.getState});
-
-  State Function()? getState;
-
-  BuildContext get bContext => getState!().context;
-
-  final _initCompleter = Completer<void>();
-
-  bool get inited => _initCompleter.isCompleted;
-
-  late final initialization = _initCompleter.future.asObservable();
-
-  @protected
-  void notifyInitSuccess() {
-    _initCompleter.complete();
+abstract class MobxStoreBase<W extends ElementaryWidget> extends WidgetModel<W>
+    with LoggerMixin, DisposableBag {
+  @override
+  void initWidgetModel() {
+    super.initWidgetModel();
+    setupLoggers();
+    log.i('initWidgetModel');
   }
 
   @protected
-  void notifyInitError(Object e, [StackTrace? st]) {
-    _initCompleter.completeError(e, st);
-  }
+  void setupLoggers() {}
 
   @protected
   void logOnStringChange(ValueGetter getter) {
@@ -40,7 +28,7 @@ abstract class MobxStoreBase extends DisposableBag {
         .takeUntil(disposeStream)
         .map((event) => event.toString())
         .distinct()
-        .listen((event) => log.i('camera: ${event}'))
+        .listen((event) => log.i('toString change: ${event}'))
         .disposeOn(this);
   }
 
@@ -50,7 +38,7 @@ abstract class MobxStoreBase extends DisposableBag {
     // calling toList invokes lambda
     final disposers =
         formattedValueGetters.map((e) => autorun((_) => log.i(e()))).toList();
-    autoDispose(SyncCallbackDisposable(() => disposers.forEach((e) => e())));
+    SyncCallbackDisposable(() => disposers.forEach((e) => e())).disposeOn(this);
   }
 
   @protected
@@ -65,21 +53,11 @@ abstract class MobxStoreBase extends DisposableBag {
   Future<void> dispose() async {
     log.i('dispose init');
     _disposeStreamC.add(null);
-    await super.dispose();
     _disposeStreamC.close();
     log.i('dispose finish');
+    super.dispose();
   }
 
-  final _disposeStreamC = StreamController<void>();
   late final disposeStream = _disposeStreamC.stream.shareReplay(maxSize: 1);
-}
-
-extension DisposableBagExtension on DisposableBag {
-  void autoDispose(Disposable disposable) => add(disposable);
-
-  void autoDisposeList(Iterable<Disposable> disposables) {
-    for (final disposable in disposables) {
-      add(disposable);
-    }
-  }
+  final _disposeStreamC = StreamController<void>();
 }
