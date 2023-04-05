@@ -10,7 +10,7 @@ import 'package:rxdart/rxdart.dart';
 
 import '../utils.dart';
 
-abstract class MobxStoreBase<W extends ElementaryWidget> extends WidgetModel<W>
+abstract class MobxWM<W extends ElementaryWidget> extends WidgetModel<W>
     with LoggerMixin, DisposableBag {
   @override
   void initWidgetModel() {
@@ -24,21 +24,45 @@ abstract class MobxStoreBase<W extends ElementaryWidget> extends WidgetModel<W>
 
   @protected
   void logOnStringChange(ValueGetter getter) {
-    MobxUtils.fromGetter(getter)
-        .takeUntil(disposeStream)
-        .map((event) => event.toString())
-        .distinct()
-        .listen((event) => log.i('toString change: ${event}'))
-        .disposeOn(this);
+    _logOnStringChange(getter, disposeStream, log, this);
   }
 
   @protected
   void setupObservableLoggers(
       Iterable<ValueGetter> formattedValueGetters, Logger log) {
-    // calling toList invokes lambda
-    final disposers =
-        formattedValueGetters.map((e) => autorun((_) => log.i(e()))).toList();
-    SyncCallbackDisposable(() => disposers.forEach((e) => e())).disposeOn(this);
+    _setupObservableLoggers(formattedValueGetters, log, this);
+  }
+
+  @protected
+  void registerAsSingletonUntilDispose<T extends MobxWM>() {
+    GetIt.I.registerSingleton<T>(this as T);
+    SyncCallbackDisposable(() => GetIt.I.unregister<T>(instance: this))
+        .disposeOn(this);
+  }
+
+  @override
+  Future<void> dispose() async {
+    log.i('dispose init');
+    _disposeStreamC.add(null);
+    _disposeStreamC.close();
+    log.i('dispose finish');
+    await super.dispose();
+  }
+
+  late final disposeStream = _disposeStreamC.stream.shareReplay(maxSize: 1);
+  final _disposeStreamC = StreamController<void>();
+}
+
+abstract class MobxStoreBase with LoggerMixin, DisposableBag {
+  @protected
+  void logOnStringChange(ValueGetter getter) {
+    _logOnStringChange(getter, disposeStream, log, this);
+  }
+
+  @protected
+  void setupObservableLoggers(
+      Iterable<ValueGetter> formattedValueGetters, Logger log) {
+    _setupObservableLoggers(formattedValueGetters, log, this);
   }
 
   @protected
@@ -55,9 +79,29 @@ abstract class MobxStoreBase<W extends ElementaryWidget> extends WidgetModel<W>
     _disposeStreamC.add(null);
     _disposeStreamC.close();
     log.i('dispose finish');
-    super.dispose();
+    await super.dispose();
   }
 
   late final disposeStream = _disposeStreamC.stream.shareReplay(maxSize: 1);
   final _disposeStreamC = StreamController<void>();
+}
+
+void _logOnStringChange(ValueGetter<dynamic> getter,
+    ReplayStream<void> disposeStream, Logger logger, DisposableBag bag) {
+  MobxUtils.fromGetter(getter)
+      .takeUntil(disposeStream)
+      .map((event) => event.toString())
+      .distinct()
+      .listen((event) => logger.i('toString change: ${event}'))
+      .disposeOn(bag);
+}
+
+void _setupObservableLoggers(
+    Iterable<ValueGetter<dynamic>> formattedValueGetters,
+    Logger log,
+    DisposableBag bag) {
+  // calling toList invokes lambda
+  final disposers =
+      formattedValueGetters.map((e) => autorun((_) => log.i(e()))).toList();
+  SyncCallbackDisposable(() => disposers.forEach((e) => e())).disposeOn(bag);
 }
