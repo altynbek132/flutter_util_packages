@@ -1,4 +1,4 @@
 dependency_overrides:
   mobx:
-    path: ../mobx-2.1.1
+    path: ../mobx
 

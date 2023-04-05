@@ -10,7 +10,10 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  disposing: ^1.0.3+1
+  disposing:
+    git:
+      url: https://github.com/altynbek132/utils.git
+      path: packages/disposing
 
 dev_dependencies:
   flutter_test:
