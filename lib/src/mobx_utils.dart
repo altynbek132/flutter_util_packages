@@ -51,7 +51,7 @@ class MobxUtils {
     }));
     return SyncValueDisposable(obs, () {
       disp.dispose();
-      if (dispose ?? false) {
+      if (dispose ?? true) {
         vn.dispose();
       }
     });
@@ -77,7 +77,7 @@ class MobxUtils {
     }));
     return SyncValueDisposable(obs, () {
       disp.dispose();
-      if (dispose ?? false) {
+      if (dispose ?? true) {
         cn.dispose();
       }
     });
