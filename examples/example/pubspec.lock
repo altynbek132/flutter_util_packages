@@ -277,7 +277,7 @@ packages:
   dart_json_mapper_mobx:
     dependency: "direct main"
     description:
-      path: "../../packages/dart_json_mapper_mobx-2.0.5"
+      path: "../../packages/dart_json_mapper_mobx"
       relative: true
     source: path
     version: "2.0.5"
@@ -333,7 +333,7 @@ packages:
   elementary:
     dependency: "direct main"
     description:
-      path: "../../packages/elementary-2.0.0"
+      path: "../../packages/elementary"
       relative: true
     source: path
     version: "2.0.0"
@@ -394,7 +394,7 @@ packages:
   flutter_mobx:
     dependency: "direct main"
     description:
-      path: "../../packages/flutter_mobx-2.0.6+4"
+      path: "../../packages/flutter_mobx"
       relative: true
     source: path
     version: "2.0.6+4"
@@ -565,14 +565,14 @@ packages:
   mobx:
     dependency: "direct main"
     description:
-      path: "../../packages/mobx-2.1.1"
+      path: "../../packages/mobx"
       relative: true
     source: path
     version: "2.1.1"
   mobx_codegen:
     dependency: "direct dev"
     description:
-      path: "../../packages/mobx_codegen-2.1.0"
+      path: "../../packages/mobx_codegen"
       relative: true
     source: path
     version: "2.1.0"

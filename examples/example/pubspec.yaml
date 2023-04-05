@@ -22,22 +22,22 @@ dependencies:
   mobx:
     git:
       url: https://github.com/altynbek132/utils.git
-      path: packages/mobx-2.1.1
+      path: packages/mobx
   elementary:
     git:
       url: https://github.com/altynbek132/utils.git
-      path: packages/elementary-2.0.0
+      path: packages/elementary
   flutter_mobx:
     git:
       url: https://github.com/altynbek132/utils.git
-      path: packages/flutter_mobx-2.0.6+4
+      path: packages/flutter_mobx
   provider: ^6.0.5
 
   dart_json_mapper: ^2.2.5+1
   dart_json_mapper_mobx:
     git:
       url: https://github.com/altynbek132/utils.git
-      path: packages/dart_json_mapper_mobx-2.0.5
+      path: packages/dart_json_mapper_mobx
   dart_json_mapper_flutter: ^2.0.1
   dio: ^4.0.6
   tuple: ^2.0.1
@@ -81,7 +81,7 @@ dev_dependencies:
   mobx_codegen:
     git:
       url: https://github.com/altynbek132/utils.git
-      path: packages/mobx_codegen-2.1.0
+      path: packages/mobx_codegen
   auto_route_generator: ^5.0.2
 
 
