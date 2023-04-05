@@ -33,21 +33,17 @@ Observable<ObservableFuture<T>?> makeEmptyObsF<T>() {
   return Observable<ObservableFuture<T>?>(null);
 }
 
-extension ObsFutureExtension<T> on Observable<ObservableFuture<T>> {
+extension ObsFutureExtension<T> on Observable<ObservableFuture<T>?> {
   set futureReplace(Future<T> future) {
-    value = value.replace(future);
+    value = value?.replace(future) ?? future.asObservable();
   }
 
   set future(Future<T> future) {
     value = future.asObservable();
   }
 
-  ObservableFuture<T> get future {
-    return value;
-  }
-
   T? get result {
-    return value.value;
+    return value?.value;
   }
 }
 
