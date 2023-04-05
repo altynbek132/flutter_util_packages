@@ -32,7 +32,5 @@ class _NilElement extends Element {
   bool get debugDoingBuild => false;
 
   @override
-  void performRebuild() {
-    super.performRebuild();
-  }
+  void performRebuild() {}
 }
