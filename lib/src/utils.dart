@@ -1,8 +1,6 @@
 import 'dart:async';
 import 'dart:math' as math;
 
-import 'package:disposing_flutter/disposing_flutter.dart';
-import 'package:flutter/widgets.dart';
 import 'package:logger/logger.dart';
 import 'package:mobx/mobx.dart' hide Listenable;
 import 'package:rxdart/rxdart.dart';
@@ -23,9 +21,21 @@ extension ObservableListExtension<T> on ObservableList<T>? {
   ObservableList<T> get eff => this ?? <T>[].asObservable();
 }
 
+extension ObservableFutureExtension<T> on ObservableFuture<T> {
+  bool get isLoading => status == FutureStatus.pending;
+
+  bool get isFulfilled => status == FutureStatus.fulfilled;
+
+  bool get isRejected => status == FutureStatus.rejected;
+}
+
 extension ObsFutureExtension<T> on Observable<ObservableFuture<T>> {
-  set future(Future<T> future) {
+  set futureReplace(Future<T> future) {
     value = value.replace(future);
+  }
+
+  set future(Future<T> future) {
+    value = future.asObservable();
   }
 
   ObservableFuture<T> get future {
