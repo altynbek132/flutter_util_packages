@@ -1,8 +1,10 @@
 import 'package:elementary/elementary.dart';
-import 'package:example/mobx_elementary/screen_wm.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:awesome_extensions/awesome_extensions.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+
+import 'screen_wm.dart';
 
 class Screen extends ElementaryWidget<ScreenWm> {
   const Screen({
@@ -16,14 +18,7 @@ class Screen extends ElementaryWidget<ScreenWm> {
         resizeToAvoidBottomInset: false,
         body: ListView(
           children: [
-            context.mediaQueryViewInsets.bottom.heightBox,
-            Center(child: Text(wm.n.value.toString())),
-            TextButton(
-              onPressed: () {
-                wm.inc();
-              },
-              child: Text('inc'),
-            )
+            (context.mediaQueryViewInsets.bottom + 0.h).heightBox,
           ],
         ),
       );
