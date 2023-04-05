@@ -42,7 +42,10 @@ dependencies:
   dio: ^4.0.6
   tuple: ^2.0.1
   bottom_sheet: ^3.1.2
-  awesome_extensions: ^2.0.4
+  awesome_extensions:
+    git:
+      url: https://github.com/altynbek132/utils.git
+      path: packages/awesome_extensions
 
   go_router: ^5.2.4
   easy_dispose: ^1.1.0

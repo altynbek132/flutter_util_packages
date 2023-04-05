@@ -60,24 +60,4 @@ extension MediaQueryExt on BuildContext {
 
   /// True if the current device is Tablet
   bool get isTablet => isSmallTablet || isLargeTablet;
-
-  /// Returns a specific value according to the screen size
-  /// if the device width is higher than or equal to 1200 return
-  /// [desktop] value. if the device width is higher than  or equal to 600
-  /// and less than 1200 return [tablet] value.
-  /// if the device width is less than 300  return [watch] value.
-  /// in other cases return [mobile] value.
-  T? responsiveValue<T>({
-    T? mobile,
-    T? tablet,
-    T? desktop,
-  }) {
-    var deviceWidth = mediaQuerySize.shortestSide;
-    if (MyPlatform.isDesktop) {
-      deviceWidth = mediaQuerySize.width;
-    }
-    if (deviceWidth >= 1200 && desktop != null) return desktop;
-    if (deviceWidth >= 600 && tablet != null) return tablet;
-    return mobile;
-  }
 }

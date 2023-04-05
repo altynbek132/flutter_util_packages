@@ -36,7 +36,7 @@ abstract class ElementaryWidget<I extends IWidgetModel> extends Widget {
   /// You can use all properties and methods provided by Widget Model.
   /// You should not use [BuildContext] or something else, all you need
   /// must contains in Widget Model.
-  Widget build(I wm);
+  Widget build(I wm, BuildContext context);
 }
 
 /// Entity that contains all presentation logic of the widget.
@@ -177,7 +177,7 @@ class Elementary extends ComponentElement {
 
   @override
   Widget build() {
-    return widget.build(_wm);
+    return widget.build(_wm, this);
   }
 
   @override

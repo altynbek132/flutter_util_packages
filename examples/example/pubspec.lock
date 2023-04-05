@@ -60,9 +60,9 @@ packages:
   awesome_extensions:
     dependency: "direct main"
     description:
-      name: awesome_extensions
-      url: "https://pub.dartlang.org"
-    source: hosted
+      path: "../../packages/awesome_extensions"
+      relative: true
+    source: path
     version: "2.0.5"
   beamer:
     dependency: "direct main"

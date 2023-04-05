@@ -15,3 +15,5 @@ dependency_overrides:
     path: ../../packages/disposing
   disposing_flutter:
     path: ../../packages/disposing_flutter
+  awesome_extensions:
+    path: ../../packages/awesome_extensions
