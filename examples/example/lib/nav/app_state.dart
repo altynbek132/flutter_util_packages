@@ -11,7 +11,7 @@ part 'app_state.g.dart';
 @LazySingleton(dispose: disposeAppState)
 class AppState = _AppStateBase with _$AppState;
 
-abstract class _AppStateBase extends MobxStoreBase with Store, LoggerMixin {
+abstract class _AppStateBase extends MobxWM with Store, LoggerMixin {
   /// INIT ---------------------------------------------------------------------
 
   // sync init

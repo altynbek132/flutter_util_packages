@@ -13,7 +13,7 @@ ScreenWm screenWmFactory(BuildContext context) {
 // @LazySingleton(dispose: disposeScreenWm)
 class ScreenWm = _ScreenWmBase with _$ScreenWm;
 
-abstract class _ScreenWmBase extends MobxStoreBase with Store {
+abstract class _ScreenWmBase extends MobxWM with Store {
   /// INIT ---------------------------------------------------------------------
 
   @override

@@ -13,7 +13,7 @@ part 'bottom_sheet_drag_scroll.g.dart';
 class BottomSheetDragScroll = _BottomSheetDragScrollBase
     with _$BottomSheetDragScroll;
 
-abstract class _BottomSheetDragScrollBase extends MobxStoreBase
+abstract class _BottomSheetDragScrollBase extends MobxWM
     with Store, LoggerMixin {
   /// INIT ---------------------------------------------------------------------
 

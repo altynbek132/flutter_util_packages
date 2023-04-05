@@ -6,7 +6,7 @@ import 'package:utils/utils.dart';
 part 'mobxx.g.dart';
 
 // @LazySingleton(dispose: disposeMobxx)
-class Mobxx extends MobxStoreBase with Store, LoggerMixin, _$Mobxx {
+class Mobxx extends MobxWM with Store, LoggerMixin, _$Mobxx {
   /// INIT ---------------------------------------------------------------------
 
   // sync init
