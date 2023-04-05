@@ -16,6 +16,7 @@ abstract class MobxWM<W extends ElementaryWidget> extends WidgetModel<W>
   void initWidgetModel() {
     super.initWidgetModel();
     setupLoggers();
+    registerAsSingletonUntilDispose();
     log.i('initWidgetModel');
   }
 
