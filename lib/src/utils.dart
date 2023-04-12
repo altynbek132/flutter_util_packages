@@ -67,12 +67,19 @@ T? nullOnException<T>(T Function() f) {
   }
 }
 
+var _logFunctionEnabled = false;
+
+void enableLogFunction(bool value) {
+  _logFunctionEnabled = value;
+}
+
 void logFunction(
   void Function(Object message) print, {
   Object? message,
   int? depth,
   bool? full,
 }) {
+  if (!_logFunctionEnabled) return;
   final str = () {
     if (full ?? false) {
       return StackTrace.current.toString();
