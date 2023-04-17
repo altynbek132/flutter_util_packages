@@ -69,4 +69,6 @@ extension NavigatorExt on BuildContext {
   /// perform replash with routeName
   void popUntil(String screenName) =>
       Navigator.of(this).popUntil(ModalRoute.withName(screenName));
+
+  Object? get arguments => ModalRoute.of(this)?.settings.arguments;
 }
