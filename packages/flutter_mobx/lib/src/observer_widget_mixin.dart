@@ -119,7 +119,7 @@ mixin ObserverElementMixin on ComponentElement {
     });
 
     if (enableWarnWhenNoObservables &&
-        (_widget.warnWhenNoObservables ?? true) &&
+        (_widget.warnWhenNoObservables ?? false) &&
         !reaction.hasObservables) {
       _widget.log(
         'No observables detected in the build method of ${reaction.name}',
