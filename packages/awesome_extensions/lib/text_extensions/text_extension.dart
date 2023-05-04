@@ -34,6 +34,39 @@ extension StyledText<T extends Text> on T {
         selectionColor: selectionColor ?? this.selectionColor,
       );
 
+  Text rich({
+    InlineSpan? textSpan,
+    TextStyle? style,
+    StrutStyle? strutStyle,
+    TextAlign? textAlign,
+    TextDirection? textDirection,
+    Locale? locale,
+    bool? softWrap,
+    TextOverflow? overflow,
+    double? textScaleFactor,
+    int? maxLines,
+    String? semanticsLabel,
+    TextWidthBasis? textWidthBasis,
+    TextHeightBehavior? textHeightBehavior,
+    Color? selectionColor,
+  }) =>
+      Text.rich(
+        textSpan ?? this.textSpan!,
+        style: style ?? this.style,
+        strutStyle: strutStyle ?? this.strutStyle,
+        textAlign: textAlign ?? this.textAlign,
+        locale: locale ?? this.locale,
+        maxLines: maxLines ?? this.maxLines,
+        overflow: overflow ?? this.overflow,
+        semanticsLabel: semanticsLabel ?? this.semanticsLabel,
+        softWrap: softWrap ?? this.softWrap,
+        textDirection: textDirection ?? this.textDirection,
+        textScaleFactor: textScaleFactor ?? this.textScaleFactor,
+        textWidthBasis: textWidthBasis ?? this.textWidthBasis,
+        textHeightBehavior: textHeightBehavior ?? this.textHeightBehavior,
+        selectionColor: selectionColor ?? this.selectionColor,
+      );
+
   T textStyle(TextStyle? style) => copyWith(
         style: (this.style ?? const TextStyle()).copyWith(
           background: style?.background,
