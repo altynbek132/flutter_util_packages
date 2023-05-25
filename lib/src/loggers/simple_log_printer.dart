@@ -114,7 +114,6 @@ Logger getLogger(
   bool printCallstack = false,
   List<String> exludeLogsFromClasses = const [],
   String? showOnlyClass,
-  // bool? forceLog,
 }) {
   return Logger(
     filter: LogAllTheTimeFilter(),
@@ -127,10 +126,8 @@ Logger getLogger(
     ),
     output: MultipleLoggerOutput([
       // /// log only in debug mode, please
-      // if (kDebugMode ||
-      //     Platform.environment.containsKey('FLUTTER_TEST') ||
-      //     (forceLog ?? false))
-      DevLogOutput(),
+      if (kDebugMode || Platform.environment.containsKey('FLUTTER_TEST'))
+        DevLogOutput(),
     ]),
   );
 }
@@ -139,6 +136,10 @@ class DevLogOutput extends LogOutput {
   @override
   void output(OutputEvent event) {
     for (var line in event.lines) {
+      if (Platform.environment.containsKey('FLUTTER_TEST')) {
+        print(line);
+        continue;
+      }
       log(line);
     }
   }
