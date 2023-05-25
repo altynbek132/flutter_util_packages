@@ -1,4 +1,5 @@
 import 'dart:developer';
+import 'dart:io';
 
 import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
@@ -125,7 +126,8 @@ Logger getLogger(
     ),
     output: MultipleLoggerOutput([
       /// log only in debug mode, please
-      if (kDebugMode) DevLogOutput(),
+      if (kDebugMode || Platform.environment.containsKey('FLUTTER_TEST'))
+        DevLogOutput(),
     ]),
   );
 }
