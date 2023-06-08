@@ -20,11 +20,27 @@ class SimpleLogPrinter extends LogPrinter {
     this.showOnlyClass,
   });
 
+  static final levelColors = {
+    Level.verbose: AnsiColor.fg(AnsiColor.grey(0.5)),
+    Level.debug: AnsiColor.none(),
+    Level.info: AnsiColor.fg(12),
+    Level.warning: AnsiColor.fg(208),
+    Level.error: AnsiColor.fg(196),
+    Level.wtf: AnsiColor.fg(199),
+  };
+
+  String _labelFor(Level level) {
+    var prefix = SimplePrinter.levelPrefixes[level]!;
+    var color = SimplePrinter.levelColors[level]!;
+
+    return color(prefix);
+  }
+
   @override
   List<String> log(LogEvent event) {
     final now = DateTime.now();
     final prefix =
-        '${SimplePrinter.levelPrefixes[event.level] ?? '[UNKNOWN]'} [${now.hour.toString().padLeft(2, '0')}:${now.minute.toString().padLeft(2, '0')}:${now.second.toString().padLeft(2, '0')}]';
+        '${_labelFor(event.level)} [${now.hour.toString().padLeft(2, '0')}:${now.minute.toString().padLeft(2, '0')}:${now.second.toString().padLeft(2, '0')}]';
 
     var methodNameSection = printCallingFunctionName;
     var stackLog = event.stackTrace.toString();
