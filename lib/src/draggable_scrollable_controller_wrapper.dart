@@ -14,8 +14,7 @@ part 'draggable_scrollable_controller_wrapper.g.dart';
 class DraggableScrollableControllerWrapper = _DraggableScrollableControllerWrapperBase
     with _$DraggableScrollableControllerWrapper;
 
-abstract class _DraggableScrollableControllerWrapperBase extends MobxStoreBase
-    with Store, LoggerMixin {
+abstract class _DraggableScrollableControllerWrapperBase extends MobxStoreBase with Store, LoggerMixin {
   /// INIT ---------------------------------------------------------------------
 
   /// DEPENDENCIES -------------------------------------------------------------
@@ -26,8 +25,7 @@ abstract class _DraggableScrollableControllerWrapperBase extends MobxStoreBase
 
   /// OBSERVABLES --------------------------------------------------------------
   final controllerRaw = CustomDraggableScrollableController();
-  late final controller =
-      (MobxUtils.fromCN(controllerRaw)..disposeOn(this)).value;
+  late final controller = (MobxUtils.fromCN(controllerRaw)..disposeOn(this)).value;
 
   @observable
   late var minChildSize = math.min(initialChildSizeRef, minChildSizeRef);
@@ -71,7 +69,7 @@ abstract class _DraggableScrollableControllerWrapperBase extends MobxStoreBase
           duration: duration ?? const Duration(milliseconds: 1000),
           curve: curve ?? Curves.easeInOut,
         )
-        .sideEffect((result) => onCloseEnd?.call()));
+        .thenSideEffect((result) => onCloseEnd?.call()));
   }
 
   @action
@@ -98,9 +96,7 @@ abstract class _DraggableScrollableControllerWrapperBase extends MobxStoreBase
   /// UTIL METHODS -------------------------------------------------------------
 
   @action
-  Future<void> animateTo(double value,
-          {Duration? duration, Curve? curve}) async =>
-      controller.value.animateTo(
+  Future<void> animateTo(double value, {Duration? duration, Curve? curve}) async => controller.value.animateTo(
         value,
         duration: duration ?? const Duration(milliseconds: 1000),
         curve: curve ?? Curves.easeInOut,

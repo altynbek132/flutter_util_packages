@@ -101,20 +101,20 @@ extension StreamExtension<T> on Stream<T> {
 }
 
 extension FutureExtension<T> on Future<T> {
-  Future<T> sideEffect(
+  Future<T> thenSideEffect(
     FutureOr Function(T result) cb, {
-    bool? shouldRethrow,
-    bool? shouldAwait,
+    bool shouldRethrow = false,
+    bool shouldAwait = false,
   }) =>
       then((result) async {
         try {
           final f = cb(result);
-          if (shouldAwait ?? false) {
+          if (shouldAwait) {
             await f;
           }
           // todo Altynbek: check error log
         } catch (e) {
-          if (shouldRethrow ?? false) {
+          if (shouldRethrow) {
             rethrow;
           }
         }
