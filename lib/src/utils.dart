@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:convert';
 import 'dart:math' as math;
 
 import 'package:logger/logger.dart';
@@ -8,6 +9,23 @@ import 'package:rxdart/rxdart.dart';
 final seed = math.Random();
 
 double randomDouble() => (500 - seed.nextInt(1000)) / 1000;
+
+String jsonStr(Object? object, {bool pretty = false}) {
+  Object? toEncodable(object) {
+    if (object is Completer) {
+      return 'Completer';
+    }
+    if (object is BigInt) {
+      return object.toString();
+    }
+    return object;
+  }
+
+  if (pretty) {
+    return JsonEncoder.withIndent(' ', toEncodable).convert(object);
+  }
+  return json.encode(object, toEncodable: toEncodable);
+}
 
 extension ListExtension<T> on List<T>? {
   List<T> get eff => this ?? [];
