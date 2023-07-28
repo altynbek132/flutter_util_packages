@@ -4,3 +4,5 @@ import 'package:utils/src/loggers/simple_log_printer.dart';
 mixin LoggerMixin {
   Logger get logger => getLogger('$runtimeType');
 }
+
+final logger = getLogger('GLOBAL');
