@@ -156,6 +156,10 @@ class DevLogOutput extends LogOutput {
           continue;
         }
       } catch (e) {}
+      if (kIsWeb) {
+        print(line);
+        continue;
+      }
       log(line);
     }
   }
