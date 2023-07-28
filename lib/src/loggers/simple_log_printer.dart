@@ -47,8 +47,7 @@ class SimpleLogPrinter extends LogPrinter {
     var output =
         '$prefix ${methodNameSection ? className : ''} - ${event.message}${printCallStack ? '\nSTACKTRACE:\n$stackLog' : ''}';
 
-    if (exludeLogsFromClasses
-            .any((excludeClass) => className == excludeClass) ||
+    if (exludeLogsFromClasses.any((excludeClass) => className == excludeClass) ||
         (showOnlyClass != null && className != showOnlyClass)) return [];
 
     List<String> result = [];
@@ -61,7 +60,7 @@ class SimpleLogPrinter extends LogPrinter {
     result.addAll([
       if (event.error != null) ...[
         'error:',
-        if (err is DioError) err.requestOptions.uri.toString(),
+        if (err is DioException) err.requestOptions.uri.toString(),
         err.toString(),
       ],
       if (event.stackTrace != null) ...[
@@ -141,9 +140,8 @@ Logger getLogger(
       exludeLogsFromClasses: exludeLogsFromClasses,
     ),
     output: MultipleLoggerOutput([
-      // /// log only in debug mode, please
-      if (kDebugMode || Platform.environment.containsKey('FLUTTER_TEST'))
-        DevLogOutput(),
+      // log only in debug mode, please
+      if (kDebugMode || Platform.environment.containsKey('FLUTTER_TEST')) DevLogOutput(),
     ]),
   );
 }
@@ -152,10 +150,12 @@ class DevLogOutput extends LogOutput {
   @override
   void output(OutputEvent event) {
     for (var line in event.lines) {
-      if (Platform.environment.containsKey('FLUTTER_TEST')) {
-        print(line);
-        continue;
-      }
+      try {
+        if (Platform.environment.containsKey('FLUTTER_TEST')) {
+          print(line);
+          continue;
+        }
+      } catch (e) {}
       log(line);
     }
   }

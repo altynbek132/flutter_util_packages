@@ -105,7 +105,7 @@ abstract class _DraggableScrollableControllerWrapperBase extends MobxStoreBase w
   void _setupLoggers() {
     setupObservableLoggers([
       // () => 'initialization: ${initialization.status.name}',
-    ], log);
+    ], logger);
   }
 
   /// CONSTRUCTOR --------------------------------------------------------------

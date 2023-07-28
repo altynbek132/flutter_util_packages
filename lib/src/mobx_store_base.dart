@@ -10,13 +10,12 @@ import 'package:rxdart/rxdart.dart';
 
 import '../utils.dart';
 
-abstract class MobxWM<W extends ElementaryWidget> extends WidgetModel<W>
-    with LoggerMixin, DisposableBag {
+abstract class MobxWM<W extends ElementaryWidget> extends WidgetModel<W> with LoggerMixin, DisposableBag {
   @override
   void initWidgetModel() {
     super.initWidgetModel();
     setupLoggers();
-    log.i('initWidgetModel');
+    logger.i('initWidgetModel');
   }
 
   @protected
@@ -24,28 +23,26 @@ abstract class MobxWM<W extends ElementaryWidget> extends WidgetModel<W>
 
   @protected
   void logOnStringChange(ValueGetter getter) {
-    _logOnStringChange(getter, disposeStream, log, this);
+    _logOnStringChange(getter, disposeStream, logger, this);
   }
 
   @protected
-  void setupObservableLoggers(
-      Iterable<ValueGetter> formattedValueGetters, Logger log) {
+  void setupObservableLoggers(Iterable<ValueGetter> formattedValueGetters, Logger log) {
     _setupObservableLoggers(formattedValueGetters, log, this);
   }
 
   @protected
   void registerAsSingletonUntilDispose<T extends MobxWM>() {
     GetIt.I.registerSingleton<T>(this as T);
-    SyncCallbackDisposable(() => GetIt.I.unregister<T>(instance: this))
-        .disposeOn(this);
+    SyncCallbackDisposable(() => GetIt.I.unregister<T>(instance: this)).disposeOn(this);
   }
 
   @override
   Future<void> dispose() async {
-    log.i('dispose init');
+    logger.i('dispose init');
     _disposeStreamC.add(null);
     _disposeStreamC.close();
-    log.i('dispose finish');
+    logger.i('dispose finish');
     await super.dispose();
   }
 
@@ -56,12 +53,11 @@ abstract class MobxWM<W extends ElementaryWidget> extends WidgetModel<W>
 abstract class MobxStoreBase with LoggerMixin, DisposableBag {
   @protected
   void logOnStringChange(ValueGetter getter) {
-    _logOnStringChange(getter, disposeStream, log, this);
+    _logOnStringChange(getter, disposeStream, logger, this);
   }
 
   @protected
-  void setupObservableLoggers(
-      Iterable<ValueGetter> formattedValueGetters, Logger log) {
+  void setupObservableLoggers(Iterable<ValueGetter> formattedValueGetters, Logger log) {
     _setupObservableLoggers(formattedValueGetters, log, this);
   }
 
@@ -69,16 +65,15 @@ abstract class MobxStoreBase with LoggerMixin, DisposableBag {
   void registerAsSingletonUntilDispose<T extends MobxStoreBase>() {
     final locator = GetIt.instance;
     locator.registerSingleton<T>(this as T);
-    SyncCallbackDisposable(() => locator.unregister<T>(instance: this))
-        .disposeOn(this);
+    SyncCallbackDisposable(() => locator.unregister<T>(instance: this)).disposeOn(this);
   }
 
   @override
   Future<void> dispose() async {
-    log.i('dispose init');
+    logger.i('dispose init');
     _disposeStreamC.add(null);
     _disposeStreamC.close();
-    log.i('dispose finish');
+    logger.i('dispose finish');
     await super.dispose();
   }
 
@@ -86,8 +81,8 @@ abstract class MobxStoreBase with LoggerMixin, DisposableBag {
   final _disposeStreamC = StreamController<void>();
 }
 
-void _logOnStringChange(ValueGetter<dynamic> getter,
-    ReplayStream<void> disposeStream, Logger logger, DisposableBag bag) {
+void _logOnStringChange(
+    ValueGetter<dynamic> getter, ReplayStream<void> disposeStream, Logger logger, DisposableBag bag) {
   MobxUtils.fromGetter(getter)
       .takeUntil(disposeStream)
       .map((event) => event.toString())
@@ -96,12 +91,8 @@ void _logOnStringChange(ValueGetter<dynamic> getter,
       .disposeOn(bag);
 }
 
-void _setupObservableLoggers(
-    Iterable<ValueGetter<dynamic>> formattedValueGetters,
-    Logger log,
-    DisposableBag bag) {
+void _setupObservableLoggers(Iterable<ValueGetter<dynamic>> formattedValueGetters, Logger log, DisposableBag bag) {
   // calling toList invokes lambda
-  final disposers =
-      formattedValueGetters.map((e) => autorun((_) => log.i(e()))).toList();
+  final disposers = formattedValueGetters.map((e) => autorun((_) => log.i(e()))).toList();
   SyncCallbackDisposable(() => disposers.forEach((e) => e())).disposeOn(bag);
 }
