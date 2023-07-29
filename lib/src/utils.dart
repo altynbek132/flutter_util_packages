@@ -27,6 +27,20 @@ String jsonStr(Object? object, {bool pretty = false}) {
   return json.encode(object, toEncodable: toEncodable);
 }
 
+extension ListInsertBetweenAllElements<T> on Iterable<T> {
+  List<T> insertBetweenAllElements(T Function(int i, T el) f) {
+    final list = toList();
+    final result = <T>[];
+    for (var i = 0; i < length; i++) {
+      result.add(list[i]);
+      if (i != length - 1) {
+        result.add(f(i, list[i]));
+      }
+    }
+    return result;
+  }
+}
+
 extension ListExtension<T> on List<T>? {
   List<T> get eff => this ?? [];
 }
