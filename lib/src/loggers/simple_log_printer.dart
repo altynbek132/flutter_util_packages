@@ -5,6 +5,12 @@ import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
 import 'package:logger/logger.dart';
 
+var _kForceLog = false;
+
+void setForceLog(bool forceLog) {
+  _kForceLog = forceLog;
+}
+
 class SimpleLogPrinter extends LogPrinter {
   final String className;
   final bool printCallingFunctionName;
@@ -141,7 +147,7 @@ Logger getLogger(
     ),
     output: MultipleLoggerOutput([
       // log only in debug mode, please
-      if (kDebugMode || Platform.environment.containsKey('FLUTTER_TEST')) DevLogOutput(),
+      if (kDebugMode || Platform.environment.containsKey('FLUTTER_TEST') || _kForceLog) DevLogOutput(),
     ]),
   );
 }
