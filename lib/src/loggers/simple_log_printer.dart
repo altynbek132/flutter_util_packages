@@ -157,16 +157,20 @@ class DevLogOutput extends LogOutput {
   void output(OutputEvent event) {
     for (var line in event.lines) {
       try {
-        if (Platform.environment.containsKey('FLUTTER_TEST')) {
+        try {
+          if (Platform.environment.containsKey('FLUTTER_TEST')) {
+            print(line);
+            continue;
+          }
+        } catch (e) {}
+        if (kIsWeb) {
           print(line);
           continue;
         }
-      } catch (e) {}
-      if (kIsWeb) {
-        print(line);
-        continue;
+        log(line);
+      } catch (e) {
+        print('Log output failed');
       }
-      log(line);
     }
   }
 }
