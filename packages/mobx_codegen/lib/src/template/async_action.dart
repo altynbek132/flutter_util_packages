@@ -2,10 +2,7 @@ import 'package:mobx_codegen/src/template/method_override.dart';
 import 'package:mobx_codegen/src/template/store.dart';
 
 class AsyncActionTemplate {
-  AsyncActionTemplate(
-      {required this.storeTemplate,
-      required this.isObservable,
-      required this.method});
+  AsyncActionTemplate({required this.storeTemplate, required this.isObservable, required this.method});
 
   final StoreTemplate storeTemplate;
   final bool isObservable;
@@ -19,9 +16,8 @@ class AsyncActionTemplate {
       // ignore: unnecessary_brace_in_string_interps
       '${_actionField}.run(() => super.${method.name}${method.typeArgs}(${method.args}))';
 
-  String get _wrappedMethodCall => isObservable
-      ? 'ObservableFuture${method.returnTypeArgs}($_methodCall)'
-      : _methodCall;
+  String get _wrappedMethodCall =>
+      isObservable ? 'ObservableFuture${method.returnTypeArgs}($_methodCall)' : _methodCall;
 
   @override
   String toString() => """

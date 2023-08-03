@@ -6,11 +6,9 @@ part of '../async.dart';
 /// You would rarely need to use this class directly. Instead, use the `@action` annotation along with
 /// the `mobx_codegen` package.
 class AsyncAction {
-  AsyncAction(String name, {ReactiveContext? context})
-      : this._(context ?? mainContext, name);
+  AsyncAction(String name, {ReactiveContext? context}) : this._(context ?? mainContext, name);
 
-  AsyncAction._(ReactiveContext context, String name)
-      : _actions = ActionController(context: context, name: name);
+  AsyncAction._(ReactiveContext context, String name) : _actions = ActionController(context: context, name: name);
 
   final ActionController _actions;
 
@@ -49,10 +47,8 @@ class AsyncAction {
 
   // Will be invoked for a catch clause that has a single argument: exception or
   // when a result is produced
-  R _runUnary<R, A>(
-      Zone self, ZoneDelegate parent, Zone zone, R Function(A a) f, A a) {
-    final actionInfo =
-    _actions.startAction(name: '${_actions.name}(Zone.runUnary)');
+  R _runUnary<R, A>(Zone self, ZoneDelegate parent, Zone zone, R Function(A a) f, A a) {
+    final actionInfo = _actions.startAction(name: '${_actions.name}(Zone.runUnary)');
     try {
       final result = parent.runUnary(zone, f, a);
       return result;

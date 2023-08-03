@@ -18,6 +18,5 @@ class MyPlatform {
 
   static bool get isMobile => MyPlatform.isIOS || MyPlatform.isAndroid;
 
-  static bool get isDesktop =>
-      MyPlatform.isMacOS || MyPlatform.isWindows || MyPlatform.isLinux;
+  static bool get isDesktop => MyPlatform.isMacOS || MyPlatform.isWindows || MyPlatform.isLinux;
 }

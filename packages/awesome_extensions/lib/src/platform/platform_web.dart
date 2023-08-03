@@ -7,15 +7,12 @@ html.Navigator _navigator = html.window.navigator;
 class GeneralPlatform {
   static bool get isWeb => true;
 
-  static bool get isMacOS =>
-      _navigator.appVersion.contains('Mac OS') && !GeneralPlatform.isIOS;
+  static bool get isMacOS => _navigator.appVersion.contains('Mac OS') && !GeneralPlatform.isIOS;
 
   static bool get isWindows => _navigator.appVersion.contains('Win');
 
   static bool get isLinux =>
-      (_navigator.appVersion.contains('Linux') ||
-          _navigator.appVersion.contains('x11')) &&
-      !isAndroid;
+      (_navigator.appVersion.contains('Linux') || _navigator.appVersion.contains('x11')) && !isAndroid;
 
   // @check https://developer.chrome.com/multidevice/user-agent
   static bool get isAndroid => _navigator.appVersion.contains('Android ');

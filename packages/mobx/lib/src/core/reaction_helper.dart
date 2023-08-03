@@ -21,8 +21,7 @@ class ReactionDisposer {
 }
 
 /// An internal helper function to create a [autorun]
-ReactionDisposer createAutorun(
-    ReactiveContext context, Function(Reaction) trackingFn,
+ReactionDisposer createAutorun(ReactiveContext context, Function(Reaction) trackingFn,
     {String? name, int? delay, void Function(Object, Reaction)? onError}) {
   late ReactionImpl rxn;
 
@@ -63,8 +62,7 @@ ReactionDisposer createAutorun(
 }
 
 /// An internal helper function to create a [reaction]
-ReactionDisposer createReaction<T>(
-    ReactiveContext context, T Function(Reaction) fn, void Function(T) effect,
+ReactionDisposer createReaction<T>(ReactiveContext context, T Function(Reaction) fn, void Function(T) effect,
     {String? name,
     int? delay,
     bool? fireImmediately,
@@ -74,8 +72,7 @@ ReactionDisposer createReaction<T>(
 
   final rxnName = name ?? context.nameFor('Reaction');
 
-  final effectAction =
-      Action((T? value) => effect(value as T), name: '$rxnName-effect');
+  final effectAction = Action((T? value) => effect(value as T), name: '$rxnName-effect');
 
   final runSync = delay == null;
   final scheduler = delay != null ? createDelayedScheduler(delay) : null;
@@ -94,15 +91,13 @@ ReactionDisposer createReaction<T>(
       final nextValue = fn(rxn);
 
       // Use the equality-comparator if provided
-      final isEqual =
-          equals != null ? equals(nextValue, value) : (nextValue == value);
+      final isEqual = equals != null ? equals(nextValue, value) : (nextValue == value);
 
       changed = firstTime || !isEqual;
       value = nextValue;
     });
 
-    final canInvokeEffect =
-        (firstTime && fireImmediately == true) || (!firstTime && changed);
+    final canInvokeEffect = (firstTime && fireImmediately == true) || (!firstTime && changed);
 
     if (canInvokeEffect) {
       effectAction([value]);
@@ -142,8 +137,7 @@ ReactionDisposer createReaction<T>(
 }
 
 /// An internal helper function to create a [when]
-ReactionDisposer createWhenReaction(ReactiveContext context,
-    bool Function(Reaction) predicate, void Function() effect,
+ReactionDisposer createWhenReaction(ReactiveContext context, bool Function(Reaction) predicate, void Function() effect,
     {String? name, int? timeout, void Function(Object, Reaction)? onError}) {
   final rxnName = name ?? context.nameFor('When');
   final effectAction = Action(effect, name: '$rxnName-effect');
@@ -180,12 +174,10 @@ ReactionDisposer createWhenReaction(ReactiveContext context,
 }
 
 /// An internal helper function to create an [asyncWhen]
-Future<void> createAsyncWhenReaction(
-    ReactiveContext context, bool Function(Reaction) predicate,
+Future<void> createAsyncWhenReaction(ReactiveContext context, bool Function(Reaction) predicate,
     {String? name, int? timeout}) {
   final completer = Completer<void>();
-  createWhenReaction(context, predicate, completer.complete,
-      name: name, timeout: timeout, onError: (error, reaction) {
+  createWhenReaction(context, predicate, completer.complete, name: name, timeout: timeout, onError: (error, reaction) {
     reaction.dispose();
     completer.completeError(error);
   });

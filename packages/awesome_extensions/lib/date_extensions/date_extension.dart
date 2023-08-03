@@ -12,8 +12,6 @@ extension DateOnlyCompare on DateTime {
 
   bool get isYesterday {
     final nowDate = DateTime.now();
-    return year == nowDate.year &&
-        month == nowDate.month &&
-        day == nowDate.day - 1;
+    return year == nowDate.year && month == nowDate.month && day == nowDate.day - 1;
   }
 }

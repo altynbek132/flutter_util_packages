@@ -36,14 +36,12 @@ class ObservableMap<K, V>
         _atom = _observableMapAtom<K, V>(context, name),
         _map = Map.of(other);
 
-  ObservableMap.identity(Map<K, V> other,
-      {ReactiveContext? context, String? name})
+  ObservableMap.identity(Map<K, V> other, {ReactiveContext? context, String? name})
       : _context = context ?? mainContext,
         _atom = _observableMapAtom<K, V>(context, name),
         _map = other;
 
-  ObservableMap.linkedHashMapFrom(Map<K, V> other,
-      {ReactiveContext? context, String? name})
+  ObservableMap.linkedHashMapFrom(Map<K, V> other, {ReactiveContext? context, String? name})
       : _context = context ?? mainContext,
         _atom = _observableMapAtom<K, V>(context, name),
         _map = LinkedHashMap.from(other);
@@ -73,11 +71,9 @@ class ObservableMap<K, V>
 
   Listeners<MapChange<K, V>>? _listenersField;
 
-  Listeners<MapChange<K, V>> get _listeners =>
-      _listenersField ??= Listeners(_context);
+  Listeners<MapChange<K, V>> get _listeners => _listenersField ??= Listeners(_context);
 
-  bool get _hasListeners =>
-      _listenersField != null && _listenersField!.hasHandlers;
+  bool get _hasListeners => _listenersField != null && _listenersField!.hasHandlers;
 
   @override
   V? operator [](Object? key) {
@@ -136,8 +132,7 @@ class ObservableMap<K, V>
   Iterable<K> get keys => MapKeysIterable(_map.keys, _atom);
 
   @override
-  Map<RK, RV> cast<RK, RV>() =>
-      ObservableMap._wrap(_context, super.cast(), _atom);
+  Map<RK, RV> cast<RK, RV>() => ObservableMap._wrap(_context, super.cast(), _atom);
 
   @override
   V? remove(Object? key) {
@@ -226,8 +221,7 @@ class ObservableMap<K, V>
   ///
   /// You can also choose to receive the notifications immediately (with [fireImmediately])
   @override
-  Dispose observe(MapChangeListener<K, V> listener,
-      {bool fireImmediately = false}) {
+  Dispose observe(MapChangeListener<K, V> listener, {bool fireImmediately = false}) {
     final dispose = _listeners.add(listener);
     if (fireImmediately == true) {
       _map.forEach(_reportAdd);
@@ -239,20 +233,14 @@ class ObservableMap<K, V>
 /// A convenience method to wrap the standard `Map<K,V>` in an `ObservableMap<K,V>`.
 /// This is mostly to aid in testing.
 @visibleForTesting
-ObservableMap<K, V> wrapInObservableMap<K, V>(Atom atom, Map<K, V> map) =>
-    ObservableMap._wrap(mainContext, map, atom);
+ObservableMap<K, V> wrapInObservableMap<K, V>(Atom atom, Map<K, V> map) => ObservableMap._wrap(mainContext, map, atom);
 
 typedef MapChangeListener<K, V> = void Function(MapChange<K, V>);
 
 /// Stores the information related to changes happening in an [ObservableMap]. This is
 /// used when firing the change notifications to all the listeners
 class MapChange<K, V> {
-  MapChange(
-      {this.type,
-      this.key,
-      this.newValue,
-      this.oldValue,
-      required this.object});
+  MapChange({this.type, this.key, this.newValue, this.oldValue, required this.object});
 
   final OperationType? type;
 

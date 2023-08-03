@@ -2,8 +2,7 @@ import 'package:flutter/widgets.dart';
 import 'package:mobx/mobx.dart';
 
 /// A builder function that creates a reaction
-typedef ReactionBuilderFunction = ReactionDisposer Function(
-    BuildContext context);
+typedef ReactionBuilderFunction = ReactionDisposer Function(BuildContext context);
 
 /// ReactionBuilder is useful for triggering reactions via a builder function rather
 /// than creating a custom StatefulWidget for handling the same.
@@ -20,8 +19,7 @@ class ReactionBuilder extends StatefulWidget {
   final ReactionBuilderFunction builder;
   final Widget child;
 
-  const ReactionBuilder({Key? key, required this.child, required this.builder})
-      : super(key: key);
+  const ReactionBuilder({Key? key, required this.child, required this.builder}) : super(key: key);
 
   @override
   ReactionBuilderState createState() => ReactionBuilderState();

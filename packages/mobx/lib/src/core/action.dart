@@ -53,8 +53,7 @@ class Action {
         return Function.apply(_fn, args);
       } else {
         // Convert to symbol-based named-args
-        final namedSymbolArgs =
-            namedArgs.map((key, value) => MapEntry(Symbol(key), value));
+        final namedSymbolArgs = namedArgs.map((key, value) => MapEntry(Symbol(key), value));
         return Function.apply(_fn, args, namedSymbolArgs);
       }
     } finally {
@@ -70,11 +69,9 @@ class Action {
 /// You would rarely need to use this directly. This is primarily meant for the **`mobx_codegen`** package.
 ///
 class ActionController {
-  ActionController({ReactiveContext? context, String? name})
-      : this._(context ?? mainContext, name: name);
+  ActionController({ReactiveContext? context, String? name}) : this._(context ?? mainContext, name: name);
 
-  ActionController._(this._context, {String? name})
-      : name = name ?? _context.nameFor('Action');
+  ActionController._(this._context, {String? name}) : name = name ?? _context.nameFor('Action');
 
   final ReactiveContext _context;
   final String name;
@@ -97,9 +94,7 @@ class ActionController {
   }
 
   void endAction(ActionRunInfo info) {
-    final duration = _context.isSpyEnabled
-        ? DateTime.now().difference(info.startTime!)
-        : Duration.zero;
+    final duration = _context.isSpyEnabled ? DateTime.now().difference(info.startTime!) : Duration.zero;
     _context.spyReport(
       EndedSpyEvent(type: 'action', name: info.name, duration: duration),
     );

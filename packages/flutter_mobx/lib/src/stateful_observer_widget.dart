@@ -10,11 +10,9 @@ import 'package:mobx/mobx.dart';
 /// - [Observer], which subclass this interface and delegate its `build` to a
 ///   callback.
 /// - [StatelessObserverWidget], similar to this class, but with no [State].
-abstract class StatefulObserverWidget extends StatefulWidget
-    with ObserverWidgetMixin {
+abstract class StatefulObserverWidget extends StatefulWidget with ObserverWidgetMixin {
   /// Initializes [key], [context] and [name] for subclasses.
-  const StatefulObserverWidget(
-      {Key? key, ReactiveContext? context, String? name})
+  const StatefulObserverWidget({Key? key, ReactiveContext? context, String? name})
       : _name = name,
         _context = context,
         super(key: key);
@@ -33,8 +31,7 @@ abstract class StatefulObserverWidget extends StatefulWidget
 }
 
 /// An [Element] that uses a [StatefulObserverWidget] as its configuration.
-class StatefulObserverElement extends StatefulElement
-    with ObserverElementMixin {
+class StatefulObserverElement extends StatefulElement with ObserverElementMixin {
   /// Creates an element that uses the given widget as its configuration.
   StatefulObserverElement(StatefulObserverWidget widget) : super(widget);
 

@@ -4,11 +4,7 @@ typedef SpyListener = void Function(SpyEvent event);
 
 abstract class SpyEvent {
   SpyEvent._(this.object,
-      {required this.type,
-      required this.name,
-      this.duration,
-      this.isStart = false,
-      this.isEnd = false});
+      {required this.type, required this.name, this.duration, this.isStart = false, this.isEnd = false});
 
   final dynamic object;
   final String name;
@@ -39,10 +35,8 @@ abstract class SpyEvent {
 
 /// Used for reporting value changes on an Observable
 class ObservableValueSpyEvent extends SpyEvent {
-  ObservableValueSpyEvent(dynamic object,
-      {this.newValue, this.oldValue, required String name, bool isEnd = false})
-      : super._(object,
-            type: 'observable', name: name, isStart: true, isEnd: isEnd);
+  ObservableValueSpyEvent(dynamic object, {this.newValue, this.oldValue, required String name, bool isEnd = false})
+      : super._(object, type: 'observable', name: name, isStart: true, isEnd: isEnd);
 
   final dynamic newValue;
   final dynamic oldValue;
@@ -53,27 +47,23 @@ class ObservableValueSpyEvent extends SpyEvent {
 
 /// Used for reporting value changes on an Observable
 class AtomChangedSpyEvent extends SpyEvent {
-  AtomChangedSpyEvent(dynamic object, {required String name})
-      : super._(object, type: 'atom-change', name: name);
+  AtomChangedSpyEvent(dynamic object, {required String name}) : super._(object, type: 'atom-change', name: name);
 }
 
 class ComputedValueSpyEvent extends SpyEvent {
   ComputedValueSpyEvent(object, {required String name})
-      : super._(object,
-            type: 'computed', name: name, isStart: true, isEnd: true);
+      : super._(object, type: 'computed', name: name, isStart: true, isEnd: true);
 }
 
 class ReactionSpyEvent extends SpyEvent {
-  ReactionSpyEvent({required String name})
-      : super._(null, type: 'reaction', name: name, isStart: true);
+  ReactionSpyEvent({required String name}) : super._(null, type: 'reaction', name: name, isStart: true);
 }
 
 class ReactionErrorSpyEvent extends SpyEvent {
   ReactionErrorSpyEvent(
     this.error, {
     required String name,
-  }) : super._(null,
-            type: 'reaction-error', name: name, isStart: true, isEnd: true);
+  }) : super._(null, type: 'reaction-error', name: name, isStart: true, isEnd: true);
 
   final Object error;
 
@@ -84,8 +74,7 @@ class ReactionErrorSpyEvent extends SpyEvent {
 class ReactionDisposedSpyEvent extends SpyEvent {
   ReactionDisposedSpyEvent({
     required String name,
-  }) : super._(null,
-            type: 'reaction-dispose', name: name, isStart: true, isEnd: true);
+  }) : super._(null, type: 'reaction-dispose', name: name, isStart: true, isEnd: true);
 }
 
 class ActionSpyEvent extends SpyEvent {
@@ -95,8 +84,7 @@ class ActionSpyEvent extends SpyEvent {
 }
 
 class EndedSpyEvent extends SpyEvent {
-  EndedSpyEvent(
-      {required String type, required String name, Duration? duration})
+  EndedSpyEvent({required String type, required String name, Duration? duration})
       : super._(null, type: type, name: name, duration: duration, isEnd: true);
 }
 

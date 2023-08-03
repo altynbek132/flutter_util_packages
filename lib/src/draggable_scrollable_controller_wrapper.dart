@@ -4,10 +4,8 @@ import 'dart:math' as math;
 import 'package:disposing/disposing.dart';
 import 'package:flutter/material.dart';
 import 'package:mobx/mobx.dart';
-import 'package:utils/src/draggable_scrollable_sheet.dart';
 import 'package:utils/utils.dart';
 
-import 'other.dart';
 
 part 'draggable_scrollable_controller_wrapper.g.dart';
 

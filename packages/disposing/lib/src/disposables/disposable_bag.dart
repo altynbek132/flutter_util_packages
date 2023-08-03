@@ -35,8 +35,7 @@ class _AsyncWrapperDisposable extends AsyncDisposable {
 }
 
 class DisposableBag implements AsyncDisposable {
-  late final AsyncCallbackDisposable _disposable =
-      AsyncCallbackDisposable(_disposeInternal);
+  late final AsyncCallbackDisposable _disposable = AsyncCallbackDisposable(_disposeInternal);
   final _disposables = <_AsyncWrapperDisposable>[];
 
   @override

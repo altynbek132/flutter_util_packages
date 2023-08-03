@@ -5,8 +5,7 @@ import 'package:test/scaffolding.dart';
 void main() async {
   group('CallbackDisposable', () {
     test('correct lifecycle', () async {
-      final disp = AsyncCallbackDisposable(
-          () => Future.delayed(Duration(milliseconds: 100)));
+      final disp = AsyncCallbackDisposable(() => Future.delayed(Duration(milliseconds: 100)));
       await _testAsyncLifecycle(disp);
     });
 

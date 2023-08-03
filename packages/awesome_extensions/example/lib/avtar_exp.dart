@@ -17,18 +17,15 @@ class AvatarExample extends StatelessWidget {
             Row(
               children: [
                 AvatarImage(
-                    backgroundImage: NetworkImage(
-                        'https://mdbootstrap.com/img/Photos/Avatars/img%20%281%29.jpg'),
+                    backgroundImage: NetworkImage('https://mdbootstrap.com/img/Photos/Avatars/img%20%281%29.jpg'),
                     shape: AvatarImageShape.circle),
                 10.0.widthBox,
                 AvatarImage(
-                    backgroundImage: NetworkImage(
-                        'https://mdbootstrap.com/img/Photos/Avatars/img%20%281%29.jpg'),
+                    backgroundImage: NetworkImage('https://mdbootstrap.com/img/Photos/Avatars/img%20%281%29.jpg'),
                     shape: AvatarImageShape.square),
                 10.0.widthBox,
                 AvatarImage(
-                    backgroundImage: NetworkImage(
-                        'https://mdbootstrap.com/img/Photos/Avatars/img%20%281%29.jpg'),
+                    backgroundImage: NetworkImage('https://mdbootstrap.com/img/Photos/Avatars/img%20%281%29.jpg'),
                     shape: AvatarImageShape.standard),
               ],
             ),
@@ -38,8 +35,7 @@ class AvatarExample extends StatelessWidget {
             Row(
               children: [
                 AvatarImage(
-                  backgroundImage: NetworkImage(
-                      'https://mdbootstrap.com/img/Photos/Avatars/img%20%281%29.jpg'),
+                  backgroundImage: NetworkImage('https://mdbootstrap.com/img/Photos/Avatars/img%20%281%29.jpg'),
                   shape: AvatarImageShape.standard,
                   size: ImageSize.large,
                   child: Text('Lucky'),

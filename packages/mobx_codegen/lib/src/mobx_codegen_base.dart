@@ -22,8 +22,7 @@ class StoreGenerator extends Generator {
     }
 
     final typeSystem = library.element.typeSystem;
-    final file = StoreFileTemplate(
-        storeSources: _generateCodeForLibrary(library, typeSystem).toSet());
+    final file = StoreFileTemplate(storeSources: _generateCodeForLibrary(library, typeSystem).toSet());
     return file.toString();
   }
 
@@ -49,8 +48,7 @@ class StoreGenerator extends Generator {
       final mixedClass = otherClasses.firstWhere((c) {
         // If our base class has different type parameterization requirements than
         // the class we're evaluating provides, we know it's not a subclass.
-        if (baseClass.typeParameters.length !=
-            c.supertype!.typeArguments.length) {
+        if (baseClass.typeParameters.length != c.supertype!.typeArguments.length) {
           return false;
         }
 
@@ -58,14 +56,11 @@ class StoreGenerator extends Generator {
         // this has no impact), and perform a supertype check.
         return typeSystem.isSubtypeOf(
           c.thisType,
-          baseClass.instantiate(
-              typeArguments: c.supertype!.typeArguments,
-              nullabilitySuffix: NullabilitySuffix.none),
+          baseClass.instantiate(typeArguments: c.supertype!.typeArguments, nullabilitySuffix: NullabilitySuffix.none),
         );
       });
 
-      yield _generateCodeFromTemplate(
-          mixedClass.name, baseClass, MixinStoreTemplate(), typeNameFinder);
+      yield _generateCodeFromTemplate(mixedClass.name, baseClass, MixinStoreTemplate(), typeNameFinder);
       // ignore: avoid_catching_errors
     } on StateError {
       // ignore the case when no element is found
@@ -78,8 +73,7 @@ class StoreGenerator extends Generator {
     StoreTemplate template,
     LibraryScopedNameFinder typeNameFinder,
   ) {
-    final visitor = StoreClassVisitor(
-        publicTypeName, userStoreClass, template, typeNameFinder, options);
+    final visitor = StoreClassVisitor(publicTypeName, userStoreClass, template, typeNameFinder, options);
     userStoreClass
       ..accept(visitor)
       ..visitChildren(visitor);

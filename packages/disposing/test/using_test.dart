@@ -5,15 +5,13 @@ import 'package:test/test.dart';
 void main() async {
   group('using', () {
     test('dispose after using', () async {
-      final disp =
-          AsyncCallbackDisposable(() => Future.delayed(Duration(milliseconds: 100)));
+      final disp = AsyncCallbackDisposable(() => Future.delayed(Duration(milliseconds: 100)));
       await using(disp, (_) async {});
       expect(disp.isDisposed, true);
     });
 
     test('throw if disposed', () async {
-      final disp =
-          AsyncCallbackDisposable(() => Future.delayed(Duration(milliseconds: 100)));
+      final disp = AsyncCallbackDisposable(() => Future.delayed(Duration(milliseconds: 100)));
       final dispFuture = disp.dispose();
 
       expect(

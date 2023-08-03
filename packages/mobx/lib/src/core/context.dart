@@ -32,8 +32,7 @@ class _ReactiveState {
   bool get isWithinBatch => batch > 0;
 
   /// Are we inside a reaction or computed?
-  bool get isWithinDerivation =>
-      trackingDerivation != null || computationDepth > 0;
+  bool get isWithinDerivation => trackingDerivation != null || computationDepth > 0;
 
   List<SpyListener> spyListeners = [];
 }
@@ -65,9 +64,7 @@ class ReactiveConfig {
 
   /// The main or default configuration used by [ReactiveContext]
   static final ReactiveConfig main = ReactiveConfig(
-      disableErrorBoundaries: false,
-      writePolicy: ReactiveWritePolicy.observed,
-      readPolicy: ReactiveReadPolicy.never);
+      disableErrorBoundaries: false, writePolicy: ReactiveWritePolicy.observed, readPolicy: ReactiveReadPolicy.never);
 
   /// Whether MobX should throw exceptions instead of catching them and store
   /// as [Derivation.errorValue].
@@ -93,8 +90,7 @@ class ReactiveConfig {
           int? maxIterations,
           bool? isSpyEnabled}) =>
       ReactiveConfig(
-          disableErrorBoundaries:
-              disableErrorBoundaries ?? this.disableErrorBoundaries,
+          disableErrorBoundaries: disableErrorBoundaries ?? this.disableErrorBoundaries,
           writePolicy: writePolicy ?? this.writePolicy,
           readPolicy: readPolicy ?? this.readPolicy,
           maxIterations: maxIterations ?? this.maxIterations,
@@ -125,8 +121,7 @@ class ReactiveContext {
 
   bool get isWithinBatch => _state.isWithinBatch;
 
-  bool get isSpyEnabled =>
-      _config.isSpyEnabled && _state.spyListeners.isNotEmpty;
+  bool get isSpyEnabled => _config.isSpyEnabled && _state.spyListeners.isNotEmpty;
 
   Dispose spy(SpyListener listener) {
     _state.spyListeners.add(listener);
@@ -155,8 +150,7 @@ class ReactiveContext {
       runReactions();
 
       for (var i = 0; i < _state.pendingUnobservations.length; i++) {
-        final ob = _state.pendingUnobservations[i]
-          .._isPendingUnobservation = false;
+        final ob = _state.pendingUnobservations[i].._isPendingUnobservation = false;
 
         if (ob._observers.isEmpty) {
           if (ob._isBeingObserved) {
@@ -278,10 +272,8 @@ class ReactiveContext {
   }
 
   void _bindDependencies(Derivation derivation) {
-    final staleObservables =
-        derivation._observables.difference(derivation._newObservables!);
-    final newObservables =
-        derivation._newObservables!.difference(derivation._observables);
+    final staleObservables = derivation._observables.difference(derivation._newObservables!);
+    final newObservables = derivation._newObservables!.difference(derivation._observables);
     var lowestNewDerivationState = DerivationState.upToDate;
 
     // Add newly found observables
@@ -290,8 +282,7 @@ class ReactiveContext {
 
       // Computed = Observable + Derivation
       if (observable is Computed) {
-        if (observable._dependenciesState.index >
-            lowestNewDerivationState.index) {
+        if (observable._dependenciesState.index > lowestNewDerivationState.index) {
           lowestNewDerivationState = observable._dependenciesState;
         }
       }
@@ -471,8 +462,7 @@ class ReactiveContext {
     }
   }
 
-  bool _hasCaughtException(Derivation d) =>
-      d._errorValue is MobXCaughtException;
+  bool _hasCaughtException(Derivation d) => d._errorValue is MobXCaughtException;
 
   bool isComputingDerivation() => _state.trackingDerivation != null;
 
@@ -530,7 +520,6 @@ class ReactiveContext {
   }
 
   void _resetState() {
-    _state = _ReactiveState()
-      ..allowStateChanges = _config.writePolicy == ReactiveWritePolicy.never;
+    _state = _ReactiveState()..allowStateChanges = _config.writePolicy == ReactiveWritePolicy.never;
   }
 }

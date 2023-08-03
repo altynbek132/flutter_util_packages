@@ -128,9 +128,8 @@ class AvatarImage extends StatelessWidget {
               )
             : null,
         shape: _avatarShape,
-        borderRadius: shape == AvatarImageShape.standard && borderRadius == null
-            ? BorderRadius.circular(10)
-            : borderRadius,
+        borderRadius:
+            shape == AvatarImageShape.standard && borderRadius == null ? BorderRadius.circular(10) : borderRadius,
       ),
       child: child == null && textStyle != null
           ? null

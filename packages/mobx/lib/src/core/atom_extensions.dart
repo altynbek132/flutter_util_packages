@@ -7,8 +7,7 @@ extension AtomSpyReporter on Atom {
   }
 
   void reportWrite<T>(T newValue, T oldValue, void Function() setNewValue) {
-    context.spyReport(ObservableValueSpyEvent(this,
-        newValue: newValue, oldValue: oldValue, name: name));
+    context.spyReport(ObservableValueSpyEvent(this, newValue: newValue, oldValue: oldValue, name: name));
 
     final actionName = context.isSpyEnabled ? '${name}_set' : name;
 

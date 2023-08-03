@@ -31,10 +31,7 @@ class Computed<T> extends Atom implements Derivation, ObservableValue<T> {
   /// A computed value is _cached_ and it recomputes only when the dependent observables actually
   /// change. This makes them fast and you are free to use them throughout your application. Internally
   /// MobX uses a 2-phase change propagation that ensures no unnecessary computations are performed.
-  factory Computed(T Function() fn,
-          {String? name,
-          ReactiveContext? context,
-          EqualityComparer<T>? equals}) =>
+  factory Computed(T Function() fn, {String? name, ReactiveContext? context, EqualityComparer<T>? equals}) =>
       Computed._(context ?? mainContext, fn, name: name, equals: equals);
 
   Computed._(ReactiveContext context, this._fn, {String? name, this.equals})
@@ -68,8 +65,7 @@ class Computed<T> extends Atom implements Derivation, ObservableValue<T> {
   @override
   T get value {
     if (_isComputing) {
-      throw MobXCyclicReactionException(
-          'Cycle detected in computation $name: $_fn');
+      throw MobXCyclicReactionException('Cycle detected in computation $name: $_fn');
     }
 
     if (!_context.isWithinBatch && _observers.isEmpty) {
@@ -142,10 +138,8 @@ class Computed<T> extends Atom implements Derivation, ObservableValue<T> {
 
     final newValue = computeValue(track: true);
 
-    final changedException =
-        hadCaughtException != _context._hasCaughtException(this);
-    final changed =
-        wasSuspended || changedException || !_isEqual(oldValue, newValue);
+    final changedException = hadCaughtException != _context._hasCaughtException(this);
+    final changed = wasSuspended || changedException || !_isEqual(oldValue, newValue);
 
     if (changed) {
       _value = newValue;
@@ -156,19 +150,13 @@ class Computed<T> extends Atom implements Derivation, ObservableValue<T> {
 
   bool _isEqual(T? x, T? y) => equals == null ? x == y : equals!(x, y);
 
-  void Function() observe(
-      void Function(ChangeNotification<T>) handler,
-      {@Deprecated('fireImmediately has no effect anymore. It is on by default.')
-          bool? fireImmediately}) {
+  void Function() observe(void Function(ChangeNotification<T>) handler,
+      {@Deprecated('fireImmediately has no effect anymore. It is on by default.') bool? fireImmediately}) {
     T? prevValue;
 
     void notifyChange() {
       _context.untracked(() {
-        handler(ChangeNotification(
-            type: OperationType.update,
-            object: this,
-            oldValue: prevValue,
-            newValue: value));
+        handler(ChangeNotification(type: OperationType.update, object: this, oldValue: prevValue, newValue: value));
       });
     }
 

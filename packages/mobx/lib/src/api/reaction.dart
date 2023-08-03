@@ -24,12 +24,8 @@ import 'package:mobx/src/core.dart';
 /// x.value = 30; // Will not cause autorun() to re-trigger as it's disposed.
 /// ```
 ReactionDisposer autorun(Function(Reaction) fn,
-        {String? name,
-        int? delay,
-        ReactiveContext? context,
-        void Function(Object, Reaction)? onError}) =>
-    createAutorun(context ?? mainContext, fn,
-        name: name, delay: delay, onError: onError);
+        {String? name, int? delay, ReactiveContext? context, void Function(Object, Reaction)? onError}) =>
+    createAutorun(context ?? mainContext, fn, name: name, delay: delay, onError: onError);
 
 /// Executes the [fn] function and tracks the observables used in it. Returns
 /// a function to dispose the reaction.
@@ -52,11 +48,7 @@ ReactionDisposer reaction<T>(T Function(Reaction _) fn, void Function(T v) effec
         ReactiveContext? context,
         void Function(Object, Reaction)? onError}) =>
     createReaction<T>(context ?? mainContext, fn, effect,
-        name: name,
-        delay: delay,
-        equals: equals,
-        fireImmediately: fireImmediately,
-        onError: onError);
+        name: name, delay: delay, equals: equals, fireImmediately: fireImmediately, onError: onError);
 
 /// A one-time reaction that auto-disposes when the [predicate] becomes true. It also
 /// executes the [effect] when the predicate turns true.
@@ -65,12 +57,8 @@ ReactionDisposer reaction<T>(T Function(Reaction _) fn, void Function(T v) effec
 ///
 /// Returns a function to dispose pre-maturely.
 ReactionDisposer when(bool Function(Reaction) predicate, void Function() effect,
-        {String? name,
-        ReactiveContext? context,
-        int? timeout,
-        void Function(Object, Reaction)? onError}) =>
-    createWhenReaction(context ?? mainContext, predicate, effect,
-        name: name, timeout: timeout, onError: onError);
+        {String? name, ReactiveContext? context, int? timeout, void Function(Object, Reaction)? onError}) =>
+    createWhenReaction(context ?? mainContext, predicate, effect, name: name, timeout: timeout, onError: onError);
 
 /// A variant of [when()] which returns a Future. The Future completes when the [predicate()] turns true.
 /// Note that there is no effect function here. Typically you would await on the Future and execute the
@@ -80,7 +68,5 @@ ReactionDisposer when(bool Function(Reaction) predicate, void Function() effect,
 /// await asyncWhen((_) => x.value > 10);
 /// // ... execute the effect ...
 /// ```
-Future<void> asyncWhen(bool Function(Reaction) predicate,
-        {String? name, int? timeout, ReactiveContext? context}) =>
-    createAsyncWhenReaction(context ?? mainContext, predicate,
-        name: name, timeout: timeout);
+Future<void> asyncWhen(bool Function(Reaction) predicate, {String? name, int? timeout, ReactiveContext? context}) =>
+    createAsyncWhenReaction(context ?? mainContext, predicate, name: name, timeout: timeout);

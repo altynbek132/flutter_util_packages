@@ -21,8 +21,7 @@ class MobxUtils {
   /// usage:
   /// late final listenableObs = MobxUtils.fromListenable(listenable)
   ///     .handleDispose((disposer) => addDisposer(disposer));
-  static SyncValueDisposable<Observable<T>>
-      fromListenable<T extends Listenable>(T listenable) {
+  static SyncValueDisposable<Observable<T>> fromListenable<T extends Listenable>(T listenable) {
     final obs = Observable<T>(listenable);
     final disp = listenable.addDisposableListener(Action(() {
       obs.value = listenable;

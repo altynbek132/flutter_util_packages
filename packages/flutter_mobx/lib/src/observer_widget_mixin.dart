@@ -71,8 +71,7 @@ mixin ObserverElementMixin on ComponentElement {
         library: 'flutter_mobx',
         exception: e,
         stack: e is Error ? e.stackTrace : null,
-        context: ErrorDescription(
-            'From reaction of ${_widget.getName()} of type $runtimeType.'),
+        context: ErrorDescription('From reaction of ${_widget.getName()} of type $runtimeType.'),
       ));
     }) as ReactionImpl;
     super.mount(parent, newSlot);
@@ -87,8 +86,7 @@ mixin ObserverElementMixin on ComponentElement {
     // 3. https://stackoverflow.com/questions/71367080
 
     // if there's a current frame,
-    final schedulerPhase =
-        _ambiguate(SchedulerBinding.instance)!.schedulerPhase;
+    final schedulerPhase = _ambiguate(SchedulerBinding.instance)!.schedulerPhase;
     final shouldWait =
         // surely, `idle` is ok
         schedulerPhase != SchedulerPhase.idle &&
@@ -118,9 +116,7 @@ mixin ObserverElementMixin on ComponentElement {
       built = super.build();
     });
 
-    if (enableWarnWhenNoObservables &&
-        (_widget.warnWhenNoObservables ?? false) &&
-        !reaction.hasObservables) {
+    if (enableWarnWhenNoObservables && (_widget.warnWhenNoObservables ?? false) && !reaction.hasObservables) {
       _widget.log(
         'No observables detected in the build method of ${reaction.name}',
       );

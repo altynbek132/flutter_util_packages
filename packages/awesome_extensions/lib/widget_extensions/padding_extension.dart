@@ -16,8 +16,7 @@ extension PaddingX on Widget {
   }) =>
       Padding(
         key: key,
-        padding:
-            EdgeInsets.only(top: top, left: left, bottom: bottom, right: right),
+        padding: EdgeInsets.only(top: top, left: left, bottom: bottom, right: right),
         child: this,
       );
 
@@ -45,9 +44,7 @@ extension PaddingX on Widget {
         child: this,
       );
 
-  Padding paddingSymmetric(
-          {double vertical = 0.0, double horizontal = 0.0, Key? key}) =>
-      Padding(
+  Padding paddingSymmetric({double vertical = 0.0, double horizontal = 0.0, Key? key}) => Padding(
         key: key,
         padding: EdgeInsets.symmetric(
           vertical: vertical,

@@ -9,8 +9,7 @@ abstract class Reaction implements Derivation {
 }
 
 class ReactionImpl implements Reaction {
-  ReactionImpl(this._context, Function() onInvalidate,
-      {required this.name, void Function(Object, Reaction)? onError}) {
+  ReactionImpl(this._context, Function() onInvalidate, {required this.name, void Function(Object, Reaction)? onError}) {
     _onInvalidate = onInvalidate;
     _onError = onError;
   }
@@ -93,10 +92,7 @@ class ReactionImpl implements Reaction {
     }
 
     if (notify) {
-      _context.spyReport(EndedSpyEvent(
-          type: 'reaction',
-          name: name,
-          duration: DateTime.now().difference(startTime!)));
+      _context.spyReport(EndedSpyEvent(type: 'reaction', name: name, duration: DateTime.now().difference(startTime!)));
     }
 
     _context.endBatch();

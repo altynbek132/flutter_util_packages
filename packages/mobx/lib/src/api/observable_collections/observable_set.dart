@@ -21,8 +21,7 @@ class ObservableSet<T>
         SetMixin<T>
     implements
         Listenable<SetChange<T>> {
-  ObservableSet({ReactiveContext? context, String? name})
-      : this._(context ?? mainContext, <T>{}, name);
+  ObservableSet({ReactiveContext? context, String? name}) : this._(context ?? mainContext, <T>{}, name);
 
   ObservableSet.of(Iterable<T> other, {ReactiveContext? context, String? name})
       : this._(context ?? mainContext, Set<T>.of(other), name);
@@ -33,8 +32,7 @@ class ObservableSet<T>
       bool Function(dynamic)? isValidKey,
       ReactiveContext? context,
       String? name})
-      : this._(context ?? mainContext,
-            SplayTreeSet.of(other, compare, isValidKey), name);
+      : this._(context ?? mainContext, SplayTreeSet.of(other, compare, isValidKey), name);
 
   ObservableSet._wrap(this._context, this._atom, this._set);
 
@@ -50,17 +48,14 @@ class ObservableSet<T>
 
   void reportManualChange([SetChange<T>? notification]) {
     _atom.reportChanged();
-    _listeners.notifyListeners(notification ??
-        SetChange<T>(object: this, type: OperationType.update, value: null));
+    _listeners.notifyListeners(notification ?? SetChange<T>(object: this, type: OperationType.update, value: null));
   }
 
   Listeners<SetChange<T>>? _listenersField;
 
-  Listeners<SetChange<T>> get _listeners =>
-      _listenersField ??= Listeners(_context);
+  Listeners<SetChange<T>> get _listeners => _listenersField ??= Listeners(_context);
 
-  bool get _hasListeners =>
-      _listenersField != null && _listenersField!.hasHandlers;
+  bool get _hasListeners => _listenersField != null && _listenersField!.hasHandlers;
 
   @override
   bool add(T value) {
@@ -155,8 +150,7 @@ class ObservableSet<T>
   /// Attaches a listener to changes happening in the [ObservableSet]. You have
   /// the option to be notified immediately ([fireImmediately]) or wait for until the first change.
   @override
-  Dispose observe(SetChangeListener<T> listener,
-      {bool fireImmediately = false}) {
+  Dispose observe(SetChangeListener<T> listener, {bool fireImmediately = false}) {
     final dispose = _listeners.add(listener);
     if (fireImmediately == true) {
       _set.forEach(_reportAdd);
@@ -184,8 +178,7 @@ class ObservableSet<T>
 /// A convenience method used during unit testing. It creates an [ObservableSet] with a custom instance
 /// of an [Atom]
 @visibleForTesting
-ObservableSet<T> wrapInObservableSet<T>(Atom atom, Set<T> set) =>
-    ObservableSet._wrap(mainContext, atom, set);
+ObservableSet<T> wrapInObservableSet<T>(Atom atom, Set<T> set) => ObservableSet._wrap(mainContext, atom, set);
 
 /// An internal iterator used to ensure that every read is tracked as part of the
 /// MobX reactivity system.

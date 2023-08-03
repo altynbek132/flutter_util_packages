@@ -1,10 +1,6 @@
 part of '../core.dart';
 
-class Observable<T> extends Atom
-    implements
-        Interceptable<T>,
-        Listenable<ChangeNotification<T>>,
-        ObservableValue<T> {
+class Observable<T> extends Atom implements Interceptable<T>, Listenable<ChangeNotification<T>>, ObservableValue<T> {
   /// Create an observable value with an [initialValue] and an optional [name]
   ///
   /// Observable values are tracked inside MobX. When a reaction uses them
@@ -21,21 +17,15 @@ class Observable<T> extends Atom
   ///
   /// print('x = ${x.value}'); // read an Observable's value
   /// ```
-  factory Observable(T initialValue,
-          {String? name,
-          ReactiveContext? context,
-          EqualityComparer<T>? equals}) =>
-      Observable._(context ?? mainContext, initialValue,
-          name: name, equals: equals);
+  factory Observable(T initialValue, {String? name, ReactiveContext? context, EqualityComparer<T>? equals}) =>
+      Observable._(context ?? mainContext, initialValue, name: name, equals: equals);
 
-  Observable._(ReactiveContext context, this._value,
-      {String? name, this.equals})
+  Observable._(ReactiveContext context, this._value, {String? name, this.equals})
       : _interceptors = Interceptors(context),
         _listeners = Listeners(context),
         super._(context, name: name ?? context.nameFor('Observable')) {
     if (_context.isSpyEnabled) {
-      _context.spyReport(ObservableValueSpyEvent(this,
-          newValue: _value, name: this.name, isEnd: true));
+      _context.spyReport(ObservableValueSpyEvent(this, newValue: _value, name: this.name, isEnd: true));
     }
   }
 
@@ -45,11 +35,8 @@ class Observable<T> extends Atom
 
   void reportManualChange() {
     reportChanged();
-    _listeners.notifyListeners(ChangeNotification<T>(
-        newValue: value,
-        oldValue: value,
-        type: OperationType.update,
-        object: this));
+    _listeners.notifyListeners(
+        ChangeNotification<T>(newValue: value, oldValue: value, type: OperationType.update, object: this));
   }
 
   T _value;
@@ -76,8 +63,7 @@ class Observable<T> extends Atom
     final notifySpy = _context.isSpyEnabled;
 
     if (notifySpy) {
-      _context.spyReport(ObservableValueSpyEvent(this,
-          newValue: newValue, oldValue: oldValue, name: name));
+      _context.spyReport(ObservableValueSpyEvent(this, newValue: newValue, oldValue: oldValue, name: name));
     }
 
     _value = newValue;
@@ -85,11 +71,8 @@ class Observable<T> extends Atom
     reportChanged();
 
     if (_listeners.hasHandlers) {
-      final change = ChangeNotification<T>(
-          newValue: value,
-          oldValue: oldValue,
-          type: OperationType.update,
-          object: this);
+      final change =
+          ChangeNotification<T>(newValue: value, oldValue: oldValue, type: OperationType.update, object: this);
       _listeners.notifyListeners(change);
     }
 
@@ -101,8 +84,8 @@ class Observable<T> extends Atom
   dynamic _prepareNewValue(T newValue) {
     T? prepared = newValue;
     if (_interceptors.hasHandlers) {
-      final change = _interceptors.interceptChange(WillChangeNotification(
-          newValue: prepared, type: OperationType.update, object: this));
+      final change = _interceptors
+          .interceptChange(WillChangeNotification(newValue: prepared, type: OperationType.update, object: this));
 
       if (change == null) {
         return WillChangeNotification.unchanged;
@@ -111,27 +94,20 @@ class Observable<T> extends Atom
       prepared = change.newValue;
     }
 
-    final areEqual =
-        equals == null ? prepared == value : equals!(prepared, _value);
+    final areEqual = equals == null ? prepared == value : equals!(prepared, _value);
 
     return (!areEqual) ? prepared : WillChangeNotification.unchanged;
   }
 
   @override
-  Dispose observe(Listener<ChangeNotification<T>> listener,
-      {bool fireImmediately = false}) {
+  Dispose observe(Listener<ChangeNotification<T>> listener, {bool fireImmediately = false}) {
     if (fireImmediately == true) {
-      listener(ChangeNotification<T>(
-          type: OperationType.update,
-          newValue: _value,
-          oldValue: null,
-          object: this));
+      listener(ChangeNotification<T>(type: OperationType.update, newValue: _value, oldValue: null, object: this));
     }
 
     return _listeners.add(listener);
   }
 
   @override
-  Dispose intercept(Interceptor<T> interceptor) =>
-      _interceptors.add(interceptor);
+  Dispose intercept(Interceptor<T> interceptor) => _interceptors.add(interceptor);
 }
