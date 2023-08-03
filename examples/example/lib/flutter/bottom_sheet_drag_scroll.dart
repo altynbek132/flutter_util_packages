@@ -10,11 +10,9 @@ import 'package:utils/utils.dart';
 
 part 'bottom_sheet_drag_scroll.g.dart';
 
-class BottomSheetDragScroll = _BottomSheetDragScrollBase
-    with _$BottomSheetDragScroll;
+class BottomSheetDragScroll = _BottomSheetDragScrollBase with _$BottomSheetDragScroll;
 
-abstract class _BottomSheetDragScrollBase extends MobxWM
-    with Store, LoggerMixin {
+abstract class _BottomSheetDragScrollBase extends MobxWM with Store, LoggerMixin {
   /// INIT ---------------------------------------------------------------------
 
   // sync init
@@ -88,7 +86,7 @@ abstract class _BottomSheetDragScrollBase extends MobxWM
   void _setupLoggers() {
     setupObservableLoggers([
       () => 'initialization: ${initialization.status.name}',
-    ], log);
+    ], logger);
   }
 
   /// CONSTRUCTOR --------------------------------------------------------------
@@ -99,14 +97,11 @@ abstract class _BottomSheetDragScrollBase extends MobxWM
 
   _BottomSheetDragScrollBase() {
     _init();
-    _asyncInit()
-        .then((_) => notifyInitSuccess())
-        .onErrorNullable(cb: notifyInitError);
+    _asyncInit().then((_) => notifyInitSuccess()).onErrorNullable(cb: notifyInitError);
   }
 }
 
-Future<void> dispose(BottomSheetDragScroll instance) async =>
-    instance.dispose();
+Future<void> dispose(BottomSheetDragScroll instance) async => instance.dispose();
 
 class HomePage extends StatefulWidget {
   const HomePage({

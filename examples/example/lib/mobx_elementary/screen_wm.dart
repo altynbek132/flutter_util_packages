@@ -50,7 +50,7 @@ abstract class _ScreenWmBase extends MobxWM with Store {
   void setupLoggers() {
     setupObservableLoggers([
       () => '',
-    ], log);
+    ], logger);
   }
 
   /// CONSTRUCTOR --------------------------------------------------------------

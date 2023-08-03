@@ -52,15 +52,13 @@ abstract class _AppStateBase extends MobxWM with Store, LoggerMixin {
   void _setupLoggers() {
     setupObservableLoggers([
       () => 'initialization: ${initialization.status.name}',
-    ], log);
+    ], logger);
   }
 
   /// CONSTRUCTOR --------------------------------------------------------------
   _AppStateBase() {
     _init();
-    _asyncInit()
-        .then((_) => notifyInitSuccess())
-        .onErrorNullable(cb: notifyInitError);
+    _asyncInit().then((_) => notifyInitSuccess()).onErrorNullable(cb: notifyInitError);
   }
 }
 

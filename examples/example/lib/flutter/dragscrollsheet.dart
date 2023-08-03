@@ -49,15 +49,13 @@ abstract class _DragscrollsheetVmBase extends MobxWM with Store, LoggerMixin {
     setupObservableLoggers([
       () => 'initialization: ${initialization.status.name}',
       // () => 'blur: ${blur}',
-    ], log);
+    ], logger);
   }
 
   /// CONSTRUCTOR --------------------------------------------------------------
   _DragscrollsheetVmBase() {
     _init();
-    _asyncInit()
-        .then((_) => notifyInitSuccess())
-        .onErrorNullable(cb: notifyInitError);
+    _asyncInit().then((_) => notifyInitSuccess()).onErrorNullable(cb: notifyInitError);
   }
 }
 
@@ -108,13 +106,11 @@ class _HomePageState extends State<HomePage> with DisposableBagStateMixin {
                   SizedBox.expand(
                     child: CustomDraggableScrollableSheet(
                       controller: this.vm.dragScrollController.controllerRaw,
-                      initialChildSize:
-                          this.vm.dragScrollController.initialChildSize,
+                      initialChildSize: this.vm.dragScrollController.initialChildSize,
                       minChildSize: this.vm.dragScrollController.minChildSize,
                       maxChildSize: this.vm.dragScrollController.maxChildSize,
                       snap: true,
-                      builder: (BuildContext context,
-                          ScrollController scrollController) {
+                      builder: (BuildContext context, ScrollController scrollController) {
                         return Container(
                           color: Colors.blue[100],
                           child: ListView.builder(
@@ -140,31 +136,20 @@ class _HomePageState extends State<HomePage> with DisposableBagStateMixin {
                       Row(
                         children: [
                           TextButton(
-                              onPressed: () =>
-                                  vm.dragScrollController.animateTo(0.5),
+                              onPressed: () => vm.dragScrollController.animateTo(0.5),
                               child: Text('vm.animateTo(0.5)')),
                           TextButton(
-                              onPressed: () =>
-                                  vm.dragScrollController.animateTo(0),
-                              child: Text('vm.animateTo(0)')),
+                              onPressed: () => vm.dragScrollController.animateTo(0), child: Text('vm.animateTo(0)')),
                           TextButton(
-                              onPressed: () =>
-                                  vm.dragScrollController.animateTo(1),
-                              child: Text('vm.animateTo(1)')),
+                              onPressed: () => vm.dragScrollController.animateTo(1), child: Text('vm.animateTo(1)')),
                         ],
                       ),
                       Row(
                         children: [
+                          TextButton(onPressed: () => vm.dragScrollController.close(), child: Text('vm..close()')),
+                          TextButton(onPressed: () => vm.dragScrollController.open(), child: Text('vm..open()')),
                           TextButton(
-                              onPressed: () => vm.dragScrollController.close(),
-                              child: Text('vm..close()')),
-                          TextButton(
-                              onPressed: () => vm.dragScrollController.open(),
-                              child: Text('vm..open()')),
-                          TextButton(
-                              onPressed: () =>
-                                  vm.dragScrollController.open(value: 0.6),
-                              child: Text('vm..open(0.6)')),
+                              onPressed: () => vm.dragScrollController.open(value: 0.6), child: Text('vm..open(0.6)')),
                         ],
                       ),
                     ],

@@ -41,15 +41,13 @@ class Mobxx extends MobxWM with Store, LoggerMixin, _$Mobxx {
   void _setupLoggers() {
     setupObservableLoggers([
       () => 'initialization: ${initialization.status.name}',
-    ], log);
+    ], logger);
   }
 
   /// CONSTRUCTOR --------------------------------------------------------------
   Mobxx({super.getState}) {
     _init();
-    _asyncInit()
-        .then((_) => notifyInitSuccess())
-        .onErrorNullable(cb: notifyInitError);
+    _asyncInit().then((_) => notifyInitSuccess()).onErrorNullable(cb: notifyInitError);
   }
 }
 
