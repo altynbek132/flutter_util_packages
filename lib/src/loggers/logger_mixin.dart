@@ -5,4 +5,4 @@ mixin LoggerMixin {
   Logger get logger => getLogger('$runtimeType');
 }
 
-final logger = getLogger('GLOBAL');
+final gLogger = getLogger('GLOBAL');
