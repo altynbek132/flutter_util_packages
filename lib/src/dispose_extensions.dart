@@ -44,7 +44,7 @@ extension MyTimerExtension on Timer {
   }
 }
 
-extension ChangeNotifierExtension on ChangeNotifier {
+extension ChangeNotifierDisposeExtension on ChangeNotifier {
   ChangeNotifier syncDisposeOnR(SyncDisposableBag bag) {
     syncDisposeOn(bag);
     return this;

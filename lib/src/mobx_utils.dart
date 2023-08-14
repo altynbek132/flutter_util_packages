@@ -106,25 +106,25 @@ class MobxUtils {
   MobxUtils._();
 }
 
-extension ListenableExtension on Listenable {
+extension ListenableObsExtension on Listenable {
   SyncValueDisposable<Observable<T>> obs<T extends Listenable>() {
     return MobxUtils.fromListenable(this as T);
   }
 }
 
-extension ValueNotifierExtension<T> on ValueNotifier<T> {
+extension ValueNotifierObsExtension<T> on ValueNotifier<T> {
   SyncValueDisposable<Observable<T>> obs([bool? dispose]) {
     return MobxUtils.fromVnValue(this, dispose: dispose);
   }
 }
 
-extension ValueListenableExtension<T> on ValueListenable<T> {
+extension ValueListenableObsExtension<T> on ValueListenable<T> {
   SyncValueDisposable<Observable<T>> obs() {
     return MobxUtils.fromVlValue(this);
   }
 }
 
-extension ChangeNotifierExtension on ChangeNotifier {
+extension ChangeNotifierObsExtension on ChangeNotifier {
   SyncValueDisposable<Observable<T>> obs<T extends ChangeNotifier>([bool? dispose]) {
     return MobxUtils.fromCN(this as T, dispose: dispose);
   }
