@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:disposing/disposing.dart';
 import 'package:disposing_flutter/disposing_flutter.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/widgets.dart' hide Action;
 import 'package:mobx/mobx.dart' hide Listenable;
 import 'package:rxdart/rxdart.dart';
@@ -56,6 +57,26 @@ class MobxUtils {
     });
   }
 
+  /// use it if you need [ValueListenable]'s values as [Observable]
+  ///
+  /// usage:
+  /// late final vnValueObs = MobxUtils.fromVnValue(VN)
+  ///     .handleDispose((disposer) => addDisposer(disposer));
+  static SyncValueDisposable<Observable<T>> fromVlValue<T>(
+    ValueListenable<T> vl,
+  ) {
+    final obs = Observable<T>(vl.value);
+    final disp = vl.addDisposableListener(Action(() {
+      obs.value = vl.value;
+      if (obs.hasObservers) {
+        obs.reportManualChange();
+      }
+    }));
+    return SyncValueDisposable(obs, () {
+      disp.dispose();
+    });
+  }
+
   /// you can wrap controllers which extend [ChangeNotifier] as
   /// [TextEditingController] and etc so that you can use notifier's value in
   /// reactions
@@ -83,4 +104,28 @@ class MobxUtils {
   }
 
   MobxUtils._();
+}
+
+extension ListenableExtension on Listenable {
+  SyncValueDisposable<Observable<T>> obs<T extends Listenable>() {
+    return MobxUtils.fromListenable(this as T);
+  }
+}
+
+extension ValueNotifierExtension<T> on ValueNotifier<T> {
+  SyncValueDisposable<Observable<T>> obs([bool? dispose]) {
+    return MobxUtils.fromVnValue(this, dispose: dispose);
+  }
+}
+
+extension ValueListenableExtension<T> on ValueListenable<T> {
+  SyncValueDisposable<Observable<T>> obs() {
+    return MobxUtils.fromVlValue(this);
+  }
+}
+
+extension ChangeNotifierExtension on ChangeNotifier {
+  SyncValueDisposable<Observable<T>> obs<T extends ChangeNotifier>([bool? dispose]) {
+    return MobxUtils.fromCN(this as T, dispose: dispose);
+  }
 }
