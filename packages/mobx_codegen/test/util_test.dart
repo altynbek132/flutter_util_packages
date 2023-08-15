@@ -70,32 +70,25 @@ void main() {
       });
 
       test('true if method is async and returns dynamic', () {
-        final method = mockFutureMethod(
-            isAsync: true, isGenerator: false, returnsDynamic: true);
+        final method = mockFutureMethod(isAsync: true, isGenerator: false, returnsDynamic: true);
         expect(AsyncMethodChecker().returnsFuture(method), isTrue);
       });
 
       test('false if method is async generator', () {
-        final method = mockFutureMethod(
-            isAsync: true, isGenerator: true, returnsDynamic: true);
+        final method = mockFutureMethod(isAsync: true, isGenerator: true, returnsDynamic: true);
         expect(AsyncMethodChecker().returnsFuture(method), isFalse);
       });
     });
 
     group('returnsStream', () {
       test('true if returns Stream', () {
-        expect(
-            AsyncMethodChecker(streamChecker(isStream: true))
-                .returnsStream(mockStreamMethod(returnsDynamic: true)),
+        expect(AsyncMethodChecker(streamChecker(isStream: true)).returnsStream(mockStreamMethod(returnsDynamic: true)),
             isTrue);
       });
 
       test('true if is async generator and returns dynamic', () {
         final checker = AsyncMethodChecker(streamChecker(isStream: false));
-        expect(
-            checker.returnsStream(mockStreamMethod(
-                isAsync: true, isGenerator: true, returnsDynamic: true)),
-            isTrue);
+        expect(checker.returnsStream(mockStreamMethod(isAsync: true, isGenerator: true, returnsDynamic: true)), isTrue);
       });
     });
   });

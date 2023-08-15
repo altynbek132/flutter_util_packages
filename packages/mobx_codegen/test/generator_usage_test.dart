@@ -73,14 +73,11 @@ abstract class _TestStore with Store {
   @observable
   Stream<String> stream() {
     var i = 1;
-    return Stream.periodic(const Duration(milliseconds: 10))
-        .take(3)
-        .map((_) => 'item${i++}');
+    return Stream.periodic(const Duration(milliseconds: 10)).take(3).map((_) => 'item${i++}');
   }
 
   @observable
-  Future<String> future() =>
-      Future.delayed(const Duration(milliseconds: 10)).then((_) => 'item');
+  Future<String> future() => Future.delayed(const Duration(milliseconds: 10)).then((_) => 'item');
 
   @observable
   Future<String> asyncMethod() async {
@@ -130,8 +127,7 @@ void main() {
   late ReactiveWritePolicy prevWritePolicy;
   setUp(() {
     prevWritePolicy = mainContext.config.writePolicy;
-    mainContext.config =
-        ReactiveConfig(writePolicy: ReactiveWritePolicy.always);
+    mainContext.config = ReactiveConfig(writePolicy: ReactiveWritePolicy.always);
   });
 
   tearDown(() {
@@ -187,8 +183,7 @@ void main() {
 
     final future = store.loadStuff2();
 
-    await asyncWhen((_) => future.status == FutureStatus.fulfilled)
-        .timeout(const Duration(seconds: 1));
+    await asyncWhen((_) => future.status == FutureStatus.fulfilled).timeout(const Duration(seconds: 1));
 
     expect(stuff, equals(['stuff', 'stuff0', 'stuff1', 'stuff2', 'stuff3']));
   });
@@ -258,8 +253,7 @@ void main() {
 
     await future;
 
-    expect(values,
-        equals(['item1   ', 'item1 item2 item3 ', 'item1 item2 item3 item4']));
+    expect(values, equals(['item1   ', 'item1 item2 item3 ', 'item1 item2 item3 item4']));
   });
 
   test('async action throwing works', () async {

@@ -58,13 +58,11 @@ void main() {
 
   group('SurroundedCommaList', () {
     test('toString joins templates with a comma and surrounds them', () {
-      expect(SurroundedCommaList('[', ']', ['A', 2, 'C']).toString(),
-          equals('[A, 2, C]'));
+      expect(SurroundedCommaList('[', ']', ['A', 2, 'C']).toString(), equals('[A, 2, C]'));
     });
 
     test('toString filters empty templates', () {
-      expect(SurroundedCommaList('(', ')', ['A', 2, '', '', 'C']).toString(),
-          equals('(A, 2, C)'));
+      expect(SurroundedCommaList('(', ')', ['A', 2, '', '', 'C']).toString(), equals('(A, 2, C)'));
     });
   });
 
@@ -112,8 +110,7 @@ void main() {
     group('renders template based on template data', () {
       test('on public field', () {
         final template = ObservableTemplate(
-            storeTemplate: (MixinStoreTemplate()
-              ..parentTypeName = 'ParentName'),
+            storeTemplate: (MixinStoreTemplate()..parentTypeName = 'ParentName'),
             atomName: '_atomFieldName',
             type: 'FieldType',
             name: 'fieldName');
@@ -174,22 +171,19 @@ void main() {
     });
 
     test('renders parameter with a default value', () {
-      final template = ParamTemplate(
-          name: 'address', type: 'String', defaultValue: '"unknown"');
+      final template = ParamTemplate(name: 'address', type: 'String', defaultValue: '"unknown"');
 
       expect(template.toString(), equals('String address = "unknown"'));
     });
 
     test('asArgument returns name', () {
-      final template = ParamTemplate(
-          name: 'address', type: 'String', defaultValue: '"unknown"');
+      final template = ParamTemplate(name: 'address', type: 'String', defaultValue: '"unknown"');
 
       expect(template.asArgument, equals('address'));
     });
 
     test('asNamedArgument.toString() returns named argument code', () {
-      final template = ParamTemplate(
-          name: 'address', type: 'String', defaultValue: '"unknown"');
+      final template = ParamTemplate(name: 'address', type: 'String', defaultValue: '"unknown"');
 
       expect(template.asNamedArgument.toString(), equals('address: address'));
     });
@@ -227,18 +221,14 @@ void main() {
     final method = MethodOverrideTemplate()
       ..name = 'myAction'
       ..returnType = 'ReturnType'
-      ..setTypeParams([
-        TypeParamTemplate(name: 'T'),
-        TypeParamTemplate(name: 'S', bound: 'String')
-      ])
+      ..setTypeParams([TypeParamTemplate(name: 'T'), TypeParamTemplate(name: 'S', bound: 'String')])
       ..positionalParams = [ParamTemplate(name: 'arg1', type: 'T')]
       ..optionalParams = [
         ParamTemplate(name: 'arg2', type: 'S', defaultValue: '"arg2value"'),
         ParamTemplate(name: 'arg3', type: 'String')
       ]
       ..namedParams = [
-        ParamTemplate(
-            name: 'namedArg1', type: 'String', defaultValue: '"default"'),
+        ParamTemplate(name: 'namedArg1', type: 'String', defaultValue: '"default"'),
         ParamTemplate(name: 'namedArg2', type: 'int', defaultValue: '3')
       ];
 
@@ -305,10 +295,7 @@ void main() {
       ..name = 'fetchData'
       ..returnType = 'Future'
       ..returnTypeArgs = SurroundedCommaList('<', '>', ['T'])
-      ..setTypeParams([
-        TypeParamTemplate(name: 'T'),
-        TypeParamTemplate(name: 'S', bound: 'String')
-      ])
+      ..setTypeParams([TypeParamTemplate(name: 'T'), TypeParamTemplate(name: 'S', bound: 'String')])
       ..positionalParams = [
         ParamTemplate(
           name: 'arg1',
@@ -323,8 +310,7 @@ void main() {
         )
       ]
       ..namedParams = [
-        ParamTemplate(
-            name: 'namedArg1', type: 'String', defaultValue: '"default"'),
+        ParamTemplate(name: 'namedArg1', type: 'String', defaultValue: '"default"'),
         ParamTemplate(name: 'namedArg2', type: 'int', defaultValue: '3')
       ];
 

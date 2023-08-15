@@ -19,10 +19,8 @@ class MixinStoreTemplate extends StoreTemplate {
 }
 
 abstract class StoreTemplate {
-  final SurroundedCommaList<TypeParamTemplate> typeParams =
-      SurroundedCommaList('<', '>', []);
-  final SurroundedCommaList<String> typeArgs =
-      SurroundedCommaList('<', '>', []);
+  final SurroundedCommaList<TypeParamTemplate> typeParams = SurroundedCommaList('<', '>', []);
+  final SurroundedCommaList<String> typeArgs = SurroundedCommaList('<', '>', []);
 
   late String publicTypeName;
   late String parentTypeName;
@@ -37,8 +35,7 @@ abstract class StoreTemplate {
 
   bool generateToString = false;
   String? _actionControllerName;
-  String get actionControllerName =>
-      _actionControllerName ??= '_\$${parentTypeName}ActionController';
+  String get actionControllerName => _actionControllerName ??= '_\$${parentTypeName}ActionController';
 
   String get actionControllerField => actions.isEmpty
       ? ''

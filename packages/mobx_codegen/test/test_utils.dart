@@ -9,8 +9,7 @@ import 'package:source_gen/source_gen.dart';
 import 'package:test/test.dart';
 
 class TestInfo {
-  const TestInfo(
-      {required this.description, required this.source, required this.output});
+  const TestInfo({required this.description, required this.source, required this.output});
 
   final String description;
   final String output;
@@ -33,8 +32,7 @@ Future<String> generate(String source) async {
     if (logRecord.level == Level.SEVERE) {
       // If we've encountered an exception, print to stderr for easier debugging
       if (logRecord.error != null) {
-        stderr.writeln(
-            '${logRecord.message}\n${logRecord.error}${logRecord.stackTrace}');
+        stderr.writeln('${logRecord.message}\n${logRecord.error}${logRecord.stackTrace}');
       }
 
       errors.add(logRecord.message);
@@ -43,20 +41,15 @@ Future<String> generate(String source) async {
 
   final writer = InMemoryAssetWriter();
   await testBuilder(builder, srcs,
-      rootPackage: pkgName,
-      reader: await PackageAssetReader.currentIsolate(),
-      writer: writer,
-      onLog: captureError);
+      rootPackage: pkgName, reader: await PackageAssetReader.currentIsolate(), writer: writer, onLog: captureError);
 
   return errors.isNotEmpty
       ? errors.join('\n')
-      : String.fromCharCodes(
-          writer.assets[AssetId(pkgName, 'lib/generator_sample.g.dart')] ?? []);
+      : String.fromCharCodes(writer.assets[AssetId(pkgName, 'lib/generator_sample.g.dart')] ?? []);
 }
 
 String getFilePath(String filename) {
-  final context = path.Context(
-      style: Platform.isWindows ? path.Style.windows : path.Style.posix);
+  final context = path.Context(style: Platform.isWindows ? path.Style.windows : path.Style.posix);
   final baseDir = context.dirname(Directory.current.path);
   var filePath = context.join(baseDir, 'mobx_codegen/test/', filename);
   filePath = context.fromUri(context.normalize(filePath));

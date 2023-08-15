@@ -7,6 +7,5 @@ class Rows<T> {
   List<T> get templates => _templates;
 
   @override
-  String toString() =>
-      _templates.map((t) => t.toString()).where((s) => s.isNotEmpty).join('\n');
+  String toString() => _templates.map((t) => t.toString()).where((s) => s.isNotEmpty).join('\n');
 }

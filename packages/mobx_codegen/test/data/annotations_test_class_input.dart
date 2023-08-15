@@ -5,8 +5,7 @@ import 'package:mobx/mobx.dart';
 
 part 'generator_sample.g.dart';
 
-class AnnotationsTestClass = AnnotationsTestClassBase
-    with _$AnnotationsTestClass;
+class AnnotationsTestClass = AnnotationsTestClassBase with _$AnnotationsTestClass;
 
 abstract class AnnotationsTestClassBase with Store {
   AnnotationsTestClassBase(this.foo);

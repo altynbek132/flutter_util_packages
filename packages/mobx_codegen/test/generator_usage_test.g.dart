@@ -12,16 +12,12 @@ mixin _$TestStore on _TestStore, Store {
   Computed<String>? _$fieldsComputed;
 
   @override
-  String get fields => (_$fieldsComputed ??=
-          Computed<String>(() => super.fields, name: '_TestStore.fields'))
-      .value;
+  String get fields => (_$fieldsComputed ??= Computed<String>(() => super.fields, name: '_TestStore.fields')).value;
   Computed<String>? _$batchedItemsComputed;
 
   @override
   String get batchedItems =>
-      (_$batchedItemsComputed ??= Computed<String>(() => super.batchedItems,
-              name: '_TestStore.batchedItems'))
-          .value;
+      (_$batchedItemsComputed ??= Computed<String>(() => super.batchedItems, name: '_TestStore.batchedItems')).value;
 
   late final _$field1Atom = Atom(name: '_TestStore.field1', context: context);
 
@@ -98,8 +94,7 @@ mixin _$TestStore on _TestStore, Store {
     }, equals: customEquals);
   }
 
-  late final _$batchItem1Atom =
-      Atom(name: '_TestStore.batchItem1', context: context);
+  late final _$batchItem1Atom = Atom(name: '_TestStore.batchItem1', context: context);
 
   @override
   String get batchItem1 {
@@ -114,8 +109,7 @@ mixin _$TestStore on _TestStore, Store {
     });
   }
 
-  late final _$batchItem2Atom =
-      Atom(name: '_TestStore.batchItem2', context: context);
+  late final _$batchItem2Atom = Atom(name: '_TestStore.batchItem2', context: context);
 
   @override
   String get batchItem2 {
@@ -130,8 +124,7 @@ mixin _$TestStore on _TestStore, Store {
     });
   }
 
-  late final _$batchItem3Atom =
-      Atom(name: '_TestStore.batchItem3', context: context);
+  late final _$batchItem3Atom = Atom(name: '_TestStore.batchItem3', context: context);
 
   @override
   String get batchItem3 {
@@ -146,8 +139,7 @@ mixin _$TestStore on _TestStore, Store {
     });
   }
 
-  late final _$batchItem4Atom =
-      Atom(name: '_TestStore.batchItem4', context: context);
+  late final _$batchItem4Atom = Atom(name: '_TestStore.batchItem4', context: context);
 
   @override
   String get batchItem4 {
@@ -162,8 +154,7 @@ mixin _$TestStore on _TestStore, Store {
     });
   }
 
-  late final _$errorFieldAtom =
-      Atom(name: '_TestStore.errorField', context: context);
+  late final _$errorFieldAtom = Atom(name: '_TestStore.errorField', context: context);
 
   @override
   String get errorField {
@@ -202,46 +193,39 @@ mixin _$TestStore on _TestStore, Store {
     return ObservableStream<String>(_$stream, context: context);
   }
 
-  late final _$loadStuffAsyncAction =
-      AsyncAction('_TestStore.loadStuff', context: context);
+  late final _$loadStuffAsyncAction = AsyncAction('_TestStore.loadStuff', context: context);
 
   @override
   Future<void> loadStuff() {
     return _$loadStuffAsyncAction.run(() => super.loadStuff());
   }
 
-  late final _$loadStuff2AsyncAction =
-      AsyncAction('_TestStore.loadStuff2', context: context);
+  late final _$loadStuff2AsyncAction = AsyncAction('_TestStore.loadStuff2', context: context);
 
   @override
   ObservableFuture<void> loadStuff2() {
-    return ObservableFuture<void>(
-        _$loadStuff2AsyncAction.run(() => super.loadStuff2()));
+    return ObservableFuture<void>(_$loadStuff2AsyncAction.run(() => super.loadStuff2()));
   }
 
-  late final _$batchedChangesAsyncAction =
-      AsyncAction('_TestStore.batchedChanges', context: context);
+  late final _$batchedChangesAsyncAction = AsyncAction('_TestStore.batchedChanges', context: context);
 
   @override
   Future<void> batchedChanges() {
     return _$batchedChangesAsyncAction.run(() => super.batchedChanges());
   }
 
-  late final _$throwsErrorAsyncAction =
-      AsyncAction('_TestStore.throwsError', context: context);
+  late final _$throwsErrorAsyncAction = AsyncAction('_TestStore.throwsError', context: context);
 
   @override
   Future<void> throwsError() {
     return _$throwsErrorAsyncAction.run(() => super.throwsError());
   }
 
-  late final _$_TestStoreActionController =
-      ActionController(name: '_TestStore', context: context);
+  late final _$_TestStoreActionController = ActionController(name: '_TestStore', context: context);
 
   @override
   void setFields(String field1, String field2) {
-    final _$actionInfo =
-        _$_TestStoreActionController.startAction(name: '_TestStore.setFields');
+    final _$actionInfo = _$_TestStoreActionController.startAction(name: '_TestStore.setFields');
     try {
       return super.setFields(field1, field2);
     } finally {

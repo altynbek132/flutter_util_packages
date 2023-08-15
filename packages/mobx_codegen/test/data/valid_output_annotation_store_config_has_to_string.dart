@@ -12,19 +12,16 @@ mixin _$User on UserBase, Store {
   Computed<String>? _$fullNameComputed;
 
   @override
-  String get fullName => (_$fullNameComputed ??=
-          Computed<String>(() => super.fullName, name: 'UserBase.fullName'))
-      .value;
+  String get fullName =>
+      (_$fullNameComputed ??= Computed<String>(() => super.fullName, name: 'UserBase.fullName')).value;
   Computed<String?>? _$fullNameNullableComputed;
 
   @override
   String? get fullNameNullable => (_$fullNameNullableComputed ??=
-          Computed<String?>(() => super.fullNameNullable,
-              name: 'UserBase.fullNameNullable'))
+          Computed<String?>(() => super.fullNameNullable, name: 'UserBase.fullNameNullable'))
       .value;
 
-  late final _$firstNameAtom =
-      Atom(name: 'UserBase.firstName', context: context);
+  late final _$firstNameAtom = Atom(name: 'UserBase.firstName', context: context);
 
   @override
   String get firstName {
@@ -39,8 +36,7 @@ mixin _$User on UserBase, Store {
     });
   }
 
-  late final _$firstNameNullableAtom =
-      Atom(name: 'UserBase.firstNameNullable', context: context);
+  late final _$firstNameNullableAtom = Atom(name: 'UserBase.firstNameNullable', context: context);
 
   @override
   String? get firstNameNullable {
@@ -55,8 +51,7 @@ mixin _$User on UserBase, Store {
     });
   }
 
-  late final _$middleNameAtom =
-      Atom(name: 'UserBase.middleName', context: context);
+  late final _$middleNameAtom = Atom(name: 'UserBase.middleName', context: context);
 
   @override
   String get middleName {
@@ -101,8 +96,7 @@ mixin _$User on UserBase, Store {
     });
   }
 
-  late final _$friendNullableAtom =
-      Atom(name: 'UserBase.friendNullable', context: context);
+  late final _$friendNullableAtom = Atom(name: 'UserBase.friendNullable', context: context);
 
   @override
   User? get friendNullable {
@@ -132,8 +126,7 @@ mixin _$User on UserBase, Store {
     });
   }
 
-  late final _$callbackNullableAtom =
-      Atom(name: 'UserBase.callbackNullable', context: context);
+  late final _$callbackNullableAtom = Atom(name: 'UserBase.callbackNullable', context: context);
 
   @override
   void Function() get callbackNullable {
@@ -148,8 +141,7 @@ mixin _$User on UserBase, Store {
     });
   }
 
-  late final _$callback2Atom =
-      Atom(name: 'UserBase.callback2', context: context);
+  late final _$callback2Atom = Atom(name: 'UserBase.callback2', context: context);
 
   @override
   VoidCallback get callback2 {
@@ -164,8 +156,7 @@ mixin _$User on UserBase, Store {
     });
   }
 
-  late final _$callback2NullableAtom =
-      Atom(name: 'UserBase.callback2Nullable', context: context);
+  late final _$callback2NullableAtom = Atom(name: 'UserBase.callback2Nullable', context: context);
 
   @override
   VoidCallback? get callback2Nullable {
@@ -180,8 +171,7 @@ mixin _$User on UserBase, Store {
     });
   }
 
-  late final _$_testUsersAtom =
-      Atom(name: 'UserBase._testUsers', context: context);
+  late final _$_testUsersAtom = Atom(name: 'UserBase._testUsers', context: context);
 
   @override
   List<User> get _testUsers {
@@ -232,21 +222,18 @@ mixin _$User on UserBase, Store {
     return ObservableStream<String>(_$stream, context: context);
   }
 
-  late final _$fetchUsersAsyncAction =
-      AsyncAction('UserBase.fetchUsers', context: context);
+  late final _$fetchUsersAsyncAction = AsyncAction('UserBase.fetchUsers', context: context);
 
   @override
   Future<List<User>> fetchUsers() {
     return _$fetchUsersAsyncAction.run(() => super.fetchUsers());
   }
 
-  late final _$fetchUsersNullableAsyncAction =
-      AsyncAction('UserBase.fetchUsersNullable', context: context);
+  late final _$fetchUsersNullableAsyncAction = AsyncAction('UserBase.fetchUsersNullable', context: context);
 
   @override
   Future<List<User>> fetchUsersNullable() {
-    return _$fetchUsersNullableAsyncAction
-        .run(() => super.fetchUsersNullable());
+    return _$fetchUsersNullableAsyncAction.run(() => super.fetchUsersNullable());
   }
 
   late final _$setAsyncFirstNameNullableAsyncAction =
@@ -254,25 +241,21 @@ mixin _$User on UserBase, Store {
 
   @override
   Future<void> setAsyncFirstNameNullable() {
-    return _$setAsyncFirstNameNullableAsyncAction
-        .run(() => super.setAsyncFirstNameNullable());
+    return _$setAsyncFirstNameNullableAsyncAction.run(() => super.setAsyncFirstNameNullable());
   }
 
-  late final _$setAsyncFirstNameAsyncAction =
-      AsyncAction('UserBase.setAsyncFirstName', context: context);
+  late final _$setAsyncFirstNameAsyncAction = AsyncAction('UserBase.setAsyncFirstName', context: context);
 
   @override
   Future<void> setAsyncFirstName() {
     return _$setAsyncFirstNameAsyncAction.run(() => super.setAsyncFirstName());
   }
 
-  late final _$setAsyncFirstName2AsyncAction =
-      AsyncAction('UserBase.setAsyncFirstName2', context: context);
+  late final _$setAsyncFirstName2AsyncAction = AsyncAction('UserBase.setAsyncFirstName2', context: context);
 
   @override
   ObservableFuture<void> setAsyncFirstName2() {
-    return ObservableFuture<void>(
-        _$setAsyncFirstName2AsyncAction.run(() => super.setAsyncFirstName2()));
+    return ObservableFuture<void>(_$setAsyncFirstName2AsyncAction.run(() => super.setAsyncFirstName2()));
   }
 
   late final _$setAsyncFirstName2NullableAsyncAction =
@@ -280,17 +263,15 @@ mixin _$User on UserBase, Store {
 
   @override
   ObservableFuture<void> setAsyncFirstName2Nullable() {
-    return ObservableFuture<void>(_$setAsyncFirstName2NullableAsyncAction
-        .run(() => super.setAsyncFirstName2Nullable()));
+    return ObservableFuture<void>(
+        _$setAsyncFirstName2NullableAsyncAction.run(() => super.setAsyncFirstName2Nullable()));
   }
 
-  late final _$UserBaseActionController =
-      ActionController(name: 'UserBase', context: context);
+  late final _$UserBaseActionController = ActionController(name: 'UserBase', context: context);
 
   @override
   void updateNames({required String firstName, String lastName}) {
-    final _$actionInfo =
-        _$UserBaseActionController.startAction(name: 'UserBase.updateNames');
+    final _$actionInfo = _$UserBaseActionController.startAction(name: 'UserBase.updateNames');
     try {
       return super.updateNames(firstName: firstName, lastName: lastName);
     } finally {
@@ -300,11 +281,9 @@ mixin _$User on UserBase, Store {
 
   @override
   void updateNamesNullable({required String? firstName, String? lastName}) {
-    final _$actionInfo = _$UserBaseActionController.startAction(
-        name: 'UserBase.updateNamesNullable');
+    final _$actionInfo = _$UserBaseActionController.startAction(name: 'UserBase.updateNamesNullable');
     try {
-      return super
-          .updateNamesNullable(firstName: firstName, lastName: lastName);
+      return super.updateNamesNullable(firstName: firstName, lastName: lastName);
     } finally {
       _$UserBaseActionController.endAction(_$actionInfo);
     }
@@ -312,8 +291,7 @@ mixin _$User on UserBase, Store {
 
   @override
   void setBlob(dynamic blob) {
-    final _$actionInfo =
-        _$UserBaseActionController.startAction(name: 'UserBase.setBlob');
+    final _$actionInfo = _$UserBaseActionController.startAction(name: 'UserBase.setBlob');
     try {
       return super.setBlob(blob);
     } finally {

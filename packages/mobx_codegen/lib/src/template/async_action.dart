@@ -28,9 +28,8 @@ class AsyncActionTemplate with AnnotationsGenerator {
       // ignore: unnecessary_brace_in_string_interps
       '${_actionField}.run(() => super.${method.name}${method.typeArgs}(${method.args}))';
 
-  String get _wrappedMethodCall => isObservable
-      ? 'ObservableFuture${method.returnTypeArgs}($_methodCall)'
-      : _methodCall;
+  String get _wrappedMethodCall =>
+      isObservable ? 'ObservableFuture${method.returnTypeArgs}($_methodCall)' : _methodCall;
 
   @override
   String toString() => """

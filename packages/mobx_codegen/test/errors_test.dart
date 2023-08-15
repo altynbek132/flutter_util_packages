@@ -13,32 +13,26 @@ void main() {
 
     setUp(() {
       storeClassCodegenErrors = StoreClassCodegenErrors('store')
-        ..nonAbstractStoreMixinDeclarations
-            .addIf(true, 'nonAbstractStoreMixinDeclarations')
+        ..nonAbstractStoreMixinDeclarations.addIf(true, 'nonAbstractStoreMixinDeclarations')
         ..invalidComputedAnnotations.addIf(true, 'invalidComputedAnnotations')
-        ..invalidObservableAnnotations
-            .addIf(true, 'invalidObservableAnnotations')
+        ..invalidObservableAnnotations.addIf(true, 'invalidObservableAnnotations')
         ..invalidReadOnlyAnnotations.addIf(true, 'invalidReadOnlyAnnotations')
         ..invalidActionAnnotations.addIf(true, 'invalidActionAnnotations')
         ..staticObservables.addIf(true, 'staticObservables')
-        ..invalidPublicSetterOnReadOnlyObservable
-            .addIf(true, 'invalidPublicSetterOnReadOnlyObservable')
+        ..invalidPublicSetterOnReadOnlyObservable.addIf(true, 'invalidPublicSetterOnReadOnlyObservable')
         ..staticMethods.addIf(true, 'staticMethods')
         ..finalObservables.addIf(true, 'finalObservables')
         ..asyncGeneratorActions.addIf(true, 'asyncGeneratorActions')
         ..nonAsyncMethods.addIf(true, 'nonAsyncMethods');
 
       errorsMessages = <CodegenError>[
-        NonAbstractStoreMixinDeclarations()
-          ..addIf(true, 'nonAbstractStoreMixinDeclarations'),
+        NonAbstractStoreMixinDeclarations()..addIf(true, 'nonAbstractStoreMixinDeclarations'),
         InvalidComputedAnnotations()..addIf(true, 'invalidComputedAnnotations'),
-        InvalidObservableAnnotations()
-          ..addIf(true, 'invalidObservableAnnotations'),
+        InvalidObservableAnnotations()..addIf(true, 'invalidObservableAnnotations'),
         InvalidReadOnlyAnnotations()..addIf(true, 'invalidReadOnlyAnnotations'),
         InvalidActionAnnotations()..addIf(true, 'invalidActionAnnotations'),
         StaticObservableFields()..addIf(true, 'staticObservables'),
-        InvalidSetterOnReadOnlyObservable()
-          ..addIf(true, 'invalidPublicSetterOnReadOnlyObservable'),
+        InvalidSetterOnReadOnlyObservable()..addIf(true, 'invalidPublicSetterOnReadOnlyObservable'),
         InvalidStaticMethods()..addIf(true, 'staticMethods'),
         FinalObservableFields()..addIf(true, 'finalObservables'),
         AsyncGeneratorActionMethods()..addIf(true, 'asyncGeneratorActions'),
@@ -55,8 +49,7 @@ void main() {
 
     test('message contains only errors, nothing else', () {
       var message = storeClassCodegenErrors.message;
-      message = message.replaceFirst(
-          'Could not make class "store" observable. Changes needed:', '');
+      message = message.replaceFirst('Could not make class "store" observable. Changes needed:', '');
       for (final errorMessage in errorsMessages) {
         message = message.replaceFirst(errorMessage, '');
       }
@@ -89,9 +82,7 @@ void main() {
           equals('"myField1" and "myField2"'));
     });
 
-    test(
-        'toString returns three quoted fields with a comma between first two and "and" between last two',
-        () {
+    test('toString returns three quoted fields with a comma between first two and "and" between last two', () {
       expect(
           (NameList()
                 ..add('myField1')
@@ -131,21 +122,16 @@ void main() {
       expect(errors.hasErrors, isTrue);
     });
 
-    test(
-        'returns a formatted message when a field is added and the condition is true',
-        () {
+    test('returns a formatted message when a field is added and the condition is true', () {
       final errors = TestFieldErrors()..addIf(true, 'testField');
       expect(errors.message, equals('test the field "testField"'));
     });
 
-    test(
-        'returns a formatted message when multiple fields are added and the condition is true',
-        () {
+    test('returns a formatted message when multiple fields are added and the condition is true', () {
       final errors = TestFieldErrors()
         ..addIf(true, 'testField1')
         ..addIf(true, 'testField2');
-      expect(
-          errors.message, equals('test fields "testField1" and "testField2"'));
+      expect(errors.message, equals('test fields "testField1" and "testField2"'));
     });
 
     test('does not add field if condition is false', () {
@@ -155,16 +141,12 @@ void main() {
       expect(errors.message, equals('test the field "testField1"'));
     });
 
-    test(
-        ".property returns singular property string if there's only one item added",
-        () {
+    test(".property returns singular property string if there's only one item added", () {
       final errors = TestFieldErrors()..addIf(true, 'testField');
       expect(errors.property, equals('the field'));
     });
 
-    test(
-        ".property returns plural property string if there's more than one item added",
-        () {
+    test(".property returns plural property string if there's more than one item added", () {
       final errors = TestFieldErrors()
         ..addIf(true, 'testField1')
         ..addIf(true, 'testField2');
@@ -175,16 +157,14 @@ void main() {
   group('FinalObservableFields', () {
     test('message returns singular message with one field added', () {
       final fields = FinalObservableFields()..addIf(true, 'testField');
-      expect(
-          fields.message, 'Remove final modifier from the field "testField".');
+      expect(fields.message, 'Remove final modifier from the field "testField".');
     });
 
     test('message returns plural message with multiple fields added', () {
       final fields = FinalObservableFields()
         ..addIf(true, 'testField1')
         ..addIf(true, 'testField2');
-      expect(fields.message,
-          'Remove final modifier from fields "testField1" and "testField2".');
+      expect(fields.message, 'Remove final modifier from fields "testField1" and "testField2".');
     });
   });
 
@@ -207,64 +187,56 @@ void main() {
   group('StaticObservableFields', () {
     test('message returns singular message with one field added', () {
       final fields = StaticObservableFields()..addIf(true, 'testField');
-      expect(
-          fields.message, 'Remove static modifier from the field "testField".');
+      expect(fields.message, 'Remove static modifier from the field "testField".');
     });
 
     test('message returns plural message with multiple fields added', () {
       final fields = StaticObservableFields()
         ..addIf(true, 'testField1')
         ..addIf(true, 'testField2');
-      expect(fields.message,
-          'Remove static modifier from fields "testField1" and "testField2".');
+      expect(fields.message, 'Remove static modifier from fields "testField1" and "testField2".');
     });
   });
 
   group('AsyncActionMethods', () {
     test('message returns singular message with one field added', () {
       final fields = AsyncGeneratorActionMethods()..addIf(true, 'testMethod');
-      expect(fields.message,
-          'Replace async* modifier with async from the method "testMethod".');
+      expect(fields.message, 'Replace async* modifier with async from the method "testMethod".');
     });
 
     test('message returns plural message with multiple fields added', () {
       final fields = AsyncGeneratorActionMethods()
         ..addIf(true, 'testMethod1')
         ..addIf(true, 'testMethod2');
-      expect(fields.message,
-          'Replace async* modifier with async from methods "testMethod1" and "testMethod2".');
+      expect(fields.message, 'Replace async* modifier with async from methods "testMethod1" and "testMethod2".');
     });
   });
 
   group('InvalidStaticMethods', () {
     test('message returns singular message with one field added', () {
       final fields = InvalidStaticMethods()..addIf(true, 'testMethod');
-      expect(fields.message,
-          'Remove static modifier from the method "testMethod".');
+      expect(fields.message, 'Remove static modifier from the method "testMethod".');
     });
 
     test('message returns plural message with multiple fields added', () {
       final fields = InvalidStaticMethods()
         ..addIf(true, 'testMethod1')
         ..addIf(true, 'testMethod2');
-      expect(fields.message,
-          'Remove static modifier from methods "testMethod1" and "testMethod2".');
+      expect(fields.message, 'Remove static modifier from methods "testMethod1" and "testMethod2".');
     });
   });
 
   group('NonAsyncMethods', () {
     test('message returns singular message with one field added', () {
       final fields = NonAsyncMethods()..addIf(true, 'testMethod');
-      expect(fields.message,
-          'Return a Future or a Stream from the method "testMethod".');
+      expect(fields.message, 'Return a Future or a Stream from the method "testMethod".');
     });
 
     test('message returns plural message with multiple fields added', () {
       final fields = NonAsyncMethods()
         ..addIf(true, 'testMethod1')
         ..addIf(true, 'testMethod2');
-      expect(fields.message,
-          'Return a Future or a Stream from methods "testMethod1" and "testMethod2".');
+      expect(fields.message, 'Return a Future or a Stream from methods "testMethod1" and "testMethod2".');
     });
   });
 }

@@ -23,8 +23,7 @@ void main() {
       expect(await generate(source), isEmpty);
     });
 
-    test('ignores when there is no class other than the abstract Store',
-        () async {
+    test('ignores when there is no class other than the abstract Store', () async {
       final source = await readFile('./data/only_abstract_store.dart');
 
       expect(await generate(source), isEmpty);
@@ -35,23 +34,17 @@ void main() {
     });
 
     test('generates for a class containing late observables', () async {
-      await compareFiles('./data/valid_late_variables_input.dart',
-          './data/valid_late_variables_output.dart');
+      await compareFiles('./data/valid_late_variables_input.dart', './data/valid_late_variables_output.dart');
     });
 
-    test(
-        'generates for a class mixing Store with annotation @StoreConfig(hasToString: true)',
-        () async {
-      await compareFiles(
-          './data/valid_input_annotation_store_config_has_to_string.dart',
+    test('generates for a class mixing Store with annotation @StoreConfig(hasToString: true)', () async {
+      await compareFiles('./data/valid_input_annotation_store_config_has_to_string.dart',
           './data/valid_output_annotation_store_config_has_to_string.dart');
     });
 
-    test(
-        'generates for a class containing annotations "@protected", "@visibleForTesting" and "visibleForOverriding"',
+    test('generates for a class containing annotations "@protected", "@visibleForTesting" and "visibleForOverriding"',
         () async {
-      await compareFiles('./data/annotations_test_class_input.dart',
-          './data/annotations_test_class_output.dart');
+      await compareFiles('./data/annotations_test_class_input.dart', './data/annotations_test_class_output.dart');
     });
 
     createTests([
