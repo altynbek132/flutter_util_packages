@@ -3,8 +3,10 @@ import 'package:analyzer/dart/element/visitor.dart';
 import 'package:build/build.dart';
 import 'package:meta/meta.dart';
 import 'package:mobx/mobx.dart';
+
 // ignore: implementation_imports
-import 'package:mobx/src/api/annotations.dart' show ComputedMethod, MakeAction, MakeObservable, StoreConfig;
+import 'package:mobx/src/api/annotations.dart'
+    show ComputedMethod, MakeAction, MakeObservable, StoreConfig;
 import 'package:mobx_codegen/src/errors.dart';
 import 'package:mobx_codegen/src/template/action.dart';
 import 'package:mobx_codegen/src/template/async_action.dart';
@@ -28,7 +30,8 @@ class StoreClassVisitor extends SimpleElementVisitor {
     this.options,
   ) : errors = StoreClassCodegenErrors(publicTypeName) {
     _storeTemplate = template
-      ..typeParams.templates.addAll(userClass.typeParameters.map((type) => typeParamTemplate(type, typeNameFinder)))
+      ..typeParams.templates.addAll(userClass.typeParameters
+          .map((type) => typeParamTemplate(type, typeNameFinder)))
       ..typeArgs.templates.addAll(userClass.typeParameters.map((t) => t.name))
       ..parentTypeName = userClass.name
       ..publicTypeName = publicTypeName;
@@ -65,7 +68,8 @@ class StoreClassVisitor extends SimpleElementVisitor {
   @override
   void visitClassElement(ClassElement element) {
     if (isMixinStoreClass(element)) {
-      errors.nonAbstractStoreMixinDeclarations.addIf(!element.isAbstract, element.name);
+      errors.nonAbstractStoreMixinDeclarations
+          .addIf(!element.isAbstract, element.name);
     }
     // if the class is annotated to generate toString() method we add the information to the _storeTemplate
     _storeTemplate.generateToString = hasGeneratedToString(options, element);
@@ -98,6 +102,7 @@ class StoreClassVisitor extends SimpleElementVisitor {
       name: element.name,
       isPrivate: element.isPrivate,
       isReadOnly: _isObservableReadOnly(element),
+      equals: _getEquals(element),
     );
 
     _storeTemplate.observables.add(template);
@@ -105,7 +110,16 @@ class StoreClassVisitor extends SimpleElementVisitor {
   }
 
   bool _isObservableReadOnly(FieldElement element) =>
-      _observableChecker.firstAnnotationOfExact(element)?.getField('readOnly')?.toBoolValue() ?? false;
+      _observableChecker
+          .firstAnnotationOfExact(element)
+          ?.getField('readOnly')
+          ?.toBoolValue() ??
+      false;
+
+  ExecutableElement? _getEquals(FieldElement element) => _observableChecker
+      .firstAnnotationOfExact(element)
+      ?.getField('equals')
+      ?.toFunctionValue();
 
   bool _fieldIsNotValid(FieldElement element) => _any([
         errors.staticObservables.addIf(element.isStatic, element.name),
@@ -161,14 +175,23 @@ class StoreClassVisitor extends SimpleElementVisitor {
 
       if (element.isAsynchronous) {
         final template = AsyncActionTemplate(
-            storeTemplate: _storeTemplate,
-            isObservable: _observableChecker.hasAnnotationOfExact(element),
-            method: MethodOverrideTemplate.fromElement(element, typeNameFinder));
+          storeTemplate: _storeTemplate,
+          isObservable: _observableChecker.hasAnnotationOfExact(element),
+          method: MethodOverrideTemplate.fromElement(element, typeNameFinder),
+          hasProtected: element.hasProtected,
+          hasVisibleForOverriding: element.hasVisibleForOverriding,
+          hasVisibleForTesting: element.hasVisibleForTesting,
+        );
 
         _storeTemplate.asyncActions.add(template);
       } else {
         final template = ActionTemplate(
-            storeTemplate: _storeTemplate, method: MethodOverrideTemplate.fromElement(element, typeNameFinder));
+          storeTemplate: _storeTemplate,
+          method: MethodOverrideTemplate.fromElement(element, typeNameFinder),
+          hasProtected: element.hasProtected,
+          hasVisibleForOverriding: element.hasVisibleForOverriding,
+          hasVisibleForTesting: element.hasVisibleForTesting,
+        );
 
         _storeTemplate.actions.add(template);
       }
@@ -178,11 +201,21 @@ class StoreClassVisitor extends SimpleElementVisitor {
       }
 
       if (_asyncChecker.returnsFuture(element)) {
-        final template = ObservableFutureTemplate(method: MethodOverrideTemplate.fromElement(element, typeNameFinder));
+        final template = ObservableFutureTemplate(
+          method: MethodOverrideTemplate.fromElement(element, typeNameFinder),
+          hasProtected: element.hasProtected,
+          hasVisibleForOverriding: element.hasVisibleForOverriding,
+          hasVisibleForTesting: element.hasVisibleForTesting,
+        );
 
         _storeTemplate.observableFutures.add(template);
       } else if (_asyncChecker.returnsStream(element)) {
-        final template = ObservableStreamTemplate(method: MethodOverrideTemplate.fromElement(element, typeNameFinder));
+        final template = ObservableStreamTemplate(
+          method: MethodOverrideTemplate.fromElement(element, typeNameFinder),
+          hasProtected: element.hasProtected,
+          hasVisibleForOverriding: element.hasVisibleForOverriding,
+          hasVisibleForTesting: element.hasVisibleForTesting,
+        );
 
         _storeTemplate.observableStreams.add(template);
       }
@@ -193,13 +226,16 @@ class StoreClassVisitor extends SimpleElementVisitor {
 
   bool _asyncObservableIsNotValid(MethodElement method) => _any([
         errors.staticMethods.addIf(method.isStatic, method.name),
-        errors.nonAsyncMethods
-            .addIf(!_asyncChecker.returnsFuture(method) && !_asyncChecker.returnsStream(method), method.name),
+        errors.nonAsyncMethods.addIf(
+            !_asyncChecker.returnsFuture(method) &&
+                !_asyncChecker.returnsStream(method),
+            method.name),
       ]);
 
   bool _actionIsNotValid(MethodElement element) => _any([
         errors.staticMethods.addIf(element.isStatic, element.name),
-        errors.asyncGeneratorActions.addIf(element.isAsynchronous && element.isGenerator, element.name),
+        errors.asyncGeneratorActions
+            .addIf(element.isAsynchronous && element.isGenerator, element.name),
       ]);
 
   /// Runs validations after all elements have been visited.
@@ -212,16 +248,20 @@ class StoreClassVisitor extends SimpleElementVisitor {
     }
   }
 
-  bool _isInvalidPublicSetterOnReadOnlyObservable(PropertyAccessorElement publicSetter) =>
+  bool _isInvalidPublicSetterOnReadOnlyObservable(
+          PropertyAccessorElement publicSetter) =>
       _storeTemplate.observables.templates.any(
-        (template) => template.name.nonPrivateName == publicSetter.displayName && template.isReadOnly,
+        (template) =>
+            template.name.nonPrivateName == publicSetter.displayName &&
+            template.isReadOnly,
       );
 }
 
 const _storeMixinChecker = TypeChecker.fromRuntime(Store);
 const _toStringAnnotationChecker = TypeChecker.fromRuntime(StoreConfig);
 
-bool isMixinStoreClass(ClassElement classElement) => classElement.mixins.any(_storeMixinChecker.isExactlyType);
+bool isMixinStoreClass(ClassElement classElement) =>
+    classElement.mixins.any(_storeMixinChecker.isExactlyType);
 
 // Checks if the class as a toString annotation
 bool isStoreConfigAnnotatedStoreClass(ClassElement classElement) =>
@@ -231,7 +271,8 @@ bool hasGeneratedToString(BuilderOptions options, ClassElement? classElement) {
   const fieldKey = 'hasToString';
 
   if (classElement != null && isStoreConfigAnnotatedStoreClass(classElement)) {
-    final annotation = _toStringAnnotationChecker.firstAnnotationOfExact(classElement);
+    final annotation =
+        _toStringAnnotationChecker.firstAnnotationOfExact(classElement);
     return annotation?.getField(fieldKey)?.toBoolValue() ?? false;
   }
 

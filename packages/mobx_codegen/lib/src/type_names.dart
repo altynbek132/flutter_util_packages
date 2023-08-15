@@ -26,7 +26,8 @@ class LibraryScopedNameFinder {
 
   Map<Element, String> get namesByElement {
     // Add all of this library's type-defining elements to the name map
-    final libraryElements = library.topLevelElements.whereType<TypeDefiningElement>();
+    final libraryElements =
+        library.topLevelElements.whereType<TypeDefiningElement>();
     for (final element in libraryElements) {
       _namesByElement[element] = element.name!;
     }
@@ -44,20 +45,25 @@ class LibraryScopedNameFinder {
     return _namesByElement;
   }
 
-  String findVariableTypeName(VariableElement variable) => _getDartTypeName(variable.type);
+  String findVariableTypeName(VariableElement variable) =>
+      _getDartTypeName(variable.type);
 
   String findGetterTypeName(PropertyAccessorElement getter) {
     assert(getter.isGetter);
     return findReturnTypeName(getter);
   }
 
-  String findParameterTypeName(ParameterElement parameter) => _getDartTypeName(parameter.type);
+  String findParameterTypeName(ParameterElement parameter) =>
+      _getDartTypeName(parameter.type);
 
-  String findReturnTypeName(FunctionTypedElement executable) => _getDartTypeName(executable.returnType);
+  String findReturnTypeName(FunctionTypedElement executable) =>
+      _getDartTypeName(executable.returnType);
 
   List<String> findReturnTypeArgumentTypeNames(ExecutableElement executable) {
     final returnType = executable.returnType;
-    return returnType is ParameterizedType ? returnType.typeArguments.map(_getDartTypeName).toList() : [];
+    return returnType is ParameterizedType
+        ? returnType.typeArguments.map(_getDartTypeName).toList()
+        : [];
   }
 
   String findTypeParameterBoundsTypeName(TypeParameterElement typeParameter) {
@@ -94,12 +100,15 @@ class LibraryScopedNameFinder {
   String _getFunctionTypeName(FunctionType type) {
     final returnTypeName = _getDartTypeName(type.returnType);
 
-    final normalParameterTypeNames = CommaList(type.normalParameterTypes.map(_getDartTypeName).toList());
-    final optionalParameterTypeNames =
-        SurroundedCommaList('[', ']', type.optionalParameterTypes.map(_getDartTypeName).toList());
-    final namedParameterPairs =
-        type.namedParameterTypes.entries.map((entry) => '${_getDartTypeName(entry.value)} ${entry.key}').toList();
-    final namedParameterTypeNames = SurroundedCommaList('{', '}', namedParameterPairs);
+    final normalParameterTypeNames =
+        CommaList(type.normalParameterTypes.map(_getDartTypeName).toList());
+    final optionalParameterTypeNames = SurroundedCommaList(
+        '[', ']', type.optionalParameterTypes.map(_getDartTypeName).toList());
+    final namedParameterPairs = type.namedParameterTypes.entries
+        .map((entry) => '${_getDartTypeName(entry.value)} ${entry.key}')
+        .toList();
+    final namedParameterTypeNames =
+        SurroundedCommaList('{', '}', namedParameterPairs);
 
     final parameterTypeNames = CommaList([
       normalParameterTypeNames,
@@ -123,11 +132,13 @@ class LibraryScopedNameFinder {
     }
 
     if (genericTypes != null && genericTypes.isNotEmpty) {
-      final typeArgNames = SurroundedCommaList('<', '>', genericTypes.map(_getDartTypeName).toList());
+      final typeArgNames = SurroundedCommaList(
+          '<', '>', genericTypes.map(_getDartTypeName).toList());
       return '${namesByElement[typeElement]}$typeArgNames${_nullabilitySuffixToString(type.nullabilitySuffix)}';
     }
 
-    return namesByElement[typeElement]! + _nullabilitySuffixToString(type.nullabilitySuffix);
+    return namesByElement[typeElement]! +
+        _nullabilitySuffixToString(type.nullabilitySuffix);
   }
 
   String _nullabilitySuffixToString(NullabilitySuffix nullabilitySuffix) =>

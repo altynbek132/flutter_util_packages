@@ -8,16 +8,21 @@ class StoreClassCodegenErrors implements CodegenError {
 
   final String name;
 
-  final NonAbstractStoreMixinDeclarations nonAbstractStoreMixinDeclarations = NonAbstractStoreMixinDeclarations();
+  final NonAbstractStoreMixinDeclarations nonAbstractStoreMixinDeclarations =
+      NonAbstractStoreMixinDeclarations();
 
   final PropertyErrors finalObservables = FinalObservableFields();
   final PropertyErrors staticObservables = StaticObservableFields();
-  final PropertyErrors invalidObservableAnnotations = InvalidObservableAnnotations();
-  final PropertyErrors invalidReadOnlyAnnotations = InvalidReadOnlyAnnotations();
+  final PropertyErrors invalidObservableAnnotations =
+      InvalidObservableAnnotations();
+  final PropertyErrors invalidReadOnlyAnnotations =
+      InvalidReadOnlyAnnotations();
 
-  final PropertyErrors invalidComputedAnnotations = InvalidComputedAnnotations();
+  final PropertyErrors invalidComputedAnnotations =
+      InvalidComputedAnnotations();
 
-  final PropertyErrors invalidPublicSetterOnReadOnlyObservable = InvalidSetterOnReadOnlyObservable();
+  final PropertyErrors invalidPublicSetterOnReadOnlyObservable =
+      InvalidSetterOnReadOnlyObservable();
   final PropertyErrors staticMethods = InvalidStaticMethods();
   final PropertyErrors asyncGeneratorActions = AsyncGeneratorActionMethods();
   final PropertyErrors nonAsyncMethods = NonAsyncMethods();
@@ -76,7 +81,8 @@ abstract class _InvalidStoreDeclarations implements CodegenError {
 
 class NonAbstractStoreMixinDeclarations extends _InvalidStoreDeclarations {
   @override
-  String get message => 'Classes that use the Store mixin must be marked abstract. Affected classes: $_classNames.';
+  String get message =>
+      'Classes that use the Store mixin must be marked abstract. Affected classes: $_classNames.';
 }
 
 abstract class PropertyErrors implements CodegenError {
@@ -116,7 +122,8 @@ class AsyncGeneratorActionMethods extends PropertyErrors {
   Pluralize propertyPlural = _methodPluralizer;
 
   @override
-  String get message => 'Replace async* modifier with async from $property $propertyList.';
+  String get message =>
+      'Replace async* modifier with async from $property $propertyList.';
 }
 
 class NonAsyncMethods extends PropertyErrors {
@@ -125,7 +132,8 @@ class NonAsyncMethods extends PropertyErrors {
   Pluralize propertyPlural = _methodPluralizer;
 
   @override
-  String get message => 'Return a Future or a Stream from $property $propertyList.';
+  String get message =>
+      'Return a Future or a Stream from $property $propertyList.';
 }
 
 class InvalidComputedAnnotations extends PropertyErrors {
@@ -134,7 +142,8 @@ class InvalidComputedAnnotations extends PropertyErrors {
   Pluralize propertyPlural = _memberPluralizer;
 
   @override
-  String get message => 'Remove @computed annotation for $property $propertyList. They only apply to property-getters.';
+  String get message =>
+      'Remove @computed annotation for $property $propertyList. They only apply to property-getters.';
 }
 
 class InvalidObservableAnnotations extends PropertyErrors {
@@ -143,7 +152,8 @@ class InvalidObservableAnnotations extends PropertyErrors {
   Pluralize propertyPlural = _memberPluralizer;
 
   @override
-  String get message => 'Remove @observable annotation for $property $propertyList. They only apply to fields.';
+  String get message =>
+      'Remove @observable annotation for $property $propertyList. They only apply to fields.';
 }
 
 class InvalidReadOnlyAnnotations extends PropertyErrors {
@@ -162,7 +172,8 @@ class InvalidSetterOnReadOnlyObservable extends PropertyErrors {
   Pluralize propertyPlural = _memberPluralizer;
 
   @override
-  String get message => 'Must not define a public setter to a readonly field. Remove $property $propertyList.';
+  String get message =>
+      'Must not define a public setter to a readonly field. Remove $property $propertyList.';
 }
 
 class InvalidActionAnnotations extends PropertyErrors {
@@ -171,7 +182,8 @@ class InvalidActionAnnotations extends PropertyErrors {
   Pluralize propertyPlural = _memberPluralizer;
 
   @override
-  String get message => 'Remove @action annotation for $property $propertyList. They only apply to methods.';
+  String get message =>
+      'Remove @action annotation for $property $propertyList. They only apply to methods.';
 }
 
 class InvalidStaticMethods extends PropertyErrors {

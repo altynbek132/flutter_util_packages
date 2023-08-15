@@ -19,21 +19,26 @@ class MethodOverrideTemplate {
         defaultValue: element.defaultValueCode,
         hasRequiredKeyword: element.isRequiredNamed);
 
-    final positionalParams =
-        method.parameters.where((param) => param.isPositional && !param.isOptionalPositional).toList();
+    final positionalParams = method.parameters
+        .where((param) => param.isPositional && !param.isOptionalPositional)
+        .toList();
 
-    final optionalParams = method.parameters.where((param) => param.isOptionalPositional).toList();
+    final optionalParams =
+        method.parameters.where((param) => param.isOptionalPositional).toList();
 
-    final namedParams = method.parameters.where((param) => param.isNamed).toList();
+    final namedParams =
+        method.parameters.where((param) => param.isNamed).toList();
 
     this
       ..name = method.name
       ..returnType = typeNameFinder.findReturnTypeName(method)
-      ..setTypeParams(method.typeParameters.map((type) => typeParamTemplate(type, typeNameFinder)))
+      ..setTypeParams(method.typeParameters
+          .map((type) => typeParamTemplate(type, typeNameFinder)))
       ..positionalParams = positionalParams.map(param)
       ..optionalParams = optionalParams.map(param)
       ..namedParams = namedParams.map(param)
-      ..returnTypeArgs = SurroundedCommaList('<', '>', typeNameFinder.findReturnTypeArgumentTypeNames(method));
+      ..returnTypeArgs = SurroundedCommaList(
+          '<', '>', typeNameFinder.findReturnTypeArgumentTypeNames(method));
   }
 
   late String name;
@@ -54,7 +59,8 @@ class MethodOverrideTemplate {
   // ignore: always_declare_return_types, type_annotate_public_apis
   setTypeParams(Iterable<TypeParamTemplate> params) {
     _typeParams = SurroundedCommaList('<', '>', params.toList());
-    _typeArgs = SurroundedCommaList('<', '>', params.map((p) => p.asArgument).toList());
+    _typeArgs =
+        SurroundedCommaList('<', '>', params.map((p) => p.asArgument).toList());
   }
 
   // ignore: avoid_setters_without_getters
@@ -75,7 +81,8 @@ class MethodOverrideTemplate {
     _namedArgs = CommaList(params.map((p) => p.asNamedArgument).toList());
   }
 
-  CommaList get params => CommaList([_positionalParams, _optionalParams, _namedParams]);
+  CommaList get params =>
+      CommaList([_positionalParams, _optionalParams, _namedParams]);
 
   CommaList get args => CommaList([_positionalArgs, _optionalArgs, _namedArgs]);
 

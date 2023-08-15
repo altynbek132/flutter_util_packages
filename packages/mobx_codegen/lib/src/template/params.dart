@@ -1,5 +1,9 @@
 class ParamTemplate {
-  ParamTemplate({required this.name, required this.type, this.defaultValue, this.hasRequiredKeyword = false});
+  ParamTemplate(
+      {required this.name,
+      required this.type,
+      this.defaultValue,
+      this.hasRequiredKeyword = false});
 
   final String name;
   final String type;
@@ -14,7 +18,9 @@ class ParamTemplate {
   String get metadata => hasRequiredKeyword ? 'required ' : '';
 
   @override
-  String toString() => defaultValue == null ? '$metadata$type $name' : '$type $name = $defaultValue';
+  String toString() => defaultValue == null
+      ? '$metadata$type $name'
+      : '$type $name = $defaultValue';
 }
 
 class TypeParamTemplate {

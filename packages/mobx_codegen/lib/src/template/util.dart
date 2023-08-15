@@ -20,11 +20,15 @@ class AsyncMethodChecker {
 
   bool returnsFuture(MethodElement method) =>
       method.returnType.isDartAsyncFuture ||
-      (method.isAsynchronous && !method.isGenerator && method.returnType.isDynamic);
+      (method.isAsynchronous &&
+          !method.isGenerator &&
+          method.returnType.isDynamic);
 
   bool returnsStream(MethodElement method) =>
       _checkStream.isAssignableFromType(method.returnType) ||
-      (method.isAsynchronous && method.isGenerator && method.returnType.isDynamic);
+      (method.isAsynchronous &&
+          method.isGenerator &&
+          method.returnType.isDynamic);
 }
 
 TypeParamTemplate typeParamTemplate(
@@ -32,4 +36,7 @@ TypeParamTemplate typeParamTemplate(
   LibraryScopedNameFinder typeNameFinder,
 ) =>
     TypeParamTemplate(
-        name: param.name, bound: param.bound != null ? typeNameFinder.findTypeParameterBoundsTypeName(param) : null);
+        name: param.name,
+        bound: param.bound != null
+            ? typeNameFinder.findTypeParameterBoundsTypeName(param)
+            : null);

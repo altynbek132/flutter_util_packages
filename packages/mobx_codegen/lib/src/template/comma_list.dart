@@ -6,7 +6,8 @@ class CommaList<T> {
   final List<T> templates;
 
   @override
-  String toString() => templates.map((t) => t.toString()).where((s) => s.isNotEmpty).join(', ');
+  String toString() =>
+      templates.map((t) => t.toString()).where((s) => s.isNotEmpty).join(', ');
 }
 
 class SurroundedCommaList<T> {
