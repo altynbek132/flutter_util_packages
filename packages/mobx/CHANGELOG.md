@@ -1,3 +1,24 @@
+## 2.2.0
+
+- Allows a reaction to be fired even if the value hasn't changed by [@amondnet](https://github.com/amondnet) in [#907](https://github.com/mobxjs/mobx.dart/pull/907)
+- Adds custom `equals` for creating observables. [@amondnet](https://github.com/amondnet) in [#907](https://github.com/mobxjs/mobx.dart/pull/907)
+
+## 2.1.4
+
+- Allow users to bypass observability system for performance by [@fzyzcjy](https://github.com/fzyzcjy) in [#844](https://github.com/mobxjs/mobx.dart/pull/844)
+- Fix Reaction lacks toString, so cannot see which reaction causes the error by [@fzyzcjy](https://github.com/fzyzcjy) in [#844](https://github.com/mobxjs/mobx.dart/pull/844)
+- Add StackTrace to reactions in debug mode to easily spot which reaction it is by [@fzyzcjy](https://github.com/fzyzcjy) in [#844](https://github.com/mobxjs/mobx.dart/pull/844)
+
+  Breaking changes:
+
+- Avoid unnecessary observable notifications of @observable fields of Stores by [@fzyzcjy](https://github.com/fzyzcjy) in [#844](https://github.com/mobxjs/mobx.dart/pull/844)
+
+## 2.1.2 - 2.1.3+1
+
+- Fix tests in dart 2.19 - [@amondnet](https://github.com/amondnet)
+- Dart formatting fixes
+- Refactor `atom.dart` to make code cleaner by [@fzyzcjy](https://github.com/fzyzcjy) in [#854](https://github.com/mobxjs/mobx.dart/pull/854)
+
 ## 2.1.1
 
 - Allow a custom equals parameter for ObservableStream - [@amondnet](https://github.com/amondnet)
@@ -6,6 +27,7 @@
 
 - `ObservableSet` now uses `Set` to maintain order of iteration
 - `ObservableSet.linkedHashSetFrom()` removed. Use `ObservableSet()` or `ObservableSet.of()` instead.
+
 ## 2.0.7+7
 
 - Moved the version into its own file (`version.dart`) and exported from the main library file

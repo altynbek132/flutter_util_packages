@@ -125,7 +125,7 @@ class ObservableFuture<T> implements Future<T>, ObservableValue<T?> {
       ObservableFuture._(_context, _future.catchError(onError, test: test), FutureStatus.pending, null, name);
 
   @override
-  ObservableFuture<R> then<R>(FutureOr<R> Function(T r) onValue, {Function? onError}) =>
+  ObservableFuture<R> then<R>(FutureOr<R> Function(T value) onValue, {Function? onError}) =>
       ObservableFuture._(_context, _future.then(onValue, onError: onError), FutureStatus.pending, null, name);
 
   @override

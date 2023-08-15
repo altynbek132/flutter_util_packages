@@ -40,7 +40,7 @@ ReactionDisposer autorun(Function(Reaction) fn,
 /// the [fn] to change its value. It is possible to define a custom [equals] function
 /// to override the default comparison for the value returned by [fn], to have fined
 /// grained control over when the reactions should run.
-ReactionDisposer reaction<T>(T Function(Reaction _) fn, void Function(T v) effect,
+ReactionDisposer reaction<T>(T Function(Reaction) fn, void Function(T) effect,
         {String? name,
         int? delay,
         bool? fireImmediately,

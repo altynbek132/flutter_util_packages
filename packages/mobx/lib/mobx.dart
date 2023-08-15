@@ -29,7 +29,8 @@
 library mobx;
 
 export 'package:mobx/src/api/action.dart';
-export 'package:mobx/src/api/annotations.dart' show action, computed, readonly, observable, StoreConfig;
+export 'package:mobx/src/api/annotations.dart'
+    show action, computed, readonly, observable, StoreConfig, MakeObservable, alwaysNotify, observableAlwaysNotEqual;
 export 'package:mobx/src/api/async.dart'
     show ObservableFuture, FutureStatus, ObservableStream, StreamStatus, AsyncAction;
 export 'package:mobx/src/api/context.dart';

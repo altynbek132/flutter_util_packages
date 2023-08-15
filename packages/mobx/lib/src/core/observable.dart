@@ -33,12 +33,6 @@ class Observable<T> extends Atom implements Interceptable<T>, Listenable<ChangeN
   final Listeners<ChangeNotification<T>> _listeners;
   final EqualityComparer<T>? equals;
 
-  void reportManualChange() {
-    reportChanged();
-    _listeners.notifyListeners(
-        ChangeNotification<T>(newValue: value, oldValue: value, type: OperationType.update, object: this));
-  }
-
   T _value;
 
   @override
@@ -48,6 +42,8 @@ class Observable<T> extends Atom implements Interceptable<T>, Listenable<ChangeN
     reportObserved();
     return _value;
   }
+
+  T get nonObservableValue => _value;
 
   set value(T value) {
     _context.enforceWritePolicy(this);
@@ -110,4 +106,7 @@ class Observable<T> extends Atom implements Interceptable<T>, Listenable<ChangeN
 
   @override
   Dispose intercept(Interceptor<T> interceptor) => _interceptors.add(interceptor);
+
+  @override
+  String toString() => 'Observable<$T>(name: $name, identity: ${identityHashCode(this)})';
 }

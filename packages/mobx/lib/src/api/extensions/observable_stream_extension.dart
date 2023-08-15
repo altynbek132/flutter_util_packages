@@ -5,7 +5,4 @@ extension ObservableStreamExtension<T> on Stream<T> {
   ObservableStream<T> asObservable(
           {T? initialValue, bool cancelOnError = false, ReactiveContext? context, String? name}) =>
       ObservableStream<T>(this, initialValue: initialValue, cancelOnError: cancelOnError, context: context, name: name);
-
-  ObservableStream<T> obs({T? initialValue, bool cancelOnError = false, ReactiveContext? context, String? name}) =>
-      ObservableStream<T>(this, initialValue: initialValue, cancelOnError: cancelOnError, context: context, name: name);
 }

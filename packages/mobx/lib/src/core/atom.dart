@@ -5,7 +5,7 @@ enum _ListenerKind {
   onBecomeUnobserved,
 }
 
-class Atom {
+class Atom with DebugCreationStack {
   /// Creates a simple Atom for tracking its usage in a reactive context. This is useful when
   /// you don't need the value but instead a way of knowing when it becomes active and inactive
   /// in a reaction.
@@ -36,6 +36,8 @@ class Atom {
 
   DerivationState _lowestObserverState = DerivationState.notTracking;
 
+  bool get isBeingObserved => _isBeingObserved;
+
   // ignore: prefer_final_fields
   bool _isBeingObserved = false;
 
@@ -46,13 +48,10 @@ class Atom {
   final Map<_ListenerKind, Set<void Function()>?> _observationListeners = {};
 
   void reportObserved() {
-    _context._reportObserved(this);
+    _context.reportObserved(this);
   }
 
-  void reportChanged({bool areSpiesNotified = false}) {
-    if (!areSpiesNotified) {
-      context.spyReport(AtomChangedSpyEvent(this, name: name));
-    }
+  void reportChanged() {
     _context
       ..startBatch()
       ..propagateChanged(this)
@@ -91,11 +90,7 @@ class Atom {
   void Function() onBecomeUnobserved(void Function() fn) => _addListener(_ListenerKind.onBecomeUnobserved, fn);
 
   void Function() _addListener(_ListenerKind kind, void Function() fn) {
-    if (_observationListeners[kind] == null) {
-      _observationListeners[kind] = {}..add(fn);
-    } else {
-      _observationListeners[kind]!.add(fn);
-    }
+    (_observationListeners[kind] ??= {}).add(fn);
 
     return () {
       final listeners = _observationListeners[kind];
@@ -109,6 +104,9 @@ class Atom {
       }
     };
   }
+
+  @override
+  String toString() => 'Atom(name: $name, identity: ${identityHashCode(this)})';
 }
 
 class WillChangeNotification<T> {

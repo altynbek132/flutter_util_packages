@@ -92,7 +92,7 @@ class Computed<T> extends Atom implements Derivation, ObservableValue<T> {
 
   T? computeValue({required bool track}) {
     _isComputing = true;
-    _context._pushComputation();
+    _context.pushComputation();
 
     T? value;
     if (track) {
@@ -110,7 +110,7 @@ class Computed<T> extends Atom implements Derivation, ObservableValue<T> {
       }
     }
 
-    _context._popComputation();
+    _context.popComputation();
     _isComputing = false;
 
     return value;
@@ -118,7 +118,7 @@ class Computed<T> extends Atom implements Derivation, ObservableValue<T> {
 
   @override
   void _suspend() {
-    _context._clearObservables(this);
+    _context.clearObservables(this);
     _value = null;
   }
 
@@ -169,4 +169,7 @@ class Computed<T> extends Atom implements Derivation, ObservableValue<T> {
     }, context: _context)
         .call;
   }
+
+  @override
+  String toString() => 'Computed<$T>(name: $name, identity: ${identityHashCode(this)})';
 }

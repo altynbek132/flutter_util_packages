@@ -35,8 +35,9 @@ class ObservableList<T>
 
   final ReactiveContext _context;
   final Atom _atom;
-  Atom get atom => _atom;
   final List<T> _list;
+
+  List<T> get nonObservableInner => _list;
 
   Listeners<ListChange<T>>? _listenersField;
 
@@ -44,11 +45,6 @@ class ObservableList<T>
 
   /// The name used to identify for debugging purposes
   String get name => _atom.name;
-
-  void reportManualChange([ListChange<T>? notification]) {
-    _atom.reportChanged();
-    _listeners.notifyListeners(notification ?? ListChange<T>(list: this));
-  }
 
   @override
   int get length {

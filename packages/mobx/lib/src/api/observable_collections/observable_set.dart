@@ -44,12 +44,9 @@ class ObservableSet<T>
   final Atom _atom;
   final Set<T> _set;
 
-  String get name => _atom.name;
+  Set<T> get nonObservableInner => _set;
 
-  void reportManualChange([SetChange<T>? notification]) {
-    _atom.reportChanged();
-    _listeners.notifyListeners(notification ?? SetChange<T>(object: this, type: OperationType.update, value: null));
-  }
+  String get name => _atom.name;
 
   Listeners<SetChange<T>>? _listenersField;
 

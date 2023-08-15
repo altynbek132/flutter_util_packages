@@ -6,9 +6,11 @@ abstract class Reaction implements Derivation {
   void dispose();
 
   void _run();
+
+  StackTrace? get debugCreationStack;
 }
 
-class ReactionImpl implements Reaction {
+class ReactionImpl with DebugCreationStack implements Reaction {
   ReactionImpl(this._context, Function() onInvalidate, {required this.name, void Function(Object, Reaction)? onError}) {
     _onInvalidate = onInvalidate;
     _onError = onError;
@@ -63,7 +65,7 @@ class ReactionImpl implements Reaction {
     _isRunning = false;
 
     if (_isDisposed) {
-      _context._clearObservables(this);
+      _context.clearObservables(this);
     }
 
     _context.endBatch();
@@ -84,7 +86,7 @@ class ReactionImpl implements Reaction {
     _isRunning = false;
 
     if (_isDisposed) {
-      _context._clearObservables(this);
+      _context.clearObservables(this);
     }
 
     if (_context._hasCaughtException(this)) {
@@ -138,7 +140,7 @@ class ReactionImpl implements Reaction {
     // ignore: cascade_invocations
     _context
       ..startBatch()
-      .._clearObservables(this)
+      ..clearObservables(this)
       ..endBatch();
   }
 
@@ -176,4 +178,7 @@ class ReactionImpl implements Reaction {
 
     _context._notifyReactionErrorHandlers(exception, this);
   }
+
+  @override
+  String toString() => 'Reaction(name: $name, identity: ${identityHashCode(this)})';
 }
