@@ -36,6 +36,11 @@ class ObservableMap<K, V>
         _atom = _observableMapAtom<K, V>(context, name),
         _map = Map.of(other);
 
+  ObservableMap.identity(Map<K, V> other, {ReactiveContext? context, String? name})
+      : _context = context ?? mainContext,
+        _atom = _observableMapAtom<K, V>(context, name),
+        _map = other;
+
   ObservableMap.linkedHashMapFrom(Map<K, V> other, {ReactiveContext? context, String? name})
       : _context = context ?? mainContext,
         _atom = _observableMapAtom<K, V>(context, name),
@@ -60,6 +65,11 @@ class ObservableMap<K, V>
   Map<K, V> get nonObservableInner => _map;
 
   String get name => _atom.name;
+
+  void reportManualChange([MapChange<K, V>? notification]) {
+    _atom.reportChanged();
+    _listeners.notifyListeners(notification ?? MapChange<K, V>(object: this));
+  }
 
   Listeners<MapChange<K, V>>? _listenersField;
 

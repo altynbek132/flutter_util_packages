@@ -51,7 +51,10 @@ class Atom with DebugCreationStack {
     _context.reportObserved(this);
   }
 
-  void reportChanged() {
+  void reportChanged({bool areSpiesNotified = false}) {
+    if (!areSpiesNotified) {
+      context.spyReport(AtomChangedSpyEvent(this, name: name));
+    }
     _context
       ..startBatch()
       ..propagateChanged(this)

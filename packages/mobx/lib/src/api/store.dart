@@ -8,5 +8,5 @@ import 'package:mobx/mobx.dart';
 /// `@observables`, `@computed` and `@action` and generate the code needed to support these behaviors.
 mixin Store {
   /// Override this method to use a custom context.
-  ReactiveContext get context => mainContext;
+  ReactiveContext get reactiveContext => mainContext;
 }
