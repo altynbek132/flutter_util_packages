@@ -33,6 +33,12 @@ class Observable<T> extends Atom implements Interceptable<T>, Listenable<ChangeN
   final Listeners<ChangeNotification<T>> _listeners;
   final EqualityComparer<T>? equals;
 
+  void reportManualChange() {
+    reportChanged();
+    _listeners.notifyListeners(
+        ChangeNotification<T>(newValue: value, oldValue: value, type: OperationType.update, object: this));
+  }
+
   T _value;
 
   @override

@@ -21,7 +21,7 @@ extension AtomSpyReporter on Atom {
     // ignore: cascade_invocations
     context.conditionallyRunInAction(() {
       setNewValue();
-      reportChanged();
+      reportChanged(areSpiesNotified: true);
     }, this, name: actionName);
 
     // ignore: cascade_invocations
