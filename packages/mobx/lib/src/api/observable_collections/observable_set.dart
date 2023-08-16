@@ -26,6 +26,9 @@ class ObservableSet<T>
   ObservableSet.of(Iterable<T> other, {ReactiveContext? context, String? name})
       : this._(context ?? mainContext, Set<T>.of(other), name);
 
+  ObservableSet.identity(Set<T> other, {ReactiveContext? context, String? name})
+      : this._(context ?? mainContext, other, name);
+
   ObservableSet.splayTreeSetFrom(Iterable<T> other,
       {int Function(T, T)? compare,
       // ignore:avoid_annotating_with_dynamic
