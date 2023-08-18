@@ -67,6 +67,11 @@ mixin ObserverElementMixin on ComponentElement {
   @override
   void mount(Element? parent, dynamic newSlot) {
     _reaction = _widget.createReaction(invalidate, onError: (e, _) {
+      debugPrintStack(
+        stackTrace: e is Error ? e.stackTrace : null,
+        label: e.toString(),
+        maxFrames: 100,
+      );
       FlutterError.reportError(FlutterErrorDetails(
         library: 'flutter_mobx',
         exception: e,
