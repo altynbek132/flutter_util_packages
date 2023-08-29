@@ -49,6 +49,10 @@ class Observable<T> extends Atom implements Interceptable<T>, Listenable<ChangeN
     return _value;
   }
 
+  T get raw {
+    return _value;
+  }
+
   T get nonObservableValue => _value;
 
   set value(T value) {
