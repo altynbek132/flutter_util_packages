@@ -29,8 +29,8 @@ class _AsyncWrapperDisposable extends AsyncDisposable {
   bool get isDisposed => _asyncDisposable.isDisposed;
 
   @override
-  Future<void> dispose() {
-    return _asyncDisposable.dispose();
+  Future<void> disposeAsync() {
+    return _asyncDisposable.disposeAsync();
   }
 }
 
@@ -71,15 +71,15 @@ class DisposableBag implements AsyncDisposable {
   }
 
   @override
-  Future<void> dispose() {
-    return _disposable.dispose();
+  Future<void> disposeAsync() {
+    return _disposable.disposeAsync();
   }
 
   Future<void> _disposeInternal() async {
     final Map<Disposable, Object> exs = {};
     for (final d in _disposables) {
       try {
-        await d.dispose();
+        await d.disposeAsync();
       } on Object catch (e) {
         exs[d.disposable] = e;
       }

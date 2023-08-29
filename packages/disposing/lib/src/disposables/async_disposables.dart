@@ -3,7 +3,7 @@ import 'package:disposing/src/disposable.dart';
 
 abstract class AsyncDisposable extends Disposable {
   bool get isDisposing;
-  Future<void> dispose();
+  Future<void> disposeAsync();
 
   @override
   String toString() {
@@ -48,7 +48,7 @@ class AsyncCallbackDisposable extends AsyncDisposable {
   bool get isDisposed => _isDisposed;
 
   @override
-  Future<void> dispose() async {
+  Future<void> disposeAsync() async {
     if (isDisposed || _isDisposing) {
       return;
     }

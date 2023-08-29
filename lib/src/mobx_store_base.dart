@@ -37,13 +37,21 @@ abstract class MobxWM<W extends ElementaryWidget> extends WidgetModel<W> with Lo
     SyncCallbackDisposable(() => GetIt.I.unregister<T>(instance: this)).disposeOn(this);
   }
 
+  Future<void>? get disposeFuture => _disposeCompleter?.future;
+  Completer<void>? _disposeCompleter;
+
   @override
-  Future<void> dispose() async {
-    logger.i('dispose init');
-    _disposeStreamC.add(null);
-    _disposeStreamC.close();
-    logger.i('dispose finish');
-    await super.dispose();
+  void dispose() {
+    () async {
+      _disposeCompleter = Completer<void>();
+      logger.i('dispose init');
+      _disposeStreamC.add(null);
+      _disposeStreamC.close();
+      super.dispose();
+      await super.disposeAsync();
+      logger.i('dispose finish');
+      _disposeCompleter?.complete();
+    }();
   }
 
   late final disposeStream = _disposeStreamC.stream.shareReplay(maxSize: 1);
@@ -69,12 +77,12 @@ abstract class MobxStoreBase with LoggerMixin, DisposableBag {
   }
 
   @override
-  Future<void> dispose() async {
+  Future<void> disposeAsync() async {
     logger.i('dispose init');
     _disposeStreamC.add(null);
     _disposeStreamC.close();
     logger.i('dispose finish');
-    await super.dispose();
+    await super.disposeAsync();
   }
 
   late final disposeStream = _disposeStreamC.stream.shareReplay(maxSize: 1);

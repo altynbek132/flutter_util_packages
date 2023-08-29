@@ -33,8 +33,8 @@ mixin DisposableBagStateMixin<T extends StatefulWidget> on State<T> {
   }
 
   Future<void> _disposeAsync() async {
-    await _asyncBag.dispose();
-    await _asyncLateBag.dispose();
+    await _asyncBag.disposeAsync();
+    await _asyncLateBag.disposeAsync();
   }
 
   bool shouldLateDispose(Disposable disposable) {

@@ -23,7 +23,7 @@ Future<R> using<T extends Disposable, R>(T value, UsingBody<T, R> body) async {
   try {
     return await body(value);
   } finally {
-    await disp.dispose();
+    await disp.disposeAsync();
   }
 }
 
