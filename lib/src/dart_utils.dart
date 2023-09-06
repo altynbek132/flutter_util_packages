@@ -43,7 +43,11 @@ extension StringDupExtension on String {
 
 extension ListDupExtension<T> on List<T> {
   List<T> dup([int count = 1]) {
-    return fold(<T>[], (previousValue, element) => previousValue..addAll(List.generate(count, (index) => element)));
+    final res = <T>[];
+    for (final el in List.generate(count, (index) => this)) {
+      res.addAll(el);
+    }
+    return res;
   }
 
   T? elementAtOrNullSafe(int index) {
