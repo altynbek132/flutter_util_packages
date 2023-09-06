@@ -1,2 +1,0 @@
-Could not make class "CounterStore" observable. Changes needed:
-  1. Must not define a public setter to a readonly field. Remove members "counter" and "counter2".
