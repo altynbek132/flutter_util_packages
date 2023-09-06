@@ -51,4 +51,4 @@ class Mobxx extends MobxWM with Store, LoggerMixin, _$Mobxx {
   }
 }
 
-Future<void> disposeMobxx(Mobxx instance) async => instance.dispose();
+Future<void> disposeMobxx(Mobxx instance) async => instance.disposeAsync();

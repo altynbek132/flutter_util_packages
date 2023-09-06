@@ -34,8 +34,7 @@ class _WifiPageState extends State<WifiPage> {
   }
 
   void _pushGatewayPage(String wifi) {
-    Navigator.push(context,
-        new MaterialPageRoute(builder: (BuildContext context) {
+    Navigator.push(context, new MaterialPageRoute(builder: (BuildContext context) {
       return GatewayPage(type: TTGatewayType.g2, wifi: wifi);
     }));
   }

@@ -18,8 +18,7 @@ final routerState = AppState();
 
 class _BooksAppState extends State<BooksApp> {
   BookRouterDelegate _routerDelegate = BookRouterDelegate();
-  BookRouteInformationParser _routeInformationParser =
-      BookRouteInformationParser();
+  BookRouteInformationParser _routeInformationParser = BookRouteInformationParser();
 
   @override
   Widget build(BuildContext context) {
@@ -33,8 +32,7 @@ class _BooksAppState extends State<BooksApp> {
 
 class BookRouteInformationParser extends RouteInformationParser<BookRoutePath> {
   @override
-  Future<BookRoutePath> parseRouteInformation(
-      RouteInformation routeInformation) async {
+  Future<BookRoutePath> parseRouteInformation(RouteInformation routeInformation) async {
     final uri = Uri.parse(routeInformation.location ?? '');
 
     if (uri.pathSegments.length >= 2) {
@@ -63,8 +61,7 @@ class BookRouterDelegate extends RouterDelegate<BookRoutePath>
     with ChangeNotifier, PopNavigatorRouterDelegateMixin<BookRoutePath> {
   final GlobalKey<NavigatorState> navigatorKey;
 
-  late final _reaction =
-      ReactionImpl(mainContext, notifyListeners, name: 'router delegate');
+  late final _reaction = ReactionImpl(mainContext, notifyListeners, name: 'router delegate');
 
   final state = routerState;
 
@@ -94,8 +91,7 @@ class BookRouterDelegate extends RouterDelegate<BookRoutePath>
             onTapped: _handleBookTapped,
           ),
         ),
-        if (state.selectedBook != null)
-          BookDetailsPage(book: state.selectedBook!)
+        if (state.selectedBook != null) BookDetailsPage(book: state.selectedBook!)
       ],
       onPopPage: (route, result) {
         if (!route.didPop(result)) {
@@ -213,10 +209,8 @@ class NoAnimationTransitionDelegate extends TransitionDelegate<void> {
   @override
   Iterable<RouteTransitionRecord> resolve({
     required List<RouteTransitionRecord> newPageRouteHistory,
-    required Map<RouteTransitionRecord?, RouteTransitionRecord>
-        locationToExitingPageRoute,
-    required Map<RouteTransitionRecord?, List<RouteTransitionRecord>>
-        pageRouteToPagelessRoutes,
+    required Map<RouteTransitionRecord?, RouteTransitionRecord> locationToExitingPageRoute,
+    required Map<RouteTransitionRecord?, List<RouteTransitionRecord>> pageRouteToPagelessRoutes,
   }) {
     final results = <RouteTransitionRecord>[];
 

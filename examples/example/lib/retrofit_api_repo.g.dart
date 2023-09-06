@@ -25,20 +25,19 @@ class __Api implements _Api {
     queryParameters.removeWhere((k, v) => v == null);
     final _headers = <String, dynamic>{};
     final _data = <String, dynamic>{};
-    final _result = await _dio
-        .fetch<Map<String, dynamic>>(_setStreamType<Something>(Options(
+    final _result = await _dio.fetch<Map<String, dynamic>>(_setStreamType<Something>(Options(
       method: 'GET',
       headers: _headers,
       extra: _extra,
     )
-            .compose(
-              _dio.options,
-              '/something',
-              queryParameters: queryParameters,
-              data: _data,
-              cancelToken: cancelToken,
-            )
-            .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl)));
+        .compose(
+          _dio.options,
+          '/something',
+          queryParameters: queryParameters,
+          data: _data,
+          cancelToken: cancelToken,
+        )
+        .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl)));
     final value = JsonMapper.fromMap<Something>(_result.data!)!;
     return value;
   }
@@ -50,28 +49,26 @@ class __Api implements _Api {
     queryParameters.removeWhere((k, v) => v == null);
     final _headers = <String, dynamic>{};
     final _data = <String, dynamic>{};
-    final _result = await _dio
-        .fetch<Map<String, dynamic>>(_setStreamType<Something>(Options(
+    final _result = await _dio.fetch<Map<String, dynamic>>(_setStreamType<Something>(Options(
       method: 'GET',
       headers: _headers,
       extra: _extra,
     )
-            .compose(
-              _dio.options,
-              '/something',
-              queryParameters: queryParameters,
-              data: _data,
-              cancelToken: cancelToken,
-            )
-            .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl)));
+        .compose(
+          _dio.options,
+          '/something',
+          queryParameters: queryParameters,
+          data: _data,
+          cancelToken: cancelToken,
+        )
+        .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl)));
     final value = JsonMapper.fromMap<Something>(_result.data!)!;
     return value;
   }
 
   RequestOptions _setStreamType<T>(RequestOptions requestOptions) {
     if (T != dynamic &&
-        !(requestOptions.responseType == ResponseType.bytes ||
-            requestOptions.responseType == ResponseType.stream)) {
+        !(requestOptions.responseType == ResponseType.bytes || requestOptions.responseType == ResponseType.stream)) {
       if (T == String) {
         requestOptions.responseType = ResponseType.plain;
       } else {

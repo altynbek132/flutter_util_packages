@@ -39,7 +39,7 @@ dependencies:
       url: https://github.com/altynbek132/utils.git
       path: packages/dart_json_mapper_mobx
   dart_json_mapper_flutter: ^2.0.1
-  dio: ^4.0.6
+  dio: any
   tuple: ^2.0.1
   bottom_sheet: ^3.1.2
   awesome_extensions:

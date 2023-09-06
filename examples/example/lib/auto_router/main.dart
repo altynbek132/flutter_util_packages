@@ -77,10 +77,8 @@ class DashboardPage extends StatelessWidget {
                   currentIndex: tabsRouter.activeIndex,
                   onTap: tabsRouter.setActiveIndex,
                   items: [
-                    BottomNavigationBarItem(
-                        label: 'Page1', icon: Icon(Icons.abc)),
-                    BottomNavigationBarItem(
-                        label: 'Page2', icon: Icon(Icons.abc)),
+                    BottomNavigationBarItem(label: 'Page1', icon: Icon(Icons.abc)),
+                    BottomNavigationBarItem(label: 'Page2', icon: Icon(Icons.abc)),
                   ],
                 ));
           },

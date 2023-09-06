@@ -101,7 +101,7 @@ abstract class _BottomSheetDragScrollBase extends MobxWM with Store, LoggerMixin
   }
 }
 
-Future<void> dispose(BottomSheetDragScroll instance) async => instance.dispose();
+Future<void> dispose(BottomSheetDragScroll instance) async => instance.disposeAsync();
 
 class HomePage extends StatefulWidget {
   const HomePage({

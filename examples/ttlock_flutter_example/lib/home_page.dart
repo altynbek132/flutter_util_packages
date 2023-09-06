@@ -28,8 +28,7 @@ class _HomePageState extends State<HomePage> {
   }
 
   void _startScan(ScanType scanType) {
-    Navigator.push(context,
-        new MaterialPageRoute(builder: (BuildContext context) {
+    Navigator.push(context, new MaterialPageRoute(builder: (BuildContext context) {
       return ScanPage(
         scanType: scanType,
       );

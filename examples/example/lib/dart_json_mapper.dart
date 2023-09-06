@@ -56,8 +56,7 @@ enum OrderPaymentRequestType {
 class Imp extends Base {
   String? message;
 
-  static Imp fromJson(Map<String, dynamic> json) =>
-      JsonMapper.deserialize<Imp>(json)!;
+  static Imp fromJson(Map<String, dynamic> json) => JsonMapper.deserialize<Imp>(json)!;
 
   Map<String, dynamic> toJson() => JsonMapper.toMap(this)!;
 
@@ -95,8 +94,7 @@ class MobxSerModel extends _MobxSerModelBase with _$MobxSerModel {
   @JsonProperty(ignore: true)
   ReactiveContext get context => super.context;
 
-  static MobxSerModel fromJson(Map<String, dynamic> json) =>
-      JsonMapper.deserialize<MobxSerModel>(json)!;
+  static MobxSerModel fromJson(Map<String, dynamic> json) => JsonMapper.deserialize<MobxSerModel>(json)!;
 
   Map<String, dynamic> toJson() => JsonMapper.toMap(this)!;
 

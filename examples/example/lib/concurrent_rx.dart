@@ -15,8 +15,7 @@ Future<List<String>> makePizza(String sauceType) async {
   final cheese = ForkJoinStream.list([sauce, dough])
       .asyncMap((values) => grateCheese(values[0] as String, 2))
       .shareReplay(maxSize: 1);
-  ForkJoinStream.list([dough, sauce])
-      .map((values) => (values[0] as List<String>).add(values[1] as String));
+  ForkJoinStream.list([dough, sauce]).map((values) => (values[0] as List<String>).add(values[1] as String));
   (() async {
     (await dough).add(await sauce);
   })();

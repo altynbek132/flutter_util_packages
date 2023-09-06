@@ -76,9 +76,7 @@ class App extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       home: Asdf(),
-      routes: {
-        'screen2': (context) => Screen2(text: context.read<Screen2Data>().text)
-      },
+      routes: {'screen2': (context) => Screen2(text: context.read<Screen2Data>().text)},
     );
   }
 }

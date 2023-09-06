@@ -3,12 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:ttlock_flutter/ttlock.dart';
 
 class LockPage extends StatefulWidget {
-  LockPage(
-      {Key? key,
-      required this.title,
-      required this.lockData,
-      required this.lockMac})
-      : super(key: key);
+  LockPage({Key? key, required this.title, required this.lockData, required this.lockMac}) : super(key: key);
   final String title;
   final String lockData;
   final String lockMac;
@@ -93,22 +88,10 @@ class _LockPageState extends State<LockPage> {
     {"Get All Fingerprints": Command.getAllValidFingerprint},
     {"Delete Fingerprint": Command.deleteFingerprint},
     {"Cleaer All Fingerprints": Command.clearFingerprint},
-    {
-      "Get Lock Automatic Locking Periodic Time":
-          Command.getLockAutomaticLockingPeriodicTime
-    },
-    {
-      "Set Lock Automatic Locking Periodic Time":
-          Command.setLockAutomaticLockingPeriodicTime
-    },
-    {
-      "Get Lock Remote Unlock Switch State":
-          Command.getLockRemoteUnlockSwitchState
-    },
-    {
-      "Set Lock Remote Unlock Switch State":
-          Command.setLockRemoteUnlockSwitchState
-    },
+    {"Get Lock Automatic Locking Periodic Time": Command.getLockAutomaticLockingPeriodicTime},
+    {"Set Lock Automatic Locking Periodic Time": Command.setLockAutomaticLockingPeriodicTime},
+    {"Get Lock Remote Unlock Switch State": Command.getLockRemoteUnlockSwitchState},
+    {"Set Lock Remote Unlock Switch State": Command.setLockRemoteUnlockSwitchState},
     {"Get Lock Audio Switch State": Command.getLockAudioSwitchState},
     {"Set Lock Audio Switch State": Command.setLockAudioSwitchState},
     {"Add Passage Mode": Command.addPassageMode},
@@ -154,8 +137,7 @@ class _LockPageState extends State<LockPage> {
   }
 
   void _showErrorAndDismiss(TTLockError errorCode, String errorMsg) {
-    ProgressHud.of(_context!).showErrorAndDismiss(
-        text: 'errorCode:$errorCode errorMessage:$errorMsg');
+    ProgressHud.of(_context!).showErrorAndDismiss(text: 'errorCode:$errorCode errorMessage:$errorMsg');
   }
 
   @override
@@ -182,8 +164,7 @@ class _LockPageState extends State<LockPage> {
       case Command.unlock:
         //Note: the lockData is not contain userId and valid date.
         //If you want to get lockData contain userId and valid date please get lockData from api https://open.ttlock.com/doc/api/v3/key/list
-        TTLock.controlLock(lockData, TTControlAction.unlock,
-            (lockTime, electricQuantity, uniqueId) {
+        TTLock.controlLock(lockData, TTControlAction.unlock, (lockTime, electricQuantity, uniqueId) {
           _showSuccessAndDismiss(
               "Unlock Success lockTime:$lockTime electricQuantity:$electricQuantity uniqueId:$uniqueId");
         }, (errorCode, errorMsg) {
@@ -214,8 +195,7 @@ class _LockPageState extends State<LockPage> {
         break;
 
       case Command.getLockOperateRecord:
-        TTLock.getLockOperateRecord(TTOperateRecordType.latest, lockData,
-            (operateRecord) {
+        TTLock.getLockOperateRecord(TTOperateRecordType.latest, lockData, (operateRecord) {
           _showSuccessAndDismiss("Success");
         }, (errorCode, errorMsg) {
           _showErrorAndDismiss(errorCode, errorMsg);
@@ -246,12 +226,10 @@ class _LockPageState extends State<LockPage> {
         });
         break;
       case Command.customPasscode:
-        TTLock.supportFunction(TTLockFuction.managePasscode, lockData,
-            (isSupport) {
+        TTLock.supportFunction(TTLockFuction.managePasscode, lockData, (isSupport) {
           // not support
           if (!isSupport) {
-            _showErrorAndDismiss(
-                TTLockError.fail, "not support custom passcode");
+            _showErrorAndDismiss(TTLockError.fail, "not support custom passcode");
             return;
           }
 
@@ -265,16 +243,13 @@ class _LockPageState extends State<LockPage> {
         break;
 
       case Command.modifyPasscode:
-        TTLock.supportFunction(TTLockFuction.managePasscode, lockData,
-            (isSupport) {
+        TTLock.supportFunction(TTLockFuction.managePasscode, lockData, (isSupport) {
           // not support
           if (!isSupport) {
-            _showErrorAndDismiss(
-                TTLockError.fail, "Not support modify passcode");
+            _showErrorAndDismiss(TTLockError.fail, "Not support modify passcode");
             return;
           }
-          TTLock.modifyPasscode("6666", "7777", startDate, endDate, lockData,
-              () {
+          TTLock.modifyPasscode("6666", "7777", startDate, endDate, lockData, () {
             _showSuccessAndDismiss("Success");
           }, (errorCode, errorMsg) {
             _showErrorAndDismiss(errorCode, errorMsg);
@@ -283,8 +258,7 @@ class _LockPageState extends State<LockPage> {
 
         break;
       case Command.deletePasscode:
-        TTLock.supportFunction(TTLockFuction.managePasscode, lockData,
-            (isSupport) {
+        TTLock.supportFunction(TTLockFuction.managePasscode, lockData, (isSupport) {
           if (isSupport) {
             TTLock.deletePasscode("7777", lockData, () {
               _showSuccessAndDismiss("Success");
@@ -292,8 +266,7 @@ class _LockPageState extends State<LockPage> {
               _showErrorAndDismiss(errorCode, errorMsg);
             });
           } else {
-            _showErrorAndDismiss(
-                TTLockError.fail, 'Not support delete passcode');
+            _showErrorAndDismiss(TTLockError.fail, 'Not support delete passcode');
           }
         });
         break;
@@ -318,12 +291,10 @@ class _LockPageState extends State<LockPage> {
 
       case Command.modifyCard:
         if (addCardNumber == null) {
-          _showErrorAndDismiss(
-              TTLockError.cardNotExist, 'please add an ic card first');
+          _showErrorAndDismiss(TTLockError.cardNotExist, 'please add an ic card first');
           return;
         }
-        TTLock.modifyCardValidityPeriod(
-            addCardNumber!, null, startDate, endDate, lockData, () {
+        TTLock.modifyCardValidityPeriod(addCardNumber!, null, startDate, endDate, lockData, () {
           _showSuccessAndDismiss("Success");
         }, (errorCode, errorMsg) {
           _showErrorAndDismiss(errorCode, errorMsg);
@@ -331,8 +302,7 @@ class _LockPageState extends State<LockPage> {
         break;
       case Command.deleteCard:
         if (addCardNumber == null) {
-          _showErrorAndDismiss(
-              TTLockError.cardNotExist, 'please add an ic card first');
+          _showErrorAndDismiss(TTLockError.cardNotExist, 'please add an ic card first');
           return;
         }
         TTLock.deleteCard(addCardNumber!, lockData, () {
@@ -351,8 +321,7 @@ class _LockPageState extends State<LockPage> {
         break;
 
       case Command.addFingerprint:
-        TTLock.addFingerprint(null, startDate, endDate, lockData,
-            (currentCount, totalCount) {
+        TTLock.addFingerprint(null, startDate, endDate, lockData, (currentCount, totalCount) {
           _showLoading("currentCount:$currentCount  totalCount:$totalCount");
         }, (fingerprintNumber) {
           this.addFingerprintNumber = fingerprintNumber;
@@ -364,12 +333,10 @@ class _LockPageState extends State<LockPage> {
 
       case Command.modifyFingerprint:
         if (addFingerprintNumber == null) {
-          _showErrorAndDismiss(
-              TTLockError.fingerprintNotExist, 'please add fingerprint first');
+          _showErrorAndDismiss(TTLockError.fingerprintNotExist, 'please add fingerprint first');
           return;
         }
-        TTLock.modifyFingerprintValidityPeriod(
-            addFingerprintNumber!, null, startDate, endDate, lockData, () {
+        TTLock.modifyFingerprintValidityPeriod(addFingerprintNumber!, null, startDate, endDate, lockData, () {
           _showSuccessAndDismiss("Success");
         }, (errorCode, errorMsg) {
           _showErrorAndDismiss(errorCode, errorMsg);
@@ -377,8 +344,7 @@ class _LockPageState extends State<LockPage> {
         break;
       case Command.deleteFingerprint:
         if (addFingerprintNumber == null) {
-          _showErrorAndDismiss(
-              TTLockError.fingerprintNotExist, 'please add fingerprint first');
+          _showErrorAndDismiss(TTLockError.fingerprintNotExist, 'please add fingerprint first');
           return;
         }
         TTLock.deleteFingerprint(addFingerprintNumber!, lockData, () {
@@ -397,10 +363,8 @@ class _LockPageState extends State<LockPage> {
         break;
 
       case Command.getLockAutomaticLockingPeriodicTime:
-        TTLock.getLockAutomaticLockingPeriodicTime(lockData,
-            (currentTime, minTime, maxTime) {
-          _showSuccessAndDismiss(
-              "currentTime:$currentTime minTime:$minTime maxTime:$maxTime");
+        TTLock.getLockAutomaticLockingPeriodicTime(lockData, (currentTime, minTime, maxTime) {
+          _showSuccessAndDismiss("currentTime:$currentTime minTime:$minTime maxTime:$maxTime");
         }, (errorCode, errorMsg) {
           _showErrorAndDismiss(errorCode, errorMsg);
         });
@@ -451,8 +415,7 @@ class _LockPageState extends State<LockPage> {
         int endTime = 17 * 60; //17:00 pm
         List<int> weekly = [1, 2]; // [Monday，Tuesday]
 
-        TTLock.addPassageMode(TTPassageModeType.weekly, weekly, null, startTime,
-            endTime, lockData, () {
+        TTLock.addPassageMode(TTPassageModeType.weekly, weekly, null, startTime, endTime, lockData, () {
           _showSuccessAndDismiss("Success");
         }, (errorCode, errorMsg) {
           _showErrorAndDismiss(errorCode, errorMsg);
@@ -466,8 +429,7 @@ class _LockPageState extends State<LockPage> {
         });
         break;
       case Command.activateLiftFloors:
-        TTLock.activateLift("1,2,3", lockData,
-            (lockTime, electricQuantity, uniqueId) {
+        TTLock.activateLift("1,2,3", lockData, (lockTime, electricQuantity, uniqueId) {
           _showSuccessAndDismiss(
               "Active lift florrs success lockTime:$lockTime electricQuantity:$electricQuantity uniqueId:$uniqueId");
         }, (errorCode, errorMsg) {
@@ -489,8 +451,7 @@ class _LockPageState extends State<LockPage> {
         });
         break;
       case Command.setPowerSaverWorkMode:
-        TTLock.setPowerSaverWorkMode(TTPowerSaverWorkType.allCards, lockData,
-            () {
+        TTLock.setPowerSaverWorkMode(TTPowerSaverWorkType.allCards, lockData, () {
           _showSuccessAndDismiss("Success");
         }, (errorCode, errorMsg) {
           _showErrorAndDismiss(errorCode, errorMsg);
@@ -595,8 +556,7 @@ class _LockPageState extends State<LockPage> {
       case Command.recoveryCard:
         String cardNumber = "123458970";
         int startDate = DateTime.now().millisecondsSinceEpoch;
-        int endDate =
-            DateTime.now().millisecondsSinceEpoch + 24 * 60 * 60 * 1000;
+        int endDate = DateTime.now().millisecondsSinceEpoch + 24 * 60 * 60 * 1000;
         TTLock.recoverCard(cardNumber, startDate, endDate, lockData, () {
           _showSuccessAndDismiss("success:$cardNumber");
         }, (errorCode, errorMsg) {

@@ -59,7 +59,7 @@ abstract class _DragscrollsheetVmBase extends MobxWM with Store, LoggerMixin {
   }
 }
 
-Future<void> dispose(DragscrollsheetVm instance) async => instance.dispose();
+Future<void> dispose(DragscrollsheetVm instance) async => instance.disposeAsync();
 
 class HomePage extends StatefulWidget {
   HomePage({

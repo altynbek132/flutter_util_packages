@@ -56,4 +56,4 @@ abstract class _ScreenWmBase extends MobxWM with Store {
   /// CONSTRUCTOR --------------------------------------------------------------
 }
 
-Future<void> disposeScreenWm(ScreenWm instance) async => instance.dispose();
+Future<void> disposeScreenWm(ScreenWm instance) async => instance.disposeAsync();

@@ -33,8 +33,7 @@ abstract class _Api {
 
 @jsonSerializable
 class Something {
-  static Something fromJson(Map<String, dynamic> json) =>
-      JsonMapper.deserialize<Something>(json)!;
+  static Something fromJson(Map<String, dynamic> json) => JsonMapper.deserialize<Something>(json)!;
 
   Map<String, dynamic> toJson() => JsonMapper.toMap(this)!;
 

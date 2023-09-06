@@ -5,8 +5,7 @@ import 'package:rxdart/rxdart.dart';
 import 'package:utils/utils.dart';
 
 extension StreamExtension<T> on Stream<T> {
-  Stream<T> startsWithFirst<V>(Stream<V> other) =>
-      other.take(1).switchMap((value) => this);
+  Stream<T> startsWithFirst<V>(Stream<V> other) => other.take(1).switchMap((value) => this);
 
   Stream<T> toggle<V>(Stream<V> toggleStream, {bool? isActiveInitially}) {
     var active = isActiveInitially ?? true;
@@ -37,8 +36,7 @@ extension StreamExtension<T> on Stream<T> {
 // toggle
 Future<void> main234ecsd() async {
   final obs = 0.obs();
-  Stream.periodic(Duration(milliseconds: 100))
-      .listen((event) => Action(() => obs.value++)());
+  Stream.periodic(Duration(milliseconds: 100)).listen((event) => Action(() => obs.value++)());
   // todo Altynbek: broadcast auto
   final s = MobxUtils.observableToObsStream(obs)
       .log()
@@ -57,8 +55,7 @@ Future<void> obsStream() async {
   // todo Altynbek: wtf
   final s = MobxUtils.observableToStream(obs).log('stream log');
   // final s = MobxUtils.observableToStream(obs);
-  final p = Stream.periodic(Duration(milliseconds: 100))
-      .listen((event) => Action(() => obs.value++)());
+  final p = Stream.periodic(Duration(milliseconds: 100)).listen((event) => Action(() => obs.value++)());
   for (var i = 0; i < 3; ++i) {
     final sub = s.listen(print);
     await Future.delayed(Duration(milliseconds: 500));
@@ -71,8 +68,8 @@ Future<void> obsStream() async {
 Future<void> period() async {
   final c = BehaviorSubject<int>();
   final s = c.stream.log();
-  final p = Stream.periodic(Duration(milliseconds: 100),
-      (computationCount) => c.add(computationCount + 1)).listen(null);
+  final p =
+      Stream.periodic(Duration(milliseconds: 100), (computationCount) => c.add(computationCount + 1)).listen(null);
   for (var i = 0; i < 3; ++i) {
     final sub = s.listen(print);
     await Future.delayed(Duration(milliseconds: 500));

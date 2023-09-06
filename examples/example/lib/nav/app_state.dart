@@ -62,4 +62,4 @@ abstract class _AppStateBase extends MobxWM with Store, LoggerMixin {
   }
 }
 
-Future<void> disposeAppState(AppState instance) async => instance.dispose();
+Future<void> disposeAppState(AppState instance) async => instance.disposeAsync();

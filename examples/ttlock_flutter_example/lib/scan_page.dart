@@ -64,8 +64,7 @@ class _ScanPageState extends State<ScanPage> {
     map["isInited"] = scanModel.isInited;
     TTLock.initLock(map, (lockData) {
       _dismissLoading();
-      Navigator.push(context,
-          new MaterialPageRoute(builder: (BuildContext context) {
+      Navigator.push(context, new MaterialPageRoute(builder: (BuildContext context) {
         return LockPage(
           title: scanModel.lockName,
           lockData: lockData,
@@ -89,8 +88,7 @@ class _ScanPageState extends State<ScanPage> {
           widget = GatewayPage(type: type);
         }
 
-        Navigator.push(context,
-            new MaterialPageRoute(builder: (BuildContext context) {
+        Navigator.push(context, new MaterialPageRoute(builder: (BuildContext context) {
           return widget!;
         }));
       }
@@ -117,8 +115,7 @@ class _ScanPageState extends State<ScanPage> {
       }
       if (!contain || initStateChanged) {
         setState(() {
-          _lockList.sort((model1, model2) =>
-              (model2.isInited ? 0 : 1) - (model1.isInited ? 0 : 1));
+          _lockList.sort((model1, model2) => (model2.isInited ? 0 : 1) - (model1.isInited ? 0 : 1));
         });
       }
       setState(() {});
@@ -172,9 +169,7 @@ class _ScanPageState extends State<ScanPage> {
                 separatorBuilder: (BuildContext context, int index) {
                   return Divider(height: 2, color: Colors.green);
                 },
-                itemCount: (scanType == ScanType.lock
-                    ? _lockList.length
-                    : _gatewayList.length),
+                itemCount: (scanType == ScanType.lock ? _lockList.length : _gatewayList.length),
                 itemBuilder: (context, index) {
                   String title;
                   String subtitle;
@@ -182,9 +177,7 @@ class _ScanPageState extends State<ScanPage> {
                   if (scanType == ScanType.lock) {
                     TTLockScanModel scanModel = _lockList[index];
                     title = 'Lock：${scanModel.lockName}';
-                    subtitle = scanModel.isInited
-                        ? 'lock has been inited'
-                        : 'click to init the lock';
+                    subtitle = scanModel.isInited ? 'lock has been inited' : 'click to init the lock';
                     if (scanModel.isInited) {
                       textColor = Colors.grey;
                     }

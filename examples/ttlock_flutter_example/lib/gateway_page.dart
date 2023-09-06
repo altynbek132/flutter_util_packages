@@ -74,10 +74,8 @@ class _GatewayPageState extends State<GatewayPage> {
       print(map);
       _showAndDismiss(ProgressHudType.success, 'Init Gateway Success');
     }, (errorCode, errorMsg) {
-      _showAndDismiss(
-          ProgressHudType.error, 'errorCode:$errorCode msg:$errorMsg');
-      if (errorCode == TTGatewayError.notConnect ||
-          errorCode == TTGatewayError.disconnect) {
+      _showAndDismiss(ProgressHudType.error, 'errorCode:$errorCode msg:$errorMsg');
+      if (errorCode == TTGatewayError.notConnect || errorCode == TTGatewayError.disconnect) {
         print("Please repower  and connect the gateway again");
       }
     });
@@ -130,11 +128,7 @@ class _GatewayPageState extends State<GatewayPage> {
 
     if (_type == TTGatewayType.g2) {
       return Column(
-        children: <Widget>[
-          wifiTextField,
-          wifiPasswordTextField,
-          initGatewayButton
-        ],
+        children: <Widget>[wifiTextField, wifiPasswordTextField, initGatewayButton],
       );
     } else {
       return Center(child: initGatewayButton);
