@@ -1,14 +1,138 @@
 import 'dart:async';
 import 'dart:convert';
 import 'dart:math' as math;
+import 'dart:typed_data';
 
 import 'package:logger/logger.dart';
 import 'package:mobx/mobx.dart' hide Listenable;
 import 'package:rxdart/rxdart.dart';
+import 'package:utils/src/loggers/simple_log_printer.dart';
 
 final seed = math.Random();
 
 double randomDouble() => (500 - seed.nextInt(1000)) / 1000;
+
+extension ListInsrtionExtension<T> on List<T> {
+  set addLast(T value) {
+    add(value);
+  }
+
+  set addAllSetter(Iterable<T> value) {
+    addAll(value);
+  }
+
+  set replaceAll(Iterable<T> value) {
+    value = value.toList();
+    clear();
+    addAll(value);
+  }
+}
+
+extension ListEdgesExtension<T> on List<T> {
+  (V?, V?) edges<V>([V? Function(T? value)? selector]) {
+    selector ??= (value) => value as V?;
+    return (selector(firstOrNull), selector(lastOrNull));
+  }
+}
+
+extension ListDupExtension<T> on List<T> {
+  List<T> dup([int count = 1]) {
+    return fold(<T>[], (previousValue, element) => previousValue..addAll(List.generate(count, (index) => element)));
+  }
+
+  T? elementAtOrNullSafe(int index) {
+    if (index < 0 || index >= length) {
+      return null;
+    }
+    return elementAt(index);
+  }
+}
+
+Observable<T> makeObs<T>(T value) => Observable<T>(value);
+
+Observable<T?> makeObsNull<T>([T? value]) => Observable<T?>(value);
+
+typedef Obj = Map<String, dynamic>;
+
+void configMobx() {
+  final logger = getLogger('MOBX');
+  mainContext
+    ..config = ReactiveConfig.main.clone(
+      isSpyEnabled: true, /* disableErrorBoundaries: true */
+    )
+    ..spy((event) {
+      logger.i('event: ${event}');
+    });
+}
+
+(int start, int end) _ind(int length, int start, [int? end]) {
+  end ??= length;
+  if (end > length) {
+    end = length;
+  }
+  if (start > length) {
+    start = length;
+  }
+  if (end < 0) {
+    end = length + end;
+  }
+  if (start < 0) {
+    start = length + start;
+  }
+  if (start > end) {
+    start = end;
+  }
+  return (start, end);
+}
+
+extension SliceExtension<T> on List<T> {
+  List<T> slice_(int start, [int? end]) {
+    final (start_, end_) = _ind(length, start, end);
+    return sublist(start_, end_);
+  }
+}
+
+extension SliceUint8Extension on Uint8List {
+  Uint8List slice_(int start, [int? end]) {
+    final (start_, end_) = _ind(length, start, end);
+    return sublist(start_, end_);
+  }
+}
+
+extension SliceUint32Extension on Uint32List {
+  Uint32List slice_(int start, [int? end]) {
+    final (start_, end_) = _ind(length, start, end);
+    return sublist(start_, end_);
+  }
+}
+
+extension FutureExtension<T> on Future<T> {
+  Future<T> withCompleter(Completer<void> c) {
+    return thenSideEffect((result) => c.complete()).onErrorWithRethrow(cb: (e, st) => c.completeError(e!, st));
+  }
+}
+
+extension StringExtension on String {
+  String substring_(int start, [int? end]) {
+    if (end != null && end < 0) {
+      end = length + end;
+    }
+
+    final (start_, end_) = _ind(length, start, end);
+    return substring(start_, end_);
+  }
+
+  String substr(int start, [int length = 0]) {
+    if (length < 0) {
+      length = 0;
+    }
+    return substring_(start, start + length);
+  }
+}
+
+extension ListExtension<T> on List<T> {
+  T get random => this[math.Random().nextInt(length)];
+}
 
 String jsonStr(Object? object, {bool pretty = false}) {
   Object? toEncodable(object) {
@@ -41,11 +165,11 @@ extension ListInsertBetweenAllElements<T> on Iterable<T> {
   }
 }
 
-extension ListExtension<T> on List<T>? {
+extension ListExtension222<T> on List<T>? {
   List<T> get eff => this ?? [];
 }
 
-extension StringExtension on String? {
+extension StringExtension123 on String? {
   String get eff => this ?? '';
 }
 
@@ -128,11 +252,11 @@ void logFunction(
   print('${message ?? ''}: trace: ${str}');
 }
 
-extension StreamExtension<T> on Stream<T> {
+extension StreamExtension123123<T> on Stream<T> {
   Stream<T> get skipError => handleError((e, st) {});
 }
 
-extension FutureExtension<T> on Future<T> {
+extension FutureExtension22<T> on Future<T> {
   Future<T> thenSideEffect(
     FutureOr Function(T result) cb, {
     bool shouldRethrow = false,

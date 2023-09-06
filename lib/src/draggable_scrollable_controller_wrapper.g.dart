@@ -8,11 +8,9 @@ part of 'draggable_scrollable_controller_wrapper.dart';
 
 // ignore_for_file: non_constant_identifier_names, unnecessary_brace_in_string_interps, unnecessary_lambdas, prefer_expression_function_bodies, lines_longer_than_80_chars, avoid_as, avoid_annotating_with_dynamic, no_leading_underscores_for_local_identifiers
 
-mixin _$DraggableScrollableControllerWrapper
-    on _DraggableScrollableControllerWrapperBase, Store {
-  late final _$minChildSizeAtom = Atom(
-      name: '_DraggableScrollableControllerWrapperBase.minChildSize',
-      context: reactiveContext);
+mixin _$DraggableScrollableControllerWrapper on _DraggableScrollableControllerWrapperBase, Store {
+  late final _$minChildSizeAtom =
+      Atom(name: '_DraggableScrollableControllerWrapperBase.minChildSize', context: reactiveContext);
 
   @override
   double get minChildSize {
@@ -27,9 +25,8 @@ mixin _$DraggableScrollableControllerWrapper
     });
   }
 
-  late final _$minChildSizeRefAtom = Atom(
-      name: '_DraggableScrollableControllerWrapperBase.minChildSizeRef',
-      context: reactiveContext);
+  late final _$minChildSizeRefAtom =
+      Atom(name: '_DraggableScrollableControllerWrapperBase.minChildSizeRef', context: reactiveContext);
 
   @override
   double get minChildSizeRef {
@@ -44,9 +41,8 @@ mixin _$DraggableScrollableControllerWrapper
     });
   }
 
-  late final _$maxChildSizeAtom = Atom(
-      name: '_DraggableScrollableControllerWrapperBase.maxChildSize',
-      context: reactiveContext);
+  late final _$maxChildSizeAtom =
+      Atom(name: '_DraggableScrollableControllerWrapperBase.maxChildSize', context: reactiveContext);
 
   @override
   double get maxChildSize {
@@ -61,9 +57,8 @@ mixin _$DraggableScrollableControllerWrapper
     });
   }
 
-  late final _$maxChildSizeRefAtom = Atom(
-      name: '_DraggableScrollableControllerWrapperBase.maxChildSizeRef',
-      context: reactiveContext);
+  late final _$maxChildSizeRefAtom =
+      Atom(name: '_DraggableScrollableControllerWrapperBase.maxChildSizeRef', context: reactiveContext);
 
   @override
   double get maxChildSizeRef {
@@ -78,9 +73,8 @@ mixin _$DraggableScrollableControllerWrapper
     });
   }
 
-  late final _$initialChildSizeRefAtom = Atom(
-      name: '_DraggableScrollableControllerWrapperBase.initialChildSizeRef',
-      context: reactiveContext);
+  late final _$initialChildSizeRefAtom =
+      Atom(name: '_DraggableScrollableControllerWrapperBase.initialChildSizeRef', context: reactiveContext);
 
   @override
   double get initialChildSizeRef {
@@ -95,39 +89,29 @@ mixin _$DraggableScrollableControllerWrapper
     });
   }
 
-  late final _$closeAsyncAction = AsyncAction(
-      '_DraggableScrollableControllerWrapperBase.close',
-      context: reactiveContext);
+  late final _$closeAsyncAction =
+      AsyncAction('_DraggableScrollableControllerWrapperBase.close', context: reactiveContext);
 
   @override
-  Future<void> close(
-      {Duration? duration, Curve? curve, VoidCallback? onCloseEnd}) {
-    return _$closeAsyncAction.run(() =>
-        super.close(duration: duration, curve: curve, onCloseEnd: onCloseEnd));
+  Future<void> close({Duration? duration, Curve? curve, VoidCallback? onCloseEnd}) {
+    return _$closeAsyncAction.run(() => super.close(duration: duration, curve: curve, onCloseEnd: onCloseEnd));
   }
 
-  late final _$openAsyncAction = AsyncAction(
-      '_DraggableScrollableControllerWrapperBase.open',
-      context: reactiveContext);
+  late final _$openAsyncAction =
+      AsyncAction('_DraggableScrollableControllerWrapperBase.open', context: reactiveContext);
 
   @override
-  Future<void> open(
-      {double? value,
-      Duration? duration,
-      Curve? curve,
-      VoidCallback? onOpenEnd}) {
-    return _$openAsyncAction.run(() => super.open(
-        value: value, duration: duration, curve: curve, onOpenEnd: onOpenEnd));
+  Future<void> open({double? value, Duration? duration, Curve? curve, VoidCallback? onOpenEnd}) {
+    return _$openAsyncAction
+        .run(() => super.open(value: value, duration: duration, curve: curve, onOpenEnd: onOpenEnd));
   }
 
-  late final _$animateToAsyncAction = AsyncAction(
-      '_DraggableScrollableControllerWrapperBase.animateTo',
-      context: reactiveContext);
+  late final _$animateToAsyncAction =
+      AsyncAction('_DraggableScrollableControllerWrapperBase.animateTo', context: reactiveContext);
 
   @override
   Future<void> animateTo(double value, {Duration? duration, Curve? curve}) {
-    return _$animateToAsyncAction
-        .run(() => super.animateTo(value, duration: duration, curve: curve));
+    return _$animateToAsyncAction.run(() => super.animateTo(value, duration: duration, curve: curve));
   }
 
   @override
