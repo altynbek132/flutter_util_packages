@@ -35,6 +35,12 @@ extension ListEdgesExtension<T> on List<T> {
   }
 }
 
+extension StringDupExtension on String {
+  String dup(int count) {
+    return List.generate(count, (index) => this).join(' ');
+  }
+}
+
 extension ListDupExtension<T> on List<T> {
   List<T> dup([int count = 1]) {
     return fold(<T>[], (previousValue, element) => previousValue..addAll(List.generate(count, (index) => element)));
