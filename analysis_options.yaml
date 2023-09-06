@@ -7,6 +7,7 @@ analyzer:
   exclude:
     - /**/_old/**
     - packages
+    - examples
 
 linter:
   # true - active
