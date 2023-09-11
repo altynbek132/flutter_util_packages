@@ -147,7 +147,15 @@ Logger getLogger(
     ),
     output: MultipleLoggerOutput([
       // log only in debug mode, please
-      if (kDebugMode || Platform.environment.containsKey('FLUTTER_TEST') || _kForceLog) DevLogOutput(),
+      if (kDebugMode ||
+          (() {
+            try {
+              return Platform.environment.containsKey('FLUTTER_TEST');
+            } catch (e) {}
+            return false;
+          })() ||
+          _kForceLog)
+        DevLogOutput(),
     ]),
   );
 }
