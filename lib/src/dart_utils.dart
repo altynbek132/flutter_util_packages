@@ -64,14 +64,16 @@ Observable<T?> makeObsNull<T>([T? value]) => Observable<T?>(value);
 
 typedef Obj = Map<String, dynamic>;
 
-void configMobx() {
+void configMobx([bool? spy]) {
+  spy ??= false;
   final logger = getLogger('MOBX');
   mainContext
-    ..config = ReactiveConfig.main.clone(
-      isSpyEnabled: true, /* disableErrorBoundaries: true */
+    ..config = mainContext.config.clone(
+      writePolicy: ReactiveWritePolicy.never,
+      isSpyEnabled: spy, /* disableErrorBoundaries: true */
     )
     ..spy((event) {
-      logger.i('event: ${event}');
+      if (spy!) logger.i('event: ${event}');
     });
 }
 
