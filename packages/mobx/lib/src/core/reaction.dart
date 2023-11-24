@@ -168,6 +168,9 @@ class ReactionImpl with DebugCreationStack implements Reaction {
     }
 
     if (_context.config.disableErrorBoundaries == true) {
+      if (exception is MobXCaughtException) {
+        Error.throwWithStackTrace(exception, exception.stackTrace!);
+      }
       // ignore: only_throw_errors
       throw exception;
     }

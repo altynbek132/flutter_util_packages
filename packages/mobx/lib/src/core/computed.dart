@@ -84,7 +84,7 @@ class Computed<T> extends Atom implements Derivation, ObservableValue<T> {
     }
 
     if (_context._hasCaughtException(this)) {
-      throw _errorValue!;
+      Error.throwWithStackTrace(_errorValue!, _errorValue!.stackTrace!);
     }
 
     return _value as T;
