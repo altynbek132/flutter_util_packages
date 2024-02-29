@@ -4,11 +4,30 @@ version: 1.0.0
 # repository: https://github.com/my_org/my_repo
 
 environment:
-  sdk: ^3.3.0
+  sdk: ^3.2.0
 
 # Add regular dependencies here.
 dependencies:
-  # path: ^1.8.0
+  # State manager
+  mobx:
+    git:
+      url: https://github.com/altynbek132/utils.git
+      path: packages/mobx
+  dart_json_mapper_mobx:
+    git:
+      url: https://github.com/altynbek132/utils.git
+      path: packages/dart_json_mapper_mobx
+  disposing:
+    git:
+      url: https://github.com/altynbek132/utils.git
+      path: packages/disposing
+
+  logger: ^1.1.0
+  rxdart: ^0.27.5
+  dart_json_mapper: ^2.2.5+1
+  dio: ^5.3.0
+  get_it: ^7.2.0
+  platform_info: ^4.0.2
 
 dev_dependencies:
   lints: ^3.0.0
