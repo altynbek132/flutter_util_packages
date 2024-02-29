@@ -82,7 +82,7 @@ abstract class __ExampleStore with Store {
 // This is what typically a mobx codegen will generate.
 mixin _$_ExampleStore on __ExampleStore, Store {
   // ignore: non_constant_identifier_names
-  late final _$valueAtom = Atom(name: '__ExampleStore.value', context: context);
+  late final _$valueAtom = Atom(name: '__ExampleStore.value', context: reactiveContext);
 
   @override
   String get value {
@@ -98,7 +98,7 @@ mixin _$_ExampleStore on __ExampleStore, Store {
   }
 
   // ignore: non_constant_identifier_names
-  late final _$value2Atom = Atom(name: '__ExampleStore.value2', context: context);
+  late final _$value2Atom = Atom(name: '__ExampleStore.value2', context: reactiveContext);
 
   @override
   String get value2 {
@@ -114,7 +114,7 @@ mixin _$_ExampleStore on __ExampleStore, Store {
   }
 
   // ignore: non_constant_identifier_names
-  late final _$value3Atom = Atom(name: '__ExampleStore.value3', context: context);
+  late final _$value3Atom = Atom(name: '__ExampleStore.value3', context: reactiveContext);
 
   @override
   String get value3 {

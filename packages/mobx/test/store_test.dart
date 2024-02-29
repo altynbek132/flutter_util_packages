@@ -7,19 +7,19 @@ final customContext = ReactiveContext();
 
 class CustomStore with Store {
   @override
-  ReactiveContext get context => customContext;
+  ReactiveContext get reactiveContext => customContext;
 }
 
 void main() {
   group('Store', () {
     test('can get context', () {
       final store = TestStore();
-      expect(store.context, mainContext);
+      expect(store.reactiveContext, mainContext);
     });
 
     test('Store with custom context', () {
       final store = CustomStore();
-      expect(store.context, customContext);
+      expect(store.reactiveContext, customContext);
     });
   });
 }

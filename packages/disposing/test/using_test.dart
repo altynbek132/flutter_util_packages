@@ -12,7 +12,7 @@ void main() async {
 
     test('throw if disposed', () async {
       final disp = AsyncCallbackDisposable(() => Future.delayed(Duration(milliseconds: 100)));
-      final dispFuture = disp.dispose();
+      final dispFuture = disp.disposeAsync();
 
       expect(
         () => using(disp, (_) async {}),
@@ -44,7 +44,7 @@ void main() async {
 
     test('throw if disposed', () async {
       final disp = AsyncValueDisposable(value, () async => {});
-      final dispFuture = disp.dispose();
+      final dispFuture = disp.disposeAsync();
 
       expect(
         () => using(disp, (_) async {}),

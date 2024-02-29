@@ -62,7 +62,7 @@ void main() async {
         bag.add(d);
       }
 
-      await bag.dispose();
+      await bag.disposeAsync();
       for (final disp in disposables) {
         expect(disp.isDisposed, true);
       }
@@ -80,7 +80,7 @@ void main() async {
         bag.add(d);
       }
 
-      await expectLater(bag.dispose, throwsA(isA<BagAggregateException>()));
+      await expectLater(bag.disposeAsync(), throwsA(isA<BagAggregateException>()));
       for (final disp in disposables) {
         if (disp == error) {
           continue;

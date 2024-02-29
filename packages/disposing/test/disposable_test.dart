@@ -12,7 +12,7 @@ void main() async {
     test('call callback when disposing', () async {
       var called = false;
       final disp = AsyncCallbackDisposable(() async => called = true);
-      await disp.dispose();
+      await disp.disposeAsync();
 
       expect(called, true);
     });
@@ -32,7 +32,7 @@ void main() async {
     test('call callback when disposing', () async {
       var called = false;
       final disp = AsyncValueDisposable(value, () async => called = true);
-      await disp.dispose();
+      await disp.disposeAsync();
 
       expect(called, true);
     });
@@ -49,7 +49,7 @@ Future<void> _testAsyncLifecycle(AsyncDisposable disposable) async {
   expect(disposable.isDisposing, false);
   expect(disposable.isDisposed, false);
 
-  final dispFuture = disposable.dispose();
+  final dispFuture = disposable.disposeAsync();
   print(disposable);
   expect(disposable.isDisposing, true);
   expect(disposable.isDisposed, false);
