@@ -1,65 +1,14 @@
-name: utils
-description: A new Flutter package project.
-version: 2.0.2
-publish_to: "none"
+name: melos_workspace
 
 environment:
-  sdk: ">=3.0.0 <4.0.0"
-  flutter: ">=1.17.0"
+  sdk: ">=2.18.0 <4.0.0"
 
 dependencies:
   flutter:
     sdk: flutter
 
-  # Other
-  logger: ^1.1.0
-  rxdart: ^0.27.5
-
-  # State manager
-  mobx:
-    git:
-      url: https://github.com/altynbek132/utils.git
-      path: packages/mobx
-  flutter_mobx:
-    git:
-      url: https://github.com/altynbek132/utils.git
-      path: packages/flutter_mobx
-  elementary:
-    git:
-      url: https://github.com/altynbek132/utils.git
-      path: packages/elementary
-  provider: ^6.0.4
-
-  dart_json_mapper: ^2.2.5+1
-  dart_json_mapper_mobx:
-    git:
-      url: https://github.com/altynbek132/utils.git
-      path: packages/dart_json_mapper_mobx
-  dart_json_mapper_flutter: ^2.0.1
-  dio: ^5.3.0
-
-  disposing:
-    git:
-      url: https://github.com/altynbek132/utils.git
-      path: packages/disposing
-  disposing_flutter:
-    git:
-      url: https://github.com/altynbek132/utils.git
-      path: packages/disposing_flutter
-  get_it: ^7.2.0
-
-#  cupertino_icons: ^1.0.2
-
 dev_dependencies:
-  flutter_test:
-    sdk: flutter
+  # melos exec "flutter pub get"
+  melos:
 
   flutter_lints: ^2.0.1
-
-  # Generators
-  build_runner: ^2.3.2
-  dart_code_metrics: ^5.0.1
-  mobx_codegen:
-    git:
-      url: https://github.com/altynbek132/utils.git
-      path: packages/mobx_codegen
