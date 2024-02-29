@@ -1,0 +1,17 @@
+dependency_overrides:
+  mobx_codegen:
+    path: ../mobx_codegen
+  dart_json_mapper_mobx:
+    path: ../dart_json_mapper_mobx
+  mobx:
+    path: ../mobx
+  flutter_mobx:
+    path: ../flutter_mobx
+  elementary:
+    path: ../elementary
+  disposing:
+    path: ../disposing
+  disposing_flutter:
+    path: ../disposing_flutter
+  utils_dart:
+    path: ../utils_dart
