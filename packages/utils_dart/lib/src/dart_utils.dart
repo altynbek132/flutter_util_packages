@@ -12,6 +12,39 @@ final seed = math.Random();
 
 double randomDouble() => (500 - seed.nextInt(1000)) / 1000;
 
+extension MapRecursiveCastExtension on Map {
+  Map<String, dynamic> castMap() {
+    return cast<String, dynamic>();
+  }
+
+  Map<K, dynamic> castRecursive<K>() {
+    return map((key, value) {
+      if (value is Map) {
+        return MapEntry(key as K, value.castRecursive<K>());
+      }
+      return MapEntry(key as K, value);
+    }).cast<K, dynamic>();
+  }
+
+  Map<String, dynamic> castRecursiveMap() {
+    return castRecursive<String>();
+  }
+}
+
+extension DynamicRecursiveCastExtension on Object {
+  Map<String, dynamic> castMap() {
+    return (this as Map).cast<String, dynamic>();
+  }
+
+  Map<K, dynamic> castRecursive<K>() {
+    return (this as Map).castRecursive<K>();
+  }
+
+  Map<String, dynamic> castRecursiveMap() {
+    return castRecursive<String>();
+  }
+}
+
 extension ListInsrtionExtension<T> on List<T> {
   set addLast(T value) {
     add(value);
