@@ -1,0 +1,24 @@
+include: package:flutter_lints/flutter.yaml
+
+linter:
+  # true - active
+  # false - inactive
+
+  rules:
+    require_trailing_commas: true
+    prefer_final_locals: true
+    #    avoid_dynamic_calls: true
+
+    unnecessary_brace_in_string_interps: false
+    library_private_types_in_public_api: false
+    no_leading_underscores_for_local_identifiers: false
+    empty_catches: false
+    use_build_context_synchronously: false
+    depend_on_referenced_packages: false
+    non_constant_identifier_names: false
+    prefer_interpolation_to_compose_strings: false
+    constant_identifier_names: false
+    avoid_single_cascade_in_expression_statements: false
+    camel_case_types: false
+    prefer_const_constructors: false
+    prefer_const_literals_to_create_immutables: false
