@@ -243,10 +243,11 @@ app.*.symbols
 
 # ================================================== CUSTOM IGNORES ================================================== #
 
-# If you're building an application, you may want to check-in your pubspec.lock
+# commit for application
 pubspec.lock
 
-*.*.dart
+# commit for package
+# *.*.dart
 
 **/_demo*
 
