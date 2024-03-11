@@ -1,3 +1,4 @@
+// ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'exception.dart';
 
 class Message {
@@ -12,4 +13,9 @@ class Message {
     this.body,
     this.exception,
   });
+
+  @override
+  String toString() {
+    return 'Message(requestId: $requestId, method: $method, body: $body, exception: $exception)';
+  }
 }
