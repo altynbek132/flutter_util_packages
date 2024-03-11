@@ -5,16 +5,15 @@ import 'package:disposing/disposing.dart';
 import 'package:utils_dart/utils_dart.dart';
 
 import 'message.dart';
+import 'worker_base.dart';
 
-abstract class WorkerBase {
-  void postMessage(Message message);
-  void terminate();
-
+mixin _WorkerBaseImp on WorkerBase {
   web.EventTarget get eventTarget;
 
+  @override
   SyncDisposable addEventListener(
     void Function(Message data) listener, [
-    void Function(js_interop.JSAny)? onError,
+    void Function(Object?)? onError,
   ]) {
     final listenerJS = ((web.MessageEvent e) {
       final data = e.data.dartify()!.castRecursiveMap();
@@ -34,7 +33,7 @@ abstract class WorkerBase {
   }
 }
 
-final class Worker extends WorkerBase {
+final class Worker extends WorkerBase with _WorkerBaseImp {
   final web.Worker worker;
 
   Worker(this.worker);
@@ -53,7 +52,7 @@ final class Worker extends WorkerBase {
   web.EventTarget get eventTarget => worker;
 }
 
-final class WorkerSelf extends WorkerBase {
+final class WorkerSelf extends WorkerBase with _WorkerBaseImp {
   final web.DedicatedWorkerGlobalScope self;
 
   WorkerSelf(this.self);
