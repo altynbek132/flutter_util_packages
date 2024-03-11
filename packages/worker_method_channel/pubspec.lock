@@ -170,13 +170,11 @@ packages:
     source: hosted
     version: "2.2.10"
   dart_json_mapper_mobx:
-    dependency: transitive
+    dependency: "direct overridden"
     description:
-      path: "packages/dart_json_mapper_mobx"
-      ref: HEAD
-      resolved-ref: "6f49e0d580633f013c06d794eb12729e40d590c3"
-      url: "https://github.com/altynbek132/utils.git"
-    source: git
+      path: "../dart_json_mapper_mobx"
+      relative: true
+    source: path
     version: "2.0.5"
   dart_style:
     dependency: transitive
@@ -197,11 +195,9 @@ packages:
   disposing:
     dependency: "direct main"
     description:
-      path: "packages/disposing"
-      ref: HEAD
-      resolved-ref: "6f49e0d580633f013c06d794eb12729e40d590c3"
-      url: "https://github.com/altynbek132/utils.git"
-    source: git
+      path: "../disposing"
+      relative: true
+    source: path
     version: "1.0.3+1"
   fake_async:
     dependency: transitive
@@ -421,13 +417,11 @@ packages:
     source: hosted
     version: "1.0.5"
   mobx:
-    dependency: transitive
+    dependency: "direct overridden"
     description:
-      path: "packages/mobx"
-      ref: HEAD
-      resolved-ref: "6f49e0d580633f013c06d794eb12729e40d590c3"
-      url: "https://github.com/altynbek132/utils.git"
-    source: git
+      path: "../mobx"
+      relative: true
+    source: path
     version: "2.2.0"
   package_config:
     dependency: transitive
@@ -613,11 +607,9 @@ packages:
   utils_dart:
     dependency: "direct main"
     description:
-      path: "packages/utils_dart"
-      ref: HEAD
-      resolved-ref: "6f49e0d580633f013c06d794eb12729e40d590c3"
-      url: "https://github.com/altynbek132/utils.git"
-    source: git
+      path: "../utils_dart"
+      relative: true
+    source: path
     version: "1.0.0"
   vector_math:
     dependency: transitive
