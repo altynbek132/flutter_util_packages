@@ -2,12 +2,18 @@ import 'dart:async';
 import 'dart:math';
 
 import 'package:disposing/disposing.dart';
+import 'package:meta/meta.dart';
 import 'package:utils_dart/utils_dart.dart';
-import 'package:worker_method_channel/src/web_worker_method_channel_platform_interface.dart';
 
 import 'exception.dart';
 import 'message.dart';
-import 'worker.dart';
+import 'web_worker_method_channel_platform_interface.dart';
+import 'worker_base.dart';
+
+@internal
+WebWorkerMethodChannel getWebWorkerMethodChannel(
+        {required WorkerBase worker}) =>
+    WebWorkerMethodChannelWeb(worker: worker);
 
 class WebWorkerMethodChannelWeb
     with LoggerMixin, DisposableBag
