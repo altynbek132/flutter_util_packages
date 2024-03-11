@@ -1,4 +1,4 @@
-# ========================DEFAULT FLUTTER PROJECT IGNORE START================================ #
+# ======================================= DEFAULT FLUTTER PROJECT IGNORE START ======================================= #
 # Miscellaneous
 *.class
 *.log
@@ -77,8 +77,6 @@ hs_err_pid*
 .dart_tool/
 .packages
 build/
-# If you're building an application, you may want to check-in your pubspec.lock
-# pubspec.lock
 
 # Directory created by dartdoc
 # If you don't generate documentation locally you can remove this line.
@@ -98,16 +96,15 @@ doc/api/
 .flutter-plugins
 .flutter-plugins-dependencies
 
-# =========================DEFAULT FLUTTER PROJECT IGNORE END=============================== #
+# ======================================== DEFAULT FLUTTER PROJECT IGNORE END ======================================== #
 
-# ===========================FLUTTER REPO IGNORE START============================= #
+# ============================================= FLUTTER REPO IGNORE START ============================================ #
 
 # Do not remove or rename entries in this file, only add new ones
 # See https://github.com/flutter/flutter/issues/128635 for more context.
 
 # Miscellaneous
 *.class
-# *.lock
 *.log
 *.pyc
 *.swp
@@ -242,9 +239,13 @@ app.*.symbols
 !.vscode/settings.json
 !.vscode/launch.json
 
-# =============================FLUTTER REPO IGNORE END=========================== #
+# ============================================== FLUTTER REPO IGNORE END ============================================= #
 
-# ============================CUSTOM IGNORES============================ #
+# ================================================== CUSTOM IGNORES ================================================== #
+
+# If you're building an application, you may want to check-in your pubspec.lock
+pubspec.lock
+
 *.*.dart
 
 **/_demo*
