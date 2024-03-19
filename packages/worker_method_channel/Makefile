@@ -9,4 +9,8 @@ else
 	./compile_dart_js.sh
 endif
 
-.PHONY: compile
+test:
+	make compile
+	flutter drive --driver=test_driver/integration_test.dart --target=integration_test/app_test.dart -d chrome
+
+.PHONY: compile test
