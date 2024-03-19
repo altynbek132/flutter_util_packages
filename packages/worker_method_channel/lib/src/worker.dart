@@ -16,19 +16,17 @@ mixin _WorkerBaseImp on WorkerBase {
     void Function(Object?)? onError,
   ]) {
     final listenerJS = ((web.MessageEvent e) {
-      final data = e.data.dartify()!.castRecursiveMap();
-      listener(data as Message);
+      final data = e.data.dartify()!;
+      listener(Message.fromMap((data as Map).castMap()));
     }).toJS;
-    final onErrorJS = onError?.toJS;
+    final onErrorJS = (js_interop.JSAny error) {
+      onError?.call(error.dartify());
+    }.toJS;
     eventTarget.addEventListener('message', listenerJS);
-    if (onErrorJS != null) {
-      eventTarget.addEventListener('error', onErrorJS);
-    }
+    eventTarget.addEventListener('error', onErrorJS);
     return SyncCallbackDisposable(() {
       eventTarget.removeEventListener('message', listenerJS);
-      if (onErrorJS != null) {
-        eventTarget.removeEventListener('error', onErrorJS);
-      }
+      eventTarget.removeEventListener('error', onErrorJS);
     });
   }
 }
@@ -40,7 +38,7 @@ final class Worker extends WorkerBase with _WorkerBaseImp {
 
   @override
   void postMessage(Message message) {
-    worker.postMessage(message.toJSBox);
+    worker.postMessage(message.toMap().jsify());
   }
 
   @override
@@ -59,11 +57,13 @@ final class WorkerSelf extends WorkerBase with _WorkerBaseImp {
 
   @override
   void postMessage(Message message) {
-    self.postMessage(message.toJSBox);
+    self.postMessage(message.toMap().jsify());
   }
 
   @override
-  void terminate() {}
+  void terminate() {
+    throw UnimplementedError();
+  }
 
   @override
   web.EventTarget get eventTarget => self;
