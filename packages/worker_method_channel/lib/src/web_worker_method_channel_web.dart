@@ -28,20 +28,16 @@ WebWorkerMethodChannel getWebWorkerMethodChannel({required String name, WorkerBa
   return WebWorkerMethodChannelWeb(worker: WorkerSelf(self as web.DedicatedWorkerGlobalScope));
 }
 
-class WebWorkerMethodChannelWeb
-    with LoggerMixin, DisposableBag
-    implements WebWorkerMethodChannel {
+class WebWorkerMethodChannelWeb with LoggerMixin, DisposableBag implements WebWorkerMethodChannel {
   final WorkerBase worker;
 
   final _requests = <int, Completer<Object?>>{};
   final _methodCallHandlers = <String, List<MethodCallHandler>>{};
 
   @override
-  SyncDisposable setMethodCallHandler(
-      String method, MethodCallHandler handler) {
+  SyncDisposable setMethodCallHandler(String method, MethodCallHandler handler) {
     (_methodCallHandlers[method] ??= []).add(handler);
-    return SyncCallbackDisposable(
-        () => _methodCallHandlers[method]?.remove(handler));
+    return SyncCallbackDisposable(() => _methodCallHandlers[method]?.remove(handler));
   }
 
   int _generateRandomRequestId() {
