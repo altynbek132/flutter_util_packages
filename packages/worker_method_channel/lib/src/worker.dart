@@ -7,7 +7,7 @@ import 'package:utils_dart/utils_dart.dart';
 import 'message.dart';
 import 'worker_base.dart';
 
-mixin _WorkerBaseImp on WorkerBase {
+mixin _WorkerBaseImp on Worker {
   web.EventTarget get eventTarget;
 
   @override
@@ -31,10 +31,10 @@ mixin _WorkerBaseImp on WorkerBase {
   }
 }
 
-final class Worker extends WorkerBase with _WorkerBaseImp {
+final class WorkerImpl extends Worker with _WorkerBaseImp {
   final web.Worker worker;
 
-  Worker(this.worker);
+  WorkerImpl(this.worker);
 
   @override
   void postMessage(Message message) {
@@ -50,10 +50,10 @@ final class Worker extends WorkerBase with _WorkerBaseImp {
   web.EventTarget get eventTarget => worker;
 }
 
-final class WorkerSelf extends WorkerBase with _WorkerBaseImp {
+final class WorkerImplSelf extends Worker with _WorkerBaseImp {
   final web.DedicatedWorkerGlobalScope self;
 
-  WorkerSelf(this.self);
+  WorkerImplSelf(this.self);
 
   @override
   void postMessage(Message message) {
