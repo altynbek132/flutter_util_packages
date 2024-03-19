@@ -45,8 +45,8 @@ class WebWorkerMethodChannelWeb
   }
 
   int _generateRandomRequestId() {
-    const maxSafeIntWeb = 9007199254740991;
-    return Random().nextInt(maxSafeIntWeb);
+    const maxInt32 = 0x7FFFFFFF;
+    return Random().nextInt(maxInt32);
   }
 
   @override
