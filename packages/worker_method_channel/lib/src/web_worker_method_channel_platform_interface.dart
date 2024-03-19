@@ -1,17 +1,15 @@
 import 'dart:async';
 
 import 'package:disposing/disposing.dart';
+import 'package:worker_method_channel/worker_method_channel.dart';
 
-import 'worker_base.dart';
-
-import 'web_worker_method_channel_web.dart'
-    if (dart.library.js_interop) 'web_worker_method_channel_stub.dart';
+import 'web_worker_method_channel_web.dart' if (dart.library.io) 'web_worker_method_channel_stub.dart';
 
 typedef MethodCallHandler = FutureOr<Object?> Function(Object? body);
 
 abstract class WebWorkerMethodChannel with DisposableBag {
-  factory WebWorkerMethodChannel({required WorkerBase worker}) =>
-      getWebWorkerMethodChannel(worker: worker);
+  factory WebWorkerMethodChannel({required String name, WorkerBase? worker}) =>
+      getWebWorkerMethodChannel(name: name, worker: worker);
 
   SyncDisposable setMethodCallHandler(String method, MethodCallHandler handler);
 

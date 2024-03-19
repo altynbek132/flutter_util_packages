@@ -1,25 +1,19 @@
 import 'package:disposing/disposing.dart';
 import 'package:meta/meta.dart';
-
-import 'web_worker_method_channel_platform_interface.dart';
-import 'worker_base.dart';
+import 'package:worker_method_channel/worker_method_channel.dart';
 
 @internal
-WebWorkerMethodChannel getWebWorkerMethodChannel(
-        {required WorkerBase worker}) =>
+WebWorkerMethodChannel getWebWorkerMethodChannel({required String name, WorkerBase? worker}) =>
     WebWorkerMethodChannelStub();
 
-class WebWorkerMethodChannelStub
-    with DisposableBag
-    implements WebWorkerMethodChannel {
+class WebWorkerMethodChannelStub with DisposableBag implements WebWorkerMethodChannel {
   @override
   Future<Object?> invokeMethod(String method, [Object? body]) {
     throw UnimplementedError();
   }
 
   @override
-  SyncDisposable setMethodCallHandler(
-      String method, MethodCallHandler handler) {
+  SyncDisposable setMethodCallHandler(String method, MethodCallHandler handler) {
     throw UnimplementedError();
   }
 }

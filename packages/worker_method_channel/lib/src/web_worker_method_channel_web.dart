@@ -5,15 +5,28 @@ import 'package:disposing/disposing.dart';
 import 'package:meta/meta.dart';
 import 'package:utils_dart/utils_dart.dart';
 
+import 'package:web/web.dart' as web;
+import 'package:worker_method_channel/src/worker.dart';
+import 'dart:js_interop' as js_interop;
+
 import 'exception.dart';
 import 'message.dart';
 import 'web_worker_method_channel_platform_interface.dart';
 import 'worker_base.dart';
 
+@js_interop.JS('self')
+external js_interop.JSAny get self;
+
 @internal
-WebWorkerMethodChannel getWebWorkerMethodChannel(
-        {required WorkerBase worker}) =>
-    WebWorkerMethodChannelWeb(worker: worker);
+WebWorkerMethodChannel getWebWorkerMethodChannel({required String name, WorkerBase? worker}) {
+  if (worker != null) {
+    return WebWorkerMethodChannelWeb(worker: worker);
+  }
+  if (self.instanceOfString('Window')) {
+    return WebWorkerMethodChannelWeb(worker: Worker(web.Worker(name)));
+  }
+  return WebWorkerMethodChannelWeb(worker: WorkerSelf(self as web.DedicatedWorkerGlobalScope));
+}
 
 class WebWorkerMethodChannelWeb
     with LoggerMixin, DisposableBag
