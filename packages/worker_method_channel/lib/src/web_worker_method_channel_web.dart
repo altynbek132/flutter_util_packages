@@ -11,7 +11,7 @@ import 'dart:js_interop' as js_interop;
 
 import 'exception.dart';
 import 'message.dart';
-import 'web_worker_method_channel_platform_interface.dart';
+import 'web_worker_method_channel.dart';
 import 'worker_base.dart';
 
 @js_interop.JS('self')
