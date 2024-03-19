@@ -1,3 +1,31 @@
 include: package:flutter_lints/flutter.yaml
-# Additional information about this file can be found at
-# https://dart.dev/guides/language/analysis-options
+
+# * // ignore: name_of_lint
+# * // ignore_for_file: name_of_lint
+
+analyzer:
+  exclude:
+    - "**/*.*.*.dart"
+
+linter:
+  # true - active
+  # false - inactive
+
+  rules:
+    require_trailing_commas: true
+    prefer_final_locals: true
+
+    avoid_single_cascade_in_expression_statements: false
+    unnecessary_brace_in_string_interps: false
+
+    # ======================FOR DEBUG====================================
+    # prefer_const_constructors: false
+    # prefer_const_literals_to_create_immutables: false
+    # avoid_print: false
+    # require_trailing_commas: false
+
+    # ==========================IGNORE NAMING================================
+    # no_leading_underscores_for_local_identifiers: false
+    # non_constant_identifier_names: false
+    # constant_identifier_names: false
+    # camel_case_types: false

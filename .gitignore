@@ -1,4 +1,4 @@
-# ========================DEFAULT FLUTTER PROJECT IGNORE START================================ #
+# ======================================= DEFAULT FLUTTER PROJECT IGNORE START ======================================= #
 # Miscellaneous
 *.class
 *.log
@@ -96,16 +96,15 @@ doc/api/
 .flutter-plugins
 .flutter-plugins-dependencies
 
-# =========================DEFAULT FLUTTER PROJECT IGNORE END=============================== #
+# ======================================== DEFAULT FLUTTER PROJECT IGNORE END ======================================== #
 
-# ===========================FLUTTER REPO IGNORE START============================= #
+# ============================================= FLUTTER REPO IGNORE START ============================================ #
 
 # Do not remove or rename entries in this file, only add new ones
 # See https://github.com/flutter/flutter/issues/128635 for more context.
 
 # Miscellaneous
 *.class
-# *.lock
 *.log
 *.pyc
 *.swp
@@ -240,10 +239,15 @@ app.*.symbols
 !.vscode/settings.json
 !.vscode/launch.json
 
-# =============================FLUTTER REPO IGNORE END=========================== #
+# ============================================== FLUTTER REPO IGNORE END ============================================= #
 
-# ============================CUSTOM IGNORES============================ #
-*.*.dart
+# ================================================== CUSTOM IGNORES ================================================== #
+
+# commit for application
+pubspec.lock
+
+# commit for package
+# *.*.dart
 
 **/_demo*
 
