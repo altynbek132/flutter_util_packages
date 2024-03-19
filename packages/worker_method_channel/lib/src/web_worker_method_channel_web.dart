@@ -6,32 +6,50 @@ import 'package:meta/meta.dart';
 import 'package:utils_dart/utils_dart.dart';
 
 import 'package:web/web.dart' as web;
-import 'package:worker_method_channel/src/worker.dart';
+import 'package:worker_method_channel/src/worker_impl.dart';
 import 'dart:js_interop' as js_interop;
 
 import 'exception.dart';
 import 'message.dart';
 import 'web_worker_method_channel.dart';
-import 'worker_base.dart';
+import 'worker.dart';
 
 @js_interop.JS('self')
 external js_interop.JSAny get self;
 
-@internal
-WebWorkerMethodChannel getWebWorkerMethodChannel({required String name, WorkerBase? worker}) {
+/// Returns a [WebWorkerMethodChannel] for communication between the main thread and a web worker.
+///
+/// The [scriptURL] parameter specifies the name of the channel.
+/// The [worker] parameter is an optional [Worker] instance representing the web worker.
+/// If [worker] is provided, a [WebWorkerMethodChannelWeb] is created with the given [worker].
+/// If [worker] is not provided, a [WebWorkerMethodChannelWeb] is created based on the type of the global scope.
+/// If the global scope is a 'Window' instance, a [WebWorkerMethodChannelWeb] is created with a new web worker using the given [scriptURL].
+/// If the global scope is a 'DedicatedWorkerGlobalScope' instance, a [WebWorkerMethodChannelWeb] is created with the current web worker.
+WebWorkerMethodChannel getWebWorkerMethodChannel({required String scriptURL, Worker? worker}) {
   if (worker != null) {
     return WebWorkerMethodChannelWeb(worker: worker);
   }
   if (self.instanceOfString('Window')) {
-    return WebWorkerMethodChannelWeb(worker: Worker(web.Worker(name)));
+    return WebWorkerMethodChannelWeb(worker: WorkerImpl(web.Worker(scriptURL)));
   }
-  return WebWorkerMethodChannelWeb(worker: WorkerSelf(self as web.DedicatedWorkerGlobalScope));
+  return WebWorkerMethodChannelWeb(worker: WorkerImplSelf(self as web.DedicatedWorkerGlobalScope));
 }
 
+/// A class that represents a web implementation of the WorkerMethodChannel.
+///
+/// This class provides a communication channel between the main thread and a web worker
+/// using the Worker API. It allows invoking methods on the web worker and handling method
+/// calls from the web worker.
+///
+/// The [WebWorkerMethodChannelWeb] class implements the [WebWorkerMethodChannel] interface
+/// and extends the [LoggerMixin] and [DisposableBag] classes.
 class WebWorkerMethodChannelWeb with LoggerMixin, DisposableBag implements WebWorkerMethodChannel {
-  final WorkerBase worker;
+  final Worker worker;
 
+  /// A map that stores the pending requests along with their corresponding completers.
   final _requests = <int, Completer<Object?>>{};
+
+  /// A map that stores the method call handlers for different method names.
   final _methodCallHandlers = <String, List<MethodCallHandler>>{};
 
   @override

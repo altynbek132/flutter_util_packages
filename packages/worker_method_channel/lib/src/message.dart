@@ -2,13 +2,21 @@
 
 import 'exception.dart';
 
+/// Represents a message sent between the worker and the main thread.
 class Message {
+  /// The unique identifier for the request.
   final int requestId;
+
+  /// The method associated with the message.
   final String method;
-  // primitive types or List, Map
+
+  /// The body of the message, which can be a primitive type, List, or Map.
   final Object? body;
+
+  /// An exception that occurred while processing the message, if any.
   final WebPlatformException? exception;
 
+  /// Creates a new instance of the [Message] class.
   Message({
     required this.requestId,
     required this.method,
