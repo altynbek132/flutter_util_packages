@@ -1,0 +1,10 @@
+# melos_managed_dependency_overrides: dart_json_mapper_mobx,disposing,mobx,utils_dart
+dependency_overrides:
+  dart_json_mapper_mobx:
+    path: ..\\dart_json_mapper_mobx
+  disposing:
+    path: ..\\disposing
+  mobx:
+    path: ..\\mobx
+  utils_dart:
+    path: ..\\utils_dart
