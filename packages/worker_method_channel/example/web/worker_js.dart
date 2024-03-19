@@ -8,7 +8,7 @@ external web.DedicatedWorkerGlobalScope get self;
 
 Future<void> main() async {
   print('worker_js.dart init');
-  final channel = WebWorkerMethodChannel(name: './web/worker_js.dart.js');
+  final channel = WebWorkerMethodChannel(scriptURL: './web/worker_js.dart.js');
   channel.setMethodCallHandler('echo', (body) {
     print("🚀~worker_js.dart:12~");
     return body;
