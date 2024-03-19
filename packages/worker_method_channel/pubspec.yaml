@@ -20,7 +20,7 @@ dependencies:
       url: https://github.com/altynbek132/utils.git
       path: packages/disposing
 
-  web: ^0.5.1
+  web: ^0.5.0
   meta: ^1.11.0
 
 dev_dependencies:
@@ -29,6 +29,9 @@ dev_dependencies:
   integration_test:
     sdk: flutter
   flutter_lints: ^3.0.0
+  json_serializable: ^6.7.1
+  build_runner: ^2.4.8
+  mockito: ^5.4.4
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
