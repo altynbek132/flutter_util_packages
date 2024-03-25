@@ -6,7 +6,7 @@ import 'package:rxdart/rxdart.dart';
 extension ObservableToStream<T> on Observable<T> {
   Stream<T> toStream() => _fromGetter(() => value);
 
-  ObservableStream<T> toObsStream() => toStream().obs();
+  ObservableStream<T> toObsStream() => toStream().asObservable();
 }
 
 Stream<T> _fromGetter<T>(T Function() getter) {

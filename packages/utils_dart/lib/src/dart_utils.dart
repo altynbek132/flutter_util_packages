@@ -304,8 +304,8 @@ extension StreamExtension123123<T> on Stream<T> {
 extension FutureExtension22<T> on Future<T> {
   Future<T> thenSideEffect(
     FutureOr Function(T result) cb, {
-    bool shouldRethrow = false,
-    bool shouldAwait = false,
+    bool shouldRethrow = true,
+    bool shouldAwait = true,
   }) =>
       then((result) async {
         try {
@@ -323,17 +323,15 @@ extension FutureExtension22<T> on Future<T> {
       });
 
   /// [FutureExtensions.onError]
-  Future<T?> onErrorNullable<E extends Object>({
-    FutureOr<void> Function(E e, StackTrace st)? cb,
+  Future<T?> onErrorNullable<E extends Object>(
+    FutureOr<void> Function(E e, StackTrace st)? cb, {
     bool Function(E e)? test,
-    bool? shouldRethrow,
   }) async {
     try {
       return await this;
     } catch (e, st) {
       if (e is E && (test == null || test(e))) {
         await cb?.call(e, st);
-        if (shouldRethrow ?? false) rethrow;
         return null;
       }
       rethrow;

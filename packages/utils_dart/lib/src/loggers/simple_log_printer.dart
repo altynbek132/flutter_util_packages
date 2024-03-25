@@ -25,8 +25,8 @@ class SimpleLogPrinter extends LogPrinter {
   };
 
   String _labelFor(Level level) {
-    var prefix = SimplePrinter.levelPrefixes[level]!;
-    var color = SimplePrinter.levelColors[level]!;
+    final prefix = SimplePrinter.levelPrefixes[level]!;
+    final color = SimplePrinter.levelColors[level]!;
 
     return color(prefix);
   }
@@ -37,15 +37,15 @@ class SimpleLogPrinter extends LogPrinter {
     final prefix =
         '${_labelFor(event.level)} [${now.hour.toString().padLeft(2, '0')}:${now.minute.toString().padLeft(2, '0')}:${now.second.toString().padLeft(2, '0')}]';
 
-    var methodNameSection = printCallingFunctionName;
-    var stackLog = event.stackTrace.toString();
-    var output =
+    final methodNameSection = printCallingFunctionName;
+    final stackLog = event.stackTrace.toString();
+    final output =
         '$prefix ${methodNameSection ? className : ''} - ${event.message}${printCallStack ? '\nSTACKTRACE:\n$stackLog' : ''}';
 
     if (exludeLogsFromClasses.any((excludeClass) => className == excludeClass) ||
         (showOnlyClass != null && className != showOnlyClass)) return [];
 
-    List<String> result = [];
+    final List<String> result = [];
 
     for (var line in output.split('\n')) {
       result.add(line);
