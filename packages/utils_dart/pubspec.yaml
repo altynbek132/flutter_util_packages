@@ -7,13 +7,17 @@ publish_to: none
 environment:
   sdk: ^3.2.0
 
-# Add regular dependencies here.
-dependencies:
-  # State manager
+dependency_overrides:
   mobx:
     git:
       url: https://github.com/altynbek132/mobx.dart
       path: mobx
+
+# Add regular dependencies here.
+dependencies:
+  # State manager
+  #! override
+  mobx: any
   disposing:
     git:
       url: https://github.com/altynbek132/dart_disposing
