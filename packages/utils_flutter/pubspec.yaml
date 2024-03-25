@@ -7,57 +7,53 @@ environment:
   sdk: ">=3.0.0 <4.0.0"
   flutter: ">=1.17.0"
 
+dependency_overrides:
+  mobx:
+    git:
+      url: https://github.com/altynbek132/mobx.dart
+      path: mobx
+
 dependencies:
   flutter:
     sdk: flutter
 
-  # Other
-  logger: ^1.1.0
-  rxdart: ^0.27.5
-
   # State manager
-  mobx:
-    git:
-      url: https://github.com/altynbek132/utils.git
-      path: packages/mobx
+  #! override
+  mobx: any
   flutter_mobx:
     git:
-      url: https://github.com/altynbek132/utils.git
-      path: packages/flutter_mobx
-  elementary:
-    git:
-      url: https://github.com/altynbek132/utils.git
-      path: packages/elementary
-  provider: ^6.0.4
-
-  dio: ^5.3.0
-
+      url: https://github.com/altynbek132/mobx.dart
+      path: flutter_mobx
   disposing:
     git:
-      url: https://github.com/altynbek132/utils.git
+      url: https://github.com/altynbek132/dart_disposing
       path: packages/disposing
-  disposing_flutter:
+  elementary:
     git:
-      url: https://github.com/altynbek132/utils.git
-      path: packages/disposing_flutter
+      url: https://github.com/altynbek132/flutter-elementary
+      path: packages/elementary
   utils_dart:
     git:
       url: https://github.com/altynbek132/utils.git
       path: packages/utils_dart
-  get_it: ^7.2.0
 
-#  cupertino_icons: ^1.0.2
+  # Other
+  logger: ^2.0.0
+  rxdart: ^0.27.7
+  provider: ^6.1.0
+  dio: ^5.4.0
+  get_it: ^7.6.7
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
 
-  flutter_lints: ^2.0.1
+  flutter_lints: ^3.0.1
 
   # Generators
-  build_runner: ^2.3.2
-  dart_code_metrics: ^5.0.1
+  build_runner: ^2.4.8
+  dart_code_metrics: ^5.7.6
   mobx_codegen:
     git:
-      url: https://github.com/altynbek132/utils.git
-      path: packages/mobx_codegen
+      url: https://github.com/altynbek132/mobx.dart
+      path: mobx_codegen
