@@ -12,7 +12,7 @@ mixin LoggerMixin {
 
 final loggerGlobal = getLogger('GLOBAL');
 
-var _kLoggerShouldLog = false;
+var _kLoggerShouldLog = true;
 
 void setLoggerShouldLog(bool loggerShouldLog) {
   _kLoggerShouldLog = loggerShouldLog;
