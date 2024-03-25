@@ -1,8 +1,0 @@
-include: package:lints/recommended.yaml
-
-analyzer:
-  exclude:
-    - test/*.mocks.dart
-    - example/lib/*.dart
-  language:
-    strict-casts: true
