@@ -34,20 +34,24 @@ Future<void> main() async {
       final channel = WebWorkerMethodChannel(scriptURL: './integration_test/worker_js.dart.js');
 
       //Act - Call the function that is to be tested
-      await Future.wait(Responses.workerResponses.entries.map((entry) async {
-        final key = entry.key;
-        final value = entry.value;
+      await Future.wait(
+        Responses.workerResponses.entries.map((entry) async {
+          final key = entry.key;
+          final value = entry.value;
 
-        await value(null).thenSideEffect((expectedResponse) async {
-          final actualResponse = await channel.invokeMethod(key);
-          expect(actualResponse, expectedResponse);
-        }).onErrorNullable((error, stackTrace) async {
-          final responseFuture = channel.invokeMethod(key);
-          expect(await responseFuture, throwsA(isA<WebPlatformException>()));
-          expect(await responseFuture,
-              throwsA(predicate((WebPlatformException e) => e.exception.toString() == error.toString())));
-        });
-      }));
+          await value(null).thenSideEffect((expectedResponse) async {
+            final actualResponse = await channel.invokeMethod(key);
+            expect(actualResponse, expectedResponse);
+          }).onErrorNullable((error, stackTrace) async {
+            final responseFuture = channel.invokeMethod(key);
+            expect(await responseFuture, throwsA(isA<WebPlatformException>()));
+            expect(
+              await responseFuture,
+              throwsA(predicate((WebPlatformException e) => e.exception.toString() == error.toString())),
+            );
+          });
+        }),
+      );
 
       //Assert - Compare the actual result and expected result
 

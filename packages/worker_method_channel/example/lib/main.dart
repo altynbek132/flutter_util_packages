@@ -1,7 +1,5 @@
 import 'package:js_import/js_import.dart';
 import 'package:flutter/material.dart';
-import 'package:web/web.dart' as web;
-import 'dart:js_interop' as js_interop;
 
 import 'package:worker_method_channel/worker_method_channel.dart';
 
@@ -50,12 +48,12 @@ class _MainAppState extends State<MainApp> {
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
-              Text('Hello World!'),
+              const Text('Hello World!'),
               TextButton(
                 onPressed: () {
                   test();
                 },
-                child: Text('test()'),
+                child: const Text('test()'),
               ),
             ],
           ),

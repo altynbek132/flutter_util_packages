@@ -11,8 +11,7 @@ import 'package:worker_method_channel/worker_method_channel.dart';
 Future<void> main() async {
   runApp(
     MaterialApp(
-      scrollBehavior: const MaterialScrollBehavior()
-          .copyWith(dragDevices: PointerDeviceKind.values.toSet()),
+      scrollBehavior: const MaterialScrollBehavior().copyWith(dragDevices: PointerDeviceKind.values.toSet()),
       home: Demo(),
     ),
   );
@@ -63,7 +62,8 @@ void benchmark() {
       message.jsify().dartify();
     }
     print(
-        "sw.elapsedMilliseconds jsify dartify object: ${sw.elapsedMilliseconds}");
+      "sw.elapsedMilliseconds jsify dartify object: ${sw.elapsedMilliseconds}",
+    );
   }
   {
     final map = message.toMap();
@@ -72,7 +72,8 @@ void benchmark() {
       map.jsify().dartify();
     }
     print(
-        "sw.elapsedMilliseconds jsify dartify map: ${sw.elapsedMilliseconds}");
+      "sw.elapsedMilliseconds jsify dartify map: ${sw.elapsedMilliseconds}",
+    );
   }
   {
     final sw = Stopwatch()..start();
@@ -80,7 +81,8 @@ void benchmark() {
       message.toJSBox.toDart;
     }
     print(
-        "sw.elapsedMilliseconds toJSBox.toDart object: ${sw.elapsedMilliseconds}");
+      "sw.elapsedMilliseconds toJSBox.toDart object: ${sw.elapsedMilliseconds}",
+    );
   }
   {
     final sw = Stopwatch()..start();
@@ -89,7 +91,8 @@ void benchmark() {
       map.toJSBox.toDart;
     }
     print(
-        "sw.elapsedMilliseconds toJSBox.toDart map: ${sw.elapsedMilliseconds}");
+      "sw.elapsedMilliseconds toJSBox.toDart map: ${sw.elapsedMilliseconds}",
+    );
   }
 }
 
@@ -98,9 +101,10 @@ Future<void> test() async {
     // Message(requestId: 0, method: 'method', body: 'body'),
     // Message(requestId: 0, method: 'method', body: {'key': 'value'}),
     Message(
-        requestId: 0,
-        method: 'method',
-        body: {'key': Uint8List.fromList(List.generate(3, (index) => index))}),
+      requestId: 0,
+      method: 'method',
+      body: {'key': Uint8List.fromList(List.generate(3, (index) => index))},
+    ),
   ];
 
   for (final message in messages) {

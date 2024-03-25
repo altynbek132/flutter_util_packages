@@ -76,11 +76,13 @@ class WebWorkerMethodChannelWeb with LoggerMixin, DisposableBag implements WebWo
       requestId,
       method
     )}");
-    worker.postMessage(Message(
-      method: method,
-      body: body,
-      requestId: requestId,
-    ));
+    worker.postMessage(
+      Message(
+        method: method,
+        body: body,
+        requestId: requestId,
+      ),
+    );
     return completer.future;
   }
 
@@ -113,11 +115,14 @@ class WebWorkerMethodChannelWeb with LoggerMixin, DisposableBag implements WebWo
         final responseBody = data.body;
         logger.d("🚀~web_worker_method_channel_web.dart:111~WebWorkerMethodChannelWeb~");
         logger.d(
-            "🚀~web_worker_method_channel_web.dart:113~WebWorkerMethodChannelWeb~worker.addEventListener~completer: ${completer}");
+          "🚀~web_worker_method_channel_web.dart:113~WebWorkerMethodChannelWeb~worker.addEventListener~completer: ${completer}",
+        );
         logger.d(
-            "🚀~web_worker_method_channel_web.dart:115~WebWorkerMethodChannelWeb~worker.addEventListener~completer==null: ${completer == null}");
+          "🚀~web_worker_method_channel_web.dart:115~WebWorkerMethodChannelWeb~worker.addEventListener~completer==null: ${completer == null}",
+        );
         logger.d(
-            "🚀~web_worker_method_channel_web.dart:113~WebWorkerMethodChannelWeb~worker.addEventListener~responseBody: ${responseBody}");
+          "🚀~web_worker_method_channel_web.dart:113~WebWorkerMethodChannelWeb~worker.addEventListener~responseBody: ${responseBody}",
+        );
         completer!.complete(responseBody);
         return;
       }
@@ -128,35 +133,43 @@ class WebWorkerMethodChannelWeb with LoggerMixin, DisposableBag implements WebWo
         return;
       }
       logger.d("🚀~web_worker_method_channel_web.dart:109~WebWorkerMethodChannelWeb~ triggering handler");
-      await Future.wait(handlers.map((hanlder) async {
-        try {
-          final response = await hanlder(data.body);
-          worker.postMessage(Message(
-            method: method,
-            body: response,
-            requestId: requestId,
-          ));
-        } on WebPlatformException catch (e) {
-          logger.e('Error while handling method call', e);
-          worker.postMessage(Message(
-            method: method,
-            exception: e,
-            requestId: requestId,
-          ));
-        } catch (e, st) {
-          logger.e('Error while handling method call', e, st);
-          worker.postMessage(Message(
-            method: method,
-            exception: WebPlatformException(
-              code: 'unknown',
-              message: e.toString(),
-              exception: e,
-              stacktrace: st,
-            ),
-            requestId: requestId,
-          ));
-        }
-      }));
+      await Future.wait(
+        handlers.map((hanlder) async {
+          try {
+            final response = await hanlder(data.body);
+            worker.postMessage(
+              Message(
+                method: method,
+                body: response,
+                requestId: requestId,
+              ),
+            );
+          } on WebPlatformException catch (e) {
+            logger.e('Error while handling method call', e);
+            worker.postMessage(
+              Message(
+                method: method,
+                exception: e,
+                requestId: requestId,
+              ),
+            );
+          } catch (e, st) {
+            logger.e('Error while handling method call', e, st);
+            worker.postMessage(
+              Message(
+                method: method,
+                exception: WebPlatformException(
+                  code: 'unknown',
+                  message: e.toString(),
+                  exception: e,
+                  stacktrace: st,
+                ),
+                requestId: requestId,
+              ),
+            );
+          }
+        }),
+      );
     }).disposeOn(this);
   }
 }
