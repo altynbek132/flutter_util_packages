@@ -2,8 +2,8 @@ import 'dart:async';
 import 'dart:math';
 
 import 'package:disposing/disposing.dart';
-import 'package:meta/meta.dart';
 import 'package:utils_dart/utils_dart.dart';
+import 'package:logger/logger.dart';
 
 import 'package:web/web.dart' as web;
 import 'package:worker_method_channel/src/worker_impl.dart';
@@ -44,6 +44,9 @@ WebWorkerMethodChannel getWebWorkerMethodChannel({required String scriptURL, Wor
 /// The [WebWorkerMethodChannelWeb] class implements the [WebWorkerMethodChannel] interface
 /// and extends the [LoggerMixin] and [DisposableBag] classes.
 class WebWorkerMethodChannelWeb with LoggerMixin, DisposableBag implements WebWorkerMethodChannel {
+  @override
+  Logger get logger => getLogger('${runtimeType} worker.isMainThread:${worker.isMainThread}');
+
   final Worker worker;
 
   /// A map that stores the pending requests along with their corresponding completers.
@@ -68,6 +71,11 @@ class WebWorkerMethodChannelWeb with LoggerMixin, DisposableBag implements WebWo
     final requestId = _generateRandomRequestId();
     final completer = Completer<Object?>();
     _requests[requestId] = completer;
+    logger.d(
+        "🚀~web_worker_method_channel_web.dart:72~WebWorkerMethodChannelWeb~Future<Object?>invokeMethod~(requestId, method): ${(
+      requestId,
+      method
+    )}");
     worker.postMessage(Message(
       method: method,
       body: body,
@@ -79,18 +87,37 @@ class WebWorkerMethodChannelWeb with LoggerMixin, DisposableBag implements WebWo
   WebWorkerMethodChannelWeb({
     required this.worker,
   }) {
+    if (!worker.isMainThread) {
+      SyncCallbackDisposable(() => worker.terminate()).disposeOn(this);
+    }
     worker.addEventListener((Message data) async {
       final method = data.method;
       final requestId = data.requestId;
+      logger.d(
+          "🚀~web_worker_method_channel_web.dart:91~WebWorkerMethodChannelWeb~worker.addEventListener~(method, requestId): ${(
+        method,
+        requestId
+      )}");
 
       if (_requests.containsKey(requestId)) {
+        logger.d("🚀~web_worker_method_channel_web.dart:100~WebWorkerMethodChannelWeb~");
         final error = data.exception;
         final completer = _requests.remove(requestId);
+        logger.d("🚀~web_worker_method_channel_web.dart:103~WebWorkerMethodChannelWeb~");
         if (error != null) {
+          logger.d("🚀~web_worker_method_channel_web.dart:105~WebWorkerMethodChannelWeb~");
           completer!.completeError(error);
           return;
         }
+        logger.d("🚀~web_worker_method_channel_web.dart:109~WebWorkerMethodChannelWeb~");
         final responseBody = data.body;
+        logger.d("🚀~web_worker_method_channel_web.dart:111~WebWorkerMethodChannelWeb~");
+        logger.d(
+            "🚀~web_worker_method_channel_web.dart:113~WebWorkerMethodChannelWeb~worker.addEventListener~completer: ${completer}");
+        logger.d(
+            "🚀~web_worker_method_channel_web.dart:115~WebWorkerMethodChannelWeb~worker.addEventListener~completer==null: ${completer == null}");
+        logger.d(
+            "🚀~web_worker_method_channel_web.dart:113~WebWorkerMethodChannelWeb~worker.addEventListener~responseBody: ${responseBody}");
         completer!.complete(responseBody);
         return;
       }
@@ -100,6 +127,7 @@ class WebWorkerMethodChannelWeb with LoggerMixin, DisposableBag implements WebWo
         logger.w('No handlers for method $method');
         return;
       }
+      logger.d("🚀~web_worker_method_channel_web.dart:109~WebWorkerMethodChannelWeb~ triggering handler");
       await Future.wait(handlers.map((hanlder) async {
         try {
           final response = await hanlder(data.body);
@@ -109,12 +137,14 @@ class WebWorkerMethodChannelWeb with LoggerMixin, DisposableBag implements WebWo
             requestId: requestId,
           ));
         } on WebPlatformException catch (e) {
+          logger.e('Error while handling method call', e);
           worker.postMessage(Message(
             method: method,
             exception: e,
             requestId: requestId,
           ));
         } catch (e, st) {
+          logger.e('Error while handling method call', e, st);
           worker.postMessage(Message(
             method: method,
             exception: WebPlatformException(

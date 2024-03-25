@@ -48,6 +48,9 @@ final class WorkerImpl extends Worker with _WorkerBaseImp {
 
   @override
   web.EventTarget get eventTarget => worker;
+
+  @override
+  bool get isMainThread => true;
 }
 
 final class WorkerImplSelf extends Worker with _WorkerBaseImp {
@@ -67,4 +70,7 @@ final class WorkerImplSelf extends Worker with _WorkerBaseImp {
 
   @override
   web.EventTarget get eventTarget => self;
+
+  @override
+  bool get isMainThread => false;
 }
