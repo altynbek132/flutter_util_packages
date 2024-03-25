@@ -7,8 +7,8 @@ import 'package:get_it/get_it.dart' hide Disposable;
 import 'package:logger/logger.dart';
 import 'package:mobx/mobx.dart' hide Listenable;
 import 'package:rxdart/rxdart.dart';
-import 'package:utils_flutter/utils_dart.dart';
-import 'package:utils_flutter/utils_flutter.dart';
+import 'package:utils/utils_dart.dart';
+import 'package:utils/utils_flutter/mobx_utils.dart';
 
 abstract class MobxWM<W extends ElementaryWidget> extends WidgetModel<W, Null> with LoggerMixin, DisposableBag {
   @override

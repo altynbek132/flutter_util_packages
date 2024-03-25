@@ -6,7 +6,7 @@ import 'dart:typed_data';
 import 'package:logger/logger.dart';
 import 'package:mobx/mobx.dart' hide Listenable;
 import 'package:rxdart/rxdart.dart';
-import 'package:utils_dart/src/loggers/logger_mixin.dart';
+import 'package:utils/utils_dart.dart';
 
 final seed = math.Random();
 
