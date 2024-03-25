@@ -1,3 +1,3 @@
 library utils_flutter;
 
-export 'src/src.dart';
+export 'utils_flutter/src.dart';
