@@ -1,7 +1,7 @@
 import 'dart:async';
 
-import 'package:disposing/disposing.dart';
-import 'package:disposing_flutter/disposing_flutter.dart';
+import 'package:disposing/disposing_dart.dart';
+import 'package:disposing/disposing_flutter.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/widgets.dart' hide Action;
 import 'package:mobx/mobx.dart' hide Listenable;
@@ -24,12 +24,14 @@ class MobxUtils {
   ///     .handleDispose((disposer) => addDisposer(disposer));
   static SyncValueDisposable<Observable<T>> fromListenable<T extends Listenable>(T listenable) {
     final obs = Observable<T>(listenable);
-    final disp = listenable.addDisposableListener(Action(() {
-      obs.value = listenable;
-      if (obs.hasObservers) {
-        obs.reportManualChange();
-      }
-    }));
+    final disp = listenable.addDisposableListener(
+      Action(() {
+        obs.value = listenable;
+        if (obs.hasObservers) {
+          obs.reportManualChange();
+        }
+      }).call,
+    );
     return SyncValueDisposable(obs, () => disp.dispose());
   }
 
@@ -43,12 +45,14 @@ class MobxUtils {
     bool? dispose,
   }) {
     final obs = Observable<T>(vn.value);
-    final disp = vn.addDisposableListener(Action(() {
-      obs.value = vn.value;
-      if (obs.hasObservers) {
-        obs.reportManualChange();
-      }
-    }));
+    final disp = vn.addDisposableListener(
+      Action(() {
+        obs.value = vn.value;
+        if (obs.hasObservers) {
+          obs.reportManualChange();
+        }
+      }).call,
+    );
     return SyncValueDisposable(obs, () {
       disp.dispose();
       if (dispose ?? true) {
@@ -66,12 +70,14 @@ class MobxUtils {
     ValueListenable<T> vl,
   ) {
     final obs = Observable<T>(vl.value);
-    final disp = vl.addDisposableListener(Action(() {
-      obs.value = vl.value;
-      if (obs.hasObservers) {
-        obs.reportManualChange();
-      }
-    }));
+    final disp = vl.addDisposableListener(
+      Action(() {
+        obs.value = vl.value;
+        if (obs.hasObservers) {
+          obs.reportManualChange();
+        }
+      }).call,
+    );
     return SyncValueDisposable(obs, () {
       disp.dispose();
     });
@@ -89,12 +95,14 @@ class MobxUtils {
     bool? dispose,
   }) {
     final obs = Observable<T>(cn);
-    final disp = cn.addDisposableListener(Action(() {
-      obs.value = cn;
-      if (obs.hasObservers) {
-        obs.reportManualChange();
-      }
-    }));
+    final disp = cn.addDisposableListener(
+      Action(() {
+        obs.value = cn;
+        if (obs.hasObservers) {
+          obs.reportManualChange();
+        }
+      }).call,
+    );
     return SyncValueDisposable(obs, () {
       disp.dispose();
       if (dispose ?? true) {

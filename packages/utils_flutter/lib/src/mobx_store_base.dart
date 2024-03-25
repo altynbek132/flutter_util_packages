@@ -1,6 +1,6 @@
 import 'dart:async';
 
-import 'package:disposing/disposing.dart';
+import 'package:disposing/disposing_dart.dart';
 import 'package:elementary/elementary.dart';
 import 'package:flutter/widgets.dart';
 import 'package:get_it/get_it.dart' hide Disposable;
@@ -10,7 +10,7 @@ import 'package:rxdart/rxdart.dart';
 import 'package:utils_dart/utils_dart.dart';
 import 'package:utils_flutter/utils_flutter.dart';
 
-abstract class MobxWM<W extends ElementaryWidget> extends WidgetModel<W> with LoggerMixin, DisposableBag {
+abstract class MobxWM<W extends ElementaryWidget> extends WidgetModel<W, Null> with LoggerMixin, DisposableBag {
   @override
   void initWidgetModel() {
     super.initWidgetModel();
@@ -90,7 +90,11 @@ abstract class MobxStoreBase with LoggerMixin, DisposableBag {
 }
 
 void _logOnStringChange(
-    ValueGetter<dynamic> getter, ReplayStream<void> disposeStream, Logger logger, DisposableBag bag) {
+  ValueGetter<dynamic> getter,
+  ReplayStream<void> disposeStream,
+  Logger logger,
+  DisposableBag bag,
+) {
   MobxUtils.fromGetter(getter)
       .takeUntil(disposeStream)
       .map((event) => event.toString())

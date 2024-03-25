@@ -3,8 +3,10 @@ import 'package:mobx/mobx.dart';
 import 'package:rxdart/rxdart.dart';
 
 class DioUtils {
-  static Stream<T> makeCancelableStreamRequest<T>(Future<T> Function(CancelToken ct) request,
-      {bool? startImmediately}) {
+  static Stream<T> makeCancelableStreamRequest<T>(
+    Future<T> Function(CancelToken ct) request, {
+    bool? startImmediately,
+  }) {
     startImmediately ??= false;
 
     final cancelToken = CancelToken();

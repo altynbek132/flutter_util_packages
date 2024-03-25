@@ -1,12 +1,14 @@
 import 'dart:async';
 
-import 'package:disposing/disposing.dart';
-import 'package:disposing_flutter/disposing_flutter.dart';
+import 'package:disposing/disposing_dart.dart';
+import 'package:disposing/disposing_flutter.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/scheduler.dart';
 
 AsyncValueDisposable<Stream<T>> listenableToStream<S extends Listenable, T>(
-    S listenable, T Function(S listenable) select) {
+  S listenable,
+  T Function(S listenable) select,
+) {
   final sc = StreamController<T>();
   final disposer = listenable.addDisposableListener(() => sc.add(select(listenable)));
   return AsyncValueDisposable(sc.stream, () async {

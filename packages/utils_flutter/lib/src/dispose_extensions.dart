@@ -1,5 +1,5 @@
-import 'package:disposing/disposing.dart';
-import 'package:disposing_flutter/disposing_flutter.dart';
+import 'package:disposing/disposing_dart.dart';
+import 'package:disposing/disposing_flutter.dart';
 import 'package:flutter/widgets.dart';
 
 extension ChangeNotifierDisposeExtension on ChangeNotifier {
