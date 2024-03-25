@@ -99,9 +99,18 @@ class DevLogOutput extends LogOutput {
       return;
     }
     var logFunction = (String message) => print(message);
-    if (Platform.I.isIO) {
+    if (isIO) {
       logFunction = (String message) => log(message);
     }
     event.lines.forEach(logFunction);
+  }
+
+  bool get isIO {
+    // ! workaround for dart compile js imported with [Worker] class
+    try {
+      return Platform.I.isIO;
+    } catch (e) {
+      return false;
+    }
   }
 }
