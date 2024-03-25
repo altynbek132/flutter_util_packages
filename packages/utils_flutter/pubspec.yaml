@@ -32,10 +32,6 @@ dependencies:
     git:
       url: https://github.com/altynbek132/flutter-elementary
       path: packages/elementary
-  utils_dart:
-    git:
-      url: https://github.com/altynbek132/utils.git
-      path: packages/utils_dart
 
   # Other
   logger: ^2.0.0
@@ -43,10 +39,12 @@ dependencies:
   provider: ^6.1.0
   dio: ^5.4.0
   get_it: ^7.6.7
+  platform_info: ^4.0.2
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
+  test: ^1.24.9
 
   flutter_lints: ^3.0.1
 
