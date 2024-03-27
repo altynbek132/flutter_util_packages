@@ -15,19 +15,16 @@ class SimpleLogPrinter extends LogPrinter {
     this.showOnlyClass,
   });
 
-  static final levelColors = {
-    Level.verbose: AnsiColor.fg(AnsiColor.grey(0.5)),
-    Level.debug: AnsiColor.none(),
-    Level.info: AnsiColor.fg(12),
-    Level.warning: AnsiColor.fg(208),
-    Level.error: AnsiColor.fg(196),
-    Level.wtf: AnsiColor.fg(199),
-  };
-
   String _labelFor(Level level) {
-    final prefix = SimplePrinter.levelPrefixes[level]!;
-    final color = SimplePrinter.levelColors[level]!;
+    final prefix = SimplePrinter.levelPrefixes[level];
+    final color = SimplePrinter.levelColors[level];
 
+    if (prefix == null) {
+      return '';
+    }
+    if (color == null) {
+      return prefix;
+    }
     return color(prefix);
   }
 
@@ -98,6 +95,7 @@ class DevLogOutput extends LogOutput {
     if (!_kLoggerShouldLog) {
       return;
     }
+    // ignore: avoid_print
     var logFunction = (String message) => print(message);
     if (isIO) {
       logFunction = (String message) => log(message);
