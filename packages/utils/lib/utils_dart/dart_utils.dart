@@ -153,7 +153,7 @@ extension SliceUint32Extension on Uint32List {
 
 extension FutureExtension<T> on Future<T> {
   Future<T> withCompleter(Completer<void> c) {
-    return thenSideEffect((result) => c.complete()).onErrorWithRethrow(cb: (e, st) => c.completeError(e!, st));
+    return thenSideEffect((result) => c.complete()).onErrorRethrow(cb: (e, st) => c.completeError(e!, st));
   }
 }
 
@@ -299,60 +299,6 @@ void logFunction(
 
 extension StreamExtension123123<T> on Stream<T> {
   Stream<T> get skipError => handleError((e, st) {});
-}
-
-extension FutureExtension22<T> on Future<T> {
-  Future<T> thenSideEffect(
-    FutureOr Function(T result) cb, {
-    bool shouldRethrow = true,
-    bool shouldAwait = true,
-  }) =>
-      then((result) async {
-        try {
-          final f = cb(result);
-          if (shouldAwait) {
-            await f;
-          }
-          // todo Altynbek: check error log
-        } catch (e) {
-          if (shouldRethrow) {
-            rethrow;
-          }
-        }
-        return result;
-      });
-
-  /// [FutureExtensions.onError]
-  Future<T?> onErrorNullable<E extends Object>(
-    FutureOr<void> Function(E e, StackTrace st)? cb, {
-    bool Function(E e)? test,
-  }) async {
-    try {
-      return await this;
-    } catch (e, st) {
-      if (e is E && (test == null || test(e))) {
-        await cb?.call(e, st);
-        return null;
-      }
-      rethrow;
-    }
-  }
-
-  /// [FutureExtensions.onError]
-  Future<T> onErrorWithRethrow<E extends Object>({
-    FutureOr<void> Function(E e, StackTrace st)? cb,
-    bool Function(E e)? test,
-  }) async {
-    try {
-      return await this;
-    } catch (e, st) {
-      if (e is E && (test == null || test(e))) {
-        await cb?.call(e, st);
-        rethrow;
-      }
-      rethrow;
-    }
-  }
 }
 
 extension DebounceExtensions<T> on Stream<T> {

@@ -8,4 +8,5 @@ export 'mobx_extensions.dart';
 export 'mobx_obs_extensions.dart';
 export 'mobx_utils.dart';
 export 'null.dart';
+export 'future_extension_on_error.dart';
 export 'other.dart';
