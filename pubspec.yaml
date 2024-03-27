@@ -4,7 +4,6 @@ environment:
   sdk: ">=2.18.0 <4.0.0"
 
 dev_dependencies:
-  # melos exec "flutter pub get"
   melos:
 
-  flutter_lints: ^2.0.1
+  flutter_lints: ^3.0.2
