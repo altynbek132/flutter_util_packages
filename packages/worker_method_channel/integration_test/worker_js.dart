@@ -1,4 +1,4 @@
-import 'package:utils_dart/utils_dart.dart';
+import 'package:utils/utils_dart.dart';
 import 'package:web/web.dart' as web;
 import 'dart:js_interop' as js_interop;
 

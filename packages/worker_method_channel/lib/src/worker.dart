@@ -1,4 +1,4 @@
-import 'package:disposing/disposing.dart';
+import 'package:disposing/disposing_dart.dart';
 import 'package:worker_method_channel/src/message.dart';
 
 abstract class Worker {

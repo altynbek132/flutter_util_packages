@@ -1,8 +1,7 @@
 import 'dart:js_interop' as js_interop;
+import 'package:disposing/disposing_dart.dart';
 import 'package:web/web.dart' as web;
-
-import 'package:disposing/disposing.dart';
-import 'package:utils_dart/utils_dart.dart';
+import 'package:utils/utils_dart.dart';
 
 import 'message.dart';
 import 'worker.dart';

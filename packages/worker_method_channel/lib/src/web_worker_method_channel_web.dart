@@ -1,9 +1,9 @@
 import 'dart:async';
 import 'dart:math';
 
-import 'package:disposing/disposing.dart';
-import 'package:utils_dart/utils_dart.dart';
+import 'package:disposing/disposing_dart.dart';
 import 'package:logger/logger.dart';
+import 'package:utils/utils_dart.dart';
 
 import 'package:web/web.dart' as web;
 import 'package:worker_method_channel/src/worker_impl.dart';

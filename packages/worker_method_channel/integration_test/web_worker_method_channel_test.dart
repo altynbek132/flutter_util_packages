@@ -3,9 +3,9 @@ library;
 
 import 'package:flutter_test/flutter_test.dart';
 import 'package:integration_test/integration_test.dart';
-import 'package:utils_dart/utils_dart.dart';
 import 'package:worker_method_channel/worker_method_channel.dart';
 import 'responses.dart';
+import 'package:utils/utils_dart.dart';
 
 Future<void> main() async {
   IntegrationTestWidgetsFlutterBinding.ensureInitialized();
@@ -42,7 +42,7 @@ Future<void> main() async {
           await value(null).thenSideEffect((expectedResponse) async {
             final actualResponse = await channel.invokeMethod(key);
             expect(actualResponse, expectedResponse);
-          }).onErrorNullable((error, stackTrace) async {
+          }).onErrorNull(cb: (error, stackTrace) async {
             final responseFuture = channel.invokeMethod(key);
             expect(await responseFuture, throwsA(isA<WebPlatformException>()));
             expect(
