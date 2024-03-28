@@ -106,5 +106,9 @@ void _logOnStringChange(
 void _setupObservableLoggers(Iterable<ValueGetter<dynamic>> formattedValueGetters, Logger log, DisposableBag bag) {
   // calling toList invokes lambda
   final disposers = formattedValueGetters.map((e) => autorun((_) => log.i(e()))).toList();
-  SyncCallbackDisposable(() => disposers.forEach((e) => e())).disposeOn(bag);
+  SyncCallbackDisposable(() {
+    for (var e in disposers) {
+      e();
+    }
+  }).disposeOn(bag);
 }
