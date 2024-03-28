@@ -16,7 +16,7 @@ mixin _WorkerBaseImp on Worker {
   ]) {
     final listenerJS = ((web.MessageEvent e) {
       final data = e.data.dartify()!;
-      listener(Message.fromMap((data as Map).castMap()));
+      listener(Message.fromMap((data as Map).castRecursiveMap()));
     }).toJS;
     final onErrorJS = (js_interop.JSAny error) {
       onError?.call(error.dartify());
