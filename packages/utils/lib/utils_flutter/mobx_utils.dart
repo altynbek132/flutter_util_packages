@@ -1,21 +1,11 @@
-import 'dart:async';
-
 import 'package:disposing/disposing_dart.dart';
 import 'package:disposing/disposing_flutter.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/widgets.dart' hide Action;
 import 'package:mobx/mobx.dart' hide Listenable;
-import 'package:rxdart/rxdart.dart';
 
 class MobxUtils {
-  static Stream<T> fromGetter<T>(T Function() getter) {
-    BehaviorSubject<T>? controller;
-    ReactionDisposer? disposer;
-    return controller = BehaviorSubject<T>(
-      onListen: () => disposer = autorun((_) => controller!.add(getter())),
-      onCancel: () => disposer?.call(),
-    );
-  }
+  MobxUtils._();
 
   /// use it if you need to wrap [Listenable] to [Observable]
   ///
@@ -110,8 +100,6 @@ class MobxUtils {
       }
     });
   }
-
-  MobxUtils._();
 }
 
 extension ListenableObsExtension on Listenable {
