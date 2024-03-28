@@ -1,7 +1,7 @@
 name: worker_method_channel
 description: "A new Flutter package project."
 version: 0.0.1
-homepage:
+publish_to: none
 
 environment:
   sdk: ">=3.3.0 <4.0.0"
@@ -11,15 +11,19 @@ dependencies:
   flutter:
     sdk: flutter
 
-  utils_dart:
+  utils:
     git:
-      url: https://github.com/altynbek132/utils.git
-      path: packages/utils_dart
+      url: https://github.com/altynbek132/flutter_util_packages
+      path: packages/utils
   disposing:
     git:
-      url: https://github.com/altynbek132/utils.git
+      url: https://github.com/altynbek132/dart_disposing
       path: packages/disposing
-
+  awesome_extensions:
+    git:
+      url: https://github.com/altynbek132/awesome_extensions
+  l:
+    git: https://github.com/altynbek132/l
   js_import:
     git:
       url: https://github.com/altynbek132/js_import.git
