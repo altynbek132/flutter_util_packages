@@ -3,6 +3,7 @@ import 'dart:math';
 
 import 'package:disposing/disposing_dart.dart';
 import 'package:logger/logger.dart';
+import 'package:meta/meta.dart';
 import 'package:utils/utils_dart.dart';
 
 import 'package:web/web.dart' as web;
@@ -50,15 +51,17 @@ class WebWorkerMethodChannelWeb with LoggerMixin, DisposableBag implements WebWo
   final Worker worker;
 
   /// A map that stores the pending requests along with their corresponding completers.
-  final _requests = <int, Completer<Object?>>{};
+  @visibleForTesting
+  final requests = <int, Completer<Object?>>{};
 
   /// A map that stores the method call handlers for different method names.
-  final _methodCallHandlers = <String, List<MethodCallHandler>>{};
+  @visibleForTesting
+  final methodCallHandlers = <String, List<MethodCallHandler>>{};
 
   @override
   SyncDisposable setMethodCallHandler(String method, MethodCallHandler handler) {
-    (_methodCallHandlers[method] ??= []).add(handler);
-    return SyncCallbackDisposable(() => _methodCallHandlers[method]?.remove(handler));
+    (methodCallHandlers[method] ??= []).add(handler);
+    return SyncCallbackDisposable(() => methodCallHandlers[method]?.remove(handler));
   }
 
   int _generateRandomRequestId() {
@@ -70,7 +73,7 @@ class WebWorkerMethodChannelWeb with LoggerMixin, DisposableBag implements WebWo
   Future<Object?> invokeMethod(String method, [Object? body]) {
     final requestId = _generateRandomRequestId();
     final completer = Completer<Object?>();
-    _requests[requestId] = completer;
+    requests[requestId] = completer;
     logger.d(
         "🚀~web_worker_method_channel_web.dart:72~WebWorkerMethodChannelWeb~Future<Object?>invokeMethod~(requestId, method): ${(
       requestId,
@@ -101,10 +104,10 @@ class WebWorkerMethodChannelWeb with LoggerMixin, DisposableBag implements WebWo
         requestId
       )}");
 
-      if (_requests.containsKey(requestId)) {
+      if (requests.containsKey(requestId)) {
         logger.d("🚀~web_worker_method_channel_web.dart:100~WebWorkerMethodChannelWeb~");
         final error = data.exception;
-        final completer = _requests.remove(requestId);
+        final completer = requests.remove(requestId);
         logger.d("🚀~web_worker_method_channel_web.dart:103~WebWorkerMethodChannelWeb~");
         if (error != null) {
           logger.d("🚀~web_worker_method_channel_web.dart:105~WebWorkerMethodChannelWeb~");
@@ -127,9 +130,14 @@ class WebWorkerMethodChannelWeb with LoggerMixin, DisposableBag implements WebWo
         return;
       }
 
-      final handlers = _methodCallHandlers[method] ?? [];
+      final handlers = methodCallHandlers[method] ?? [];
       if (handlers.isEmpty) {
         logger.w('No handlers for method $method');
+        logger.d(
+            "🚀~web_worker_method_channel_web.dart:136~WebWorkerMethodChannelWeb~worker.addEventListener~method: ${method}");
+        logger.d(
+            "🚀~web_worker_method_channel_web.dart:134~WebWorkerMethodChannelWeb~worker.addEventListener~methodCallHandlers: ${methodCallHandlers.keys.toList()}");
+
         return;
       }
       logger.d("🚀~web_worker_method_channel_web.dart:109~WebWorkerMethodChannelWeb~ triggering handler");
@@ -145,7 +153,7 @@ class WebWorkerMethodChannelWeb with LoggerMixin, DisposableBag implements WebWo
               ),
             );
           } on WebPlatformException catch (e) {
-            logger.e('Error while handling method call', e);
+            logger.e('Error while handling method call (WebPlatformException)', e);
             worker.postMessage(
               Message(
                 method: method,
@@ -154,7 +162,7 @@ class WebWorkerMethodChannelWeb with LoggerMixin, DisposableBag implements WebWo
               ),
             );
           } catch (e, st) {
-            logger.e('Error while handling method call', e, st);
+            logger.e('Error while handling method call (unknown error)', e, st);
             worker.postMessage(
               Message(
                 method: method,
