@@ -3,6 +3,8 @@ library;
 
 import 'package:flutter_test/flutter_test.dart';
 import 'package:integration_test/integration_test.dart';
+import 'package:js_import/js_import.dart';
+import 'package:l/l.dart';
 import 'package:worker_method_channel/worker_method_channel.dart';
 import 'responses.dart';
 import 'package:utils/utils_dart.dart';
@@ -10,55 +12,49 @@ import 'package:utils/utils_dart.dart';
 Future<void> main() async {
   IntegrationTestWidgetsFlutterBinding.ensureInitialized();
 
-  testWidgets('should not finish', (widgetTester) async {
-    // return;
-    print('start');
-    await widgetTester.runAsync(() async {
-      () async {
-        await Future.delayed(const Duration(milliseconds: 100));
-        () async {
-          await Future.delayed(const Duration(milliseconds: 1000));
-          throw 1;
-        }();
-      }();
-      print("🚀~_demo_flutter_test.dart:12~");
-      await Future.delayed(const Duration(milliseconds: 2000));
-      print("🚀~_demo_flutter_test.dart:12~2");
-    });
-    print('finish');
-  });
   testWidgets('should respond', (widgetTester) async {
-    // return;
     await widgetTester.runAsync(() async {
+      loggerGlobal.i("test started");
       //Arrange - Setup facts, Put Expected outputs or Initilize
       final channel = WebWorkerMethodChannel(scriptURL: './integration_test/worker_js.dart.js');
 
       //Act - Call the function that is to be tested
       await Future.wait(
         Responses.workerResponses.entries.map((entry) async {
-          final key = entry.key;
-          final value = entry.value;
+          final method = entry.key;
+          final response = entry.value;
+          print("🚀~web_worker_method_channel_test.dart:23~");
 
-          await value(null).thenSideEffect((expectedResponse) async {
-            final actualResponse = await channel.invokeMethod(key);
+          final requestBody = 'request';
+          await response(requestBody).thenSideEffect((expectedResponse) async {
+            print("🚀~web_worker_method_channel_test.dart:28~");
+            final actualResponse = await channel.invokeMethod(method, requestBody);
             expect(actualResponse, expectedResponse);
+            loggerGlobal.i("method: ${method} complete");
+            loggerGlobal.d("🚀~web_worker_method_channel_test.dart:27~awaitvalue~actualResponse, expectedResponse: ${(
+              actualResponse,
+              expectedResponse
+            )}");
           }).onErrorNull(
             cb: (error, stackTrace) async {
-              final responseFuture = channel.invokeMethod(key);
-              expect(await responseFuture, throwsA(isA<WebPlatformException>()));
-              expect(
-                await responseFuture,
+              print("🚀~web_worker_method_channel_test.dart:36~");
+              final responseFuture = channel.invokeMethod(method, requestBody);
+              expectLater(responseFuture, throwsA(isA<WebPlatformException>()));
+              expectLater(
+                responseFuture,
                 throwsA(predicate((WebPlatformException e) => e.exception.toString() == error.toString())),
               );
+              await responseFuture.onErrorNull(cb: (error, stackTrace) {
+                loggerGlobal.i("method: ${method} error: ${error}");
+              });
+              loggerGlobal.i("method with exception: ${method} complete");
             },
           );
         }),
       );
 
-      //Assert - Compare the actual result and expected result
-
       await channel.disposeAsync();
-      await Future.delayed(const Duration(milliseconds: 100000000));
+      await Future.delayed(const Duration(hours: 99999));
     });
   });
 
@@ -75,5 +71,13 @@ Future<void> main() async {
         expect(channel.invokeMethod('echo'), doesNotComplete);
       }();
     });
+  });
+
+  _doNotTerminate();
+}
+
+void _doNotTerminate() {
+  testWidgets('do not terminate', (widgetTester) async {
+    await widgetTester.runAsync(() => Future.delayed(const Duration(milliseconds: 999999999999)));
   });
 }
