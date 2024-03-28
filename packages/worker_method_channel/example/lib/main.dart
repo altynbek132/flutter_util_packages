@@ -1,4 +1,3 @@
-import 'package:js_import/js_import.dart';
 import 'package:flutter/material.dart';
 
 import 'package:worker_method_channel/worker_method_channel.dart';
@@ -21,7 +20,7 @@ class _MainAppState extends State<MainApp> {
   void initState() {
     super.initState();
     () async {
-      channel = WebWorkerMethodChannel(name: './web/worker_js.dart.js');
+      channel = WebWorkerMethodChannel(scriptURL: './web/worker_js.dart.js');
       channel.setMethodCallHandler('echo', (body) {
         print("🚀~main.dart:29~_MainAppState~");
         return body;
