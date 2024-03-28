@@ -8,6 +8,7 @@ import 'package:logger/logger.dart';
 import 'package:mobx/mobx.dart' hide Listenable;
 import 'package:rxdart/rxdart.dart';
 import 'package:utils/utils_dart.dart';
+import 'package:utils/utils_flutter/mobx_utils.dart';
 
 abstract class MobxWM<W extends ElementaryWidget> extends WidgetModel<W, Null> with LoggerMixin, DisposableBag {
   @override
@@ -105,9 +106,5 @@ void _logOnStringChange(
 void _setupObservableLoggers(Iterable<ValueGetter<dynamic>> formattedValueGetters, Logger log, DisposableBag bag) {
   // calling toList invokes lambda
   final disposers = formattedValueGetters.map((e) => autorun((_) => log.i(e()))).toList();
-  SyncCallbackDisposable(() {
-    for (var e in disposers) {
-      e();
-    }
-  }).disposeOn(bag);
+  SyncCallbackDisposable(() => disposers.forEach((e) => e())).disposeOn(bag);
 }
