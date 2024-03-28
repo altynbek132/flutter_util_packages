@@ -22,6 +22,14 @@ extension ObservableMapExtensionCustom<K, V> on Map<K, V> {
       ObservableMap<K, V>.proxy(this, context: context, name: name);
 }
 
+/// Turn the Set into an ObservableSet.
+extension ObservableSetExtension<T> on Set<T> {
+  ObservableSet<T> obs({ReactiveContext? context, String? name}) => asObservable(context: context, name: name);
+
+  ObservableSet<T> obsProxy({ReactiveContext? context, String? name}) =>
+      ObservableSet<T>.proxy(this, context: context, name: name);
+}
+
 /// Turn the Stream into an ObservableStream.
 extension ObservableStreamExtensionCustom<T> on Stream<T> {
   ObservableStream<T> obs({T? initialValue, bool cancelOnError = false, ReactiveContext? context, String? name}) =>
