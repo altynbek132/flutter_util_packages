@@ -42,14 +42,16 @@ Future<void> main() async {
           await value(null).thenSideEffect((expectedResponse) async {
             final actualResponse = await channel.invokeMethod(key);
             expect(actualResponse, expectedResponse);
-          }).onErrorNull(cb: (error, stackTrace) async {
-            final responseFuture = channel.invokeMethod(key);
-            expect(await responseFuture, throwsA(isA<WebPlatformException>()));
-            expect(
-              await responseFuture,
-              throwsA(predicate((WebPlatformException e) => e.exception.toString() == error.toString())),
-            );
-          });
+          }).onErrorNull(
+            cb: (error, stackTrace) async {
+              final responseFuture = channel.invokeMethod(key);
+              expect(await responseFuture, throwsA(isA<WebPlatformException>()));
+              expect(
+                await responseFuture,
+                throwsA(predicate((WebPlatformException e) => e.exception.toString() == error.toString())),
+              );
+            },
+          );
         }),
       );
 
