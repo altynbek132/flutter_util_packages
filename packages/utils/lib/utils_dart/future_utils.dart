@@ -1,5 +1,22 @@
 import 'dart:async';
 
+extension FutureExtension<T> on Future<T> {
+  Future<T> withCompleter(Completer<void> c) {
+    return thenSideEffect((result) => c.complete()).onErrorRethrow(cb: (e, st) => c.completeError(e!, st));
+  }
+}
+
+Future<List<T>> futureWait<T>(
+  Iterable<FutureOr<T>> futures, {
+  bool eagerError = false,
+  void Function(T successValue)? cleanUp,
+}) =>
+    Future.wait(
+      futures.map((e) => (() async => await e)()),
+      eagerError: eagerError,
+      cleanUp: cleanUp,
+    );
+
 extension FutureExtensionOnError<T> on Future<T> {
   /// A utility method that allows performing a side effect on the result of a [Future].
   ///
