@@ -1,6 +1,8 @@
 import 'dart:async';
 import 'dart:typed_data';
 
+import 'package:utils/utils_dart.dart';
+
 /// A class that contains a collection of worker responses.
 class Responses {
   Responses._();
@@ -51,6 +53,29 @@ class Responses {
     'returnUintList': (
       response: (body) async => Uint8List.fromList([1, 2, 3, 4, 5]),
       responseTypeChecker: (response) => response is Uint8List
+    ),
+
+    /// A response function named 'returnComplex' that returns a complex data structure.
+    'returnComplex': (
+      response: (body) async {
+        final uint8list = Uint8List.fromList([1, 2, 3, 4, 5]);
+        final map = {'key1': 'value1', 'key2': uint8list};
+        return {
+          'list': [map, map],
+          'map': map,
+          'null': null,
+          'uint8list': uint8list,
+        };
+      },
+      responseTypeChecker: (response) {
+        try {
+          final map = (response as Map).castMap();
+          final list = (map['list'] as List).map((e) => (e as Map).castMap()).toList();
+          return list[0]['key2'] is Uint8List;
+        } on Exception catch (_) {
+          return false;
+        }
+      }
     ),
   };
 }
