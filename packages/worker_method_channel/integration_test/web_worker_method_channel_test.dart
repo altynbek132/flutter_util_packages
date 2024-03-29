@@ -1,83 +1,134 @@
 @TestOn('chrome')
 library;
 
+import 'dart:async';
+
 import 'package:flutter_test/flutter_test.dart';
 import 'package:integration_test/integration_test.dart';
-import 'package:js_import/js_import.dart';
-import 'package:l/l.dart';
 import 'package:worker_method_channel/worker_method_channel.dart';
 import 'responses.dart';
 import 'package:utils/utils_dart.dart';
 
+final logger = loggerGlobal;
+
 Future<void> main() async {
   IntegrationTestWidgetsFlutterBinding.ensureInitialized();
 
-  testWidgets('should respond', (widgetTester) async {
+  /// Test case to verify that the method channel responds in sequence.
+  testWidgets('should respond in sequence', (widgetTester) async {
     await widgetTester.runAsync(() async {
-      loggerGlobal.i("test started");
-      //Arrange - Setup facts, Put Expected outputs or Initilize
-      final channel = WebWorkerMethodChannel(scriptURL: './integration_test/worker_js.dart.js');
+      await _testResponses(false);
+    });
+  });
 
-      //Act - Call the function that is to be tested
-      await Future.wait(
-        Responses.workerResponses.entries.map((entry) async {
-          final method = entry.key;
-          final response = entry.value;
-          print("🚀~web_worker_method_channel_test.dart:23~");
-
-          final requestBody = 'request';
-          await response(requestBody).thenSideEffect((expectedResponse) async {
-            print("🚀~web_worker_method_channel_test.dart:28~");
-            final actualResponse = await channel.invokeMethod(method, requestBody);
-            expect(actualResponse, expectedResponse);
-            loggerGlobal.i("method: ${method} complete");
-            loggerGlobal.d("🚀~web_worker_method_channel_test.dart:27~awaitvalue~actualResponse, expectedResponse: ${(
-              actualResponse,
-              expectedResponse
-            )}");
-          }).onErrorNull(
-            cb: (error, stackTrace) async {
-              print("🚀~web_worker_method_channel_test.dart:36~");
-              final responseFuture = channel.invokeMethod(method, requestBody);
-              expectLater(responseFuture, throwsA(isA<WebPlatformException>()));
-              expectLater(
-                responseFuture,
-                throwsA(predicate((WebPlatformException e) => e.exception.toString() == error.toString())),
-              );
-              await responseFuture.onErrorNull(cb: (error, stackTrace) {
-                loggerGlobal.i("method: ${method} error: ${error}");
-              });
-              loggerGlobal.i("method with exception: ${method} complete");
-            },
-          );
-        }),
-      );
-
-      await channel.disposeAsync();
-      await Future.delayed(const Duration(hours: 99999));
+  /// Test case to verify that the method responds in parallel.
+  testWidgets('should respond in parallel', (widgetTester) async {
+    await widgetTester.runAsync(() async {
+      await _testResponses(true);
     });
   });
 
   testWidgets('should terminate', (widgetTester) async {
-    return;
     await widgetTester.runAsync(() async {
       () async {
-        //Arrange - Setup facts, Put Expected outputs or Initilize
         final channel = WebWorkerMethodChannel(scriptURL: './integration_test/worker_js.dart.js');
         await channel.disposeAsync();
 
-        //Act - Call the function that is to be tested
-        //Assert - Compare the actual result and expected result
-        expect(channel.invokeMethod('echo'), doesNotComplete);
+        await expectLater(
+            channel.invokeMethod('echo').timeout(const Duration(milliseconds: 100)), throwsA(isA<TimeoutException>()));
+        logger.d("🚀~web_worker_method_channel_test.dart:61~");
       }();
     });
   });
 
-  _doNotTerminate();
+  // _doNotTerminateTests();
 }
 
-void _doNotTerminate() {
+/// Tests the responses of the worker method channel.
+///
+/// The [parallel] parameter determines whether the responses should be handled in parallel or sequentially.
+/// By default, the responses are handled in parallel.
+///
+/// This method creates a [WebWorkerMethodChannel] with the specified script URL and then handles the worker responses.
+/// If [parallel] is true, the responses are handled concurrently using [Future.wait].
+/// If [parallel] is false, the responses are handled sequentially using a for loop.
+///
+/// After handling the responses, the method disposes of the channel.
+Future<void> _testResponses([bool parallel = true]) async {
+  loggerGlobal.i("test started");
+  final channel = WebWorkerMethodChannel(scriptURL: './integration_test/worker_js.dart.js');
+
+  if (parallel) {
+    await Future.wait(
+      Responses.workerResponses.entries.map((entry) async {
+        await _testResponse(entry, channel);
+      }),
+    );
+  } else {
+    for (final entry in Responses.workerResponses.entries) {
+      await _testResponse(entry, channel);
+      logger.d("---------");
+    }
+  }
+
+  await channel.disposeAsync();
+}
+
+/// Tests the response of a web worker method channel.
+///
+/// This function takes a [MapEntry] containing the method name and a callback
+/// function that provides the response for that method. It also takes a
+/// [WebWorkerMethodChannel] instance representing the communication channel
+/// with the web worker.
+///
+/// The function sends a request to the web worker using the specified method
+/// and compares the response with the expected response provided by the
+/// callback function. If the response matches the expected response, the test
+/// passes. If an exception is thrown during the request, the function verifies
+/// that the exception matches the expected exception.
+Future<void> _testResponse(
+  MapEntry<
+          String,
+          ({
+            Future<Object?> Function(Object? request) response,
+            bool Function(Object? object)? responseTypeChecker,
+          })>
+      entry,
+  WebWorkerMethodChannel channel,
+) async {
+  final method = entry.key;
+  final response = entry.value;
+  final requestBody = 'request';
+  await response.response(requestBody).thenSideEffect((expectedResponse) async {
+    final actualResponse = await channel.invokeMethod(method, requestBody);
+    logger.d("🚀~web_worker_method_channel_test.dart:30~");
+    expect(response.responseTypeChecker?.call(actualResponse) ?? true, true);
+    logger.d("🚀~web_worker_method_channel_test.dart:34~");
+    expect(actualResponse, expectedResponse);
+    logger.d("🚀~web_worker_method_channel_test.dart:36~");
+    loggerGlobal.i("method: ${method} complete");
+  }).onErrorNull(
+    cb: (error, stackTrace) async {
+      final responseFuture = channel.invokeMethod(method, requestBody);
+      await expectLater(responseFuture, throwsA(isA<WebPlatformException>()));
+      await expectLater(
+        responseFuture,
+        throwsA(predicate((WebPlatformException e) => e.exception == error.toString())),
+      );
+      loggerGlobal.i("method with exception: ${method} complete");
+    },
+  );
+}
+
+/// ! WARNING
+/// This method is used to prevent the tests from terminating.
+// ignore: unused_element
+void _doNotTerminateTests() {
   testWidgets('do not terminate', (widgetTester) async {
-    await widgetTester.runAsync(() => Future.delayed(const Duration(milliseconds: 999999999999)));
+    await widgetTester.runAsync(() async {
+      while (true) {
+        await Future.delayed(const Duration(hours: 10));
+      }
+    });
   });
 }
