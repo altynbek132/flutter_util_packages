@@ -6,10 +6,17 @@ version: 0.1.0
 environment:
   sdk: ">=3.3.0 <4.0.0"
 
+dependency_overrides:
+  mobx:
+    git:
+      url: https://github.com/altynbek132/mobx.dart
+      path: mobx
+
 dependencies:
   flutter:
     sdk: flutter
 
+  mobx: any
   web: ^0.5.0
   js_import:
     git:
