@@ -18,7 +18,7 @@ class WebPlatformException implements Exception {
   final String? message;
 
   /// Inner exception
-  final Object? exception;
+  final String? exception;
 
   /// Error stacktrace
   final StackTrace? stacktrace;

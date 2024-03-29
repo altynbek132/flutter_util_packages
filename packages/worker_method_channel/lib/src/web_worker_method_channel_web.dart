@@ -169,7 +169,7 @@ class WebWorkerMethodChannelWeb with LoggerMixin, DisposableBag implements WebWo
                 exception: WebPlatformException(
                   code: 'unknown',
                   message: e.toString(),
-                  exception: e,
+                  exception: e.toString(),
                   stacktrace: st,
                 ),
                 requestId: requestId,
