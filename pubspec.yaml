@@ -1,4 +1,4 @@
-name: melos_workspace
+name: utils
 
 environment:
   sdk: ">=2.18.0 <4.0.0"

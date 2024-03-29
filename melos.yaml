@@ -1,4 +1,4 @@
-name: melos_workspace
+name: utils
 
 packages:
   - packages/*
