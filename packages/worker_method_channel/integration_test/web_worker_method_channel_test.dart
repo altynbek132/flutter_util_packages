@@ -36,7 +36,6 @@ Future<void> main() async {
 
         await expectLater(
             channel.invokeMethod('echo').timeout(const Duration(milliseconds: 100)), throwsA(isA<TimeoutException>()));
-        logger.d("🚀~web_worker_method_channel_test.dart:61~");
       }();
     });
   });
@@ -101,11 +100,8 @@ Future<void> _testResponse(
   final requestBody = 'request';
   await response.response(requestBody).thenSideEffect((expectedResponse) async {
     final actualResponse = await channel.invokeMethod(method, requestBody);
-    logger.d("🚀~web_worker_method_channel_test.dart:30~");
     expect(response.responseTypeChecker?.call(actualResponse) ?? true, true);
-    logger.d("🚀~web_worker_method_channel_test.dart:34~");
     expect(actualResponse, expectedResponse);
-    logger.d("🚀~web_worker_method_channel_test.dart:36~");
     loggerGlobal.i("method: ${method} complete");
   }).onErrorNull(
     cb: (error, stackTrace) async {

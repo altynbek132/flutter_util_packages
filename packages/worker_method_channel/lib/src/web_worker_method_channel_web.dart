@@ -74,11 +74,6 @@ class WebWorkerMethodChannelWeb with LoggerMixin, DisposableBag implements WebWo
     final requestId = _generateRandomRequestId();
     final completer = Completer<Object?>();
     requests[requestId] = completer;
-    logger.d(
-        "🚀~web_worker_method_channel_web.dart:72~WebWorkerMethodChannelWeb~Future<Object?>invokeMethod~(requestId, method): ${(
-      requestId,
-      method
-    )}");
     worker.postMessage(
       Message(
         method: method,
@@ -98,34 +93,14 @@ class WebWorkerMethodChannelWeb with LoggerMixin, DisposableBag implements WebWo
     worker.addEventListener((Message data) async {
       final method = data.method;
       final requestId = data.requestId;
-      logger.d(
-          "🚀~web_worker_method_channel_web.dart:91~WebWorkerMethodChannelWeb~worker.addEventListener~(method, requestId): ${(
-        method,
-        requestId
-      )}");
-
       if (requests.containsKey(requestId)) {
-        logger.d("🚀~web_worker_method_channel_web.dart:100~WebWorkerMethodChannelWeb~");
         final error = data.exception;
         final completer = requests.remove(requestId);
-        logger.d("🚀~web_worker_method_channel_web.dart:103~WebWorkerMethodChannelWeb~");
         if (error != null) {
-          logger.d("🚀~web_worker_method_channel_web.dart:105~WebWorkerMethodChannelWeb~");
           completer!.completeError(error);
           return;
         }
-        logger.d("🚀~web_worker_method_channel_web.dart:109~WebWorkerMethodChannelWeb~");
         final responseBody = data.body;
-        logger.d("🚀~web_worker_method_channel_web.dart:111~WebWorkerMethodChannelWeb~");
-        logger.d(
-          "🚀~web_worker_method_channel_web.dart:113~WebWorkerMethodChannelWeb~worker.addEventListener~completer: ${completer}",
-        );
-        logger.d(
-          "🚀~web_worker_method_channel_web.dart:115~WebWorkerMethodChannelWeb~worker.addEventListener~completer==null: ${completer == null}",
-        );
-        logger.d(
-          "🚀~web_worker_method_channel_web.dart:113~WebWorkerMethodChannelWeb~worker.addEventListener~responseBody: ${responseBody}",
-        );
         completer!.complete(responseBody);
         return;
       }
@@ -133,14 +108,8 @@ class WebWorkerMethodChannelWeb with LoggerMixin, DisposableBag implements WebWo
       final handlers = methodCallHandlers[method] ?? [];
       if (handlers.isEmpty) {
         logger.w('No handlers for method $method');
-        logger.d(
-            "🚀~web_worker_method_channel_web.dart:136~WebWorkerMethodChannelWeb~worker.addEventListener~method: ${method}");
-        logger.d(
-            "🚀~web_worker_method_channel_web.dart:134~WebWorkerMethodChannelWeb~worker.addEventListener~methodCallHandlers: ${methodCallHandlers.keys.toList()}");
-
         return;
       }
-      logger.d("🚀~web_worker_method_channel_web.dart:109~WebWorkerMethodChannelWeb~ triggering handler");
       await Future.wait(
         handlers.map((hanlder) async {
           try {
