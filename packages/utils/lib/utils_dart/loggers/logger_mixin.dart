@@ -27,6 +27,35 @@ void setLoggerShouldLog(bool loggerShouldLog) {
   _kLoggerShouldLog = loggerShouldLog;
 }
 
+/// Logs function in which this function is called.
+///
+/// The [print] function is used to output the log message.
+/// The [message] parameter is an optional message to be logged.
+/// The [depth] parameter specifies the depth of the stack trace to be included in the log.
+/// The [full] parameter specifies whether the full stack trace should be included in the log.
+void logFunction(
+  void Function(Object message) print, {
+  Object? message,
+  int? depth,
+  bool? full,
+}) {
+  if (!_kLoggerShouldLog) return;
+  final str = () {
+    if (full ?? false) {
+      return StackTrace.current.toString();
+    }
+    return StackTrace.current
+        .toString()
+        .split('\n')[depth ?? 2]
+        .split(' ')
+        .map((e) => e.trim())
+        .where((element) => element.isNotEmpty)
+        .skip(1)
+        .join(' ');
+  }();
+  print('${message ?? ''}: trace: ${str}');
+}
+
 /// Returns a logger instance with the specified configuration.
 ///
 /// The [className] parameter specifies the name of the class that will be associated with the logger.
