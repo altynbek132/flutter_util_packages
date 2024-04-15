@@ -30,6 +30,7 @@ class Responses {
       methodName: 'returnList',
       response: (request) async => ['value1', 'value2'],
       responseChecker: (responseOriginal, responseByWorker, expect) {
+        expect(responseOriginal, responseByWorker);
         (responseByWorker as List).cast<String>();
       },
     ),
@@ -59,6 +60,7 @@ class Responses {
         };
       },
       responseChecker: (responseOriginal, responseByWorker, expect) {
+        expect(responseOriginal, responseByWorker);
         final map = (responseByWorker as Map).castMap();
         final list = (map['list'] as List).map((e) => (e as Map).castMap()).toList();
         assert(list[0]['key2'] is Uint8List);
