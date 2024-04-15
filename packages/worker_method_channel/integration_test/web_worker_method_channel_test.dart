@@ -36,7 +36,9 @@ Future<void> main() async {
         await channel.disposeAsync();
 
         await expectLater(
-            channel.invokeMethod('echo').timeout(const Duration(milliseconds: 100)), throwsA(isA<TimeoutException>()));
+          channel.invokeMethod('echo').timeout(const Duration(milliseconds: 100)),
+          throwsA(isA<TimeoutException>()),
+        );
       }();
     });
   });

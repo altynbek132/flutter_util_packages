@@ -13,6 +13,8 @@ dependencies:
   worker_method_channel:
     path: ../..
 
+  web: ^0.5.0
+
 dev_dependencies:
   flutter_test:
     sdk: flutter

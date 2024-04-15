@@ -1,3 +1,5 @@
+// ignore_for_file: avoid_print
+
 import 'package:web/web.dart' as web;
 import 'dart:js_interop' as js_interop;
 

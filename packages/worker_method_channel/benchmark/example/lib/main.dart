@@ -1,3 +1,5 @@
+// ignore_for_file: avoid_print
+
 import 'dart:async';
 import 'dart:typed_data';
 import 'dart:ui';
@@ -12,7 +14,7 @@ Future<void> main() async {
   runApp(
     MaterialApp(
       scrollBehavior: const MaterialScrollBehavior().copyWith(dragDevices: PointerDeviceKind.values.toSet()),
-      home: Demo(),
+      home: const Demo(),
     ),
   );
 }
@@ -30,18 +32,18 @@ class _DemoState extends State<Demo> {
     return Scaffold(
       body: ListView(
         children: [
-          Text('Demo'),
+          const Text('Demo'),
           TextButton(
             onPressed: () {
               test();
             },
-            child: Text('test()'),
+            child: const Text('test()'),
           ),
           TextButton(
             onPressed: () {
               benchmark();
             },
-            child: Text('benchmark()'),
+            child: const Text('benchmark()'),
           ),
         ],
       ),
