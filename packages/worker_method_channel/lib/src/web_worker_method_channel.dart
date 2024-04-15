@@ -10,7 +10,7 @@ import 'web_worker_method_channel_web.dart' if (dart.library.io) 'web_worker_met
 /// The [MethodCallHandler] is a function that takes an [Object] as a parameter
 /// representing the body of the method call, and returns a [Future] or [Object?].
 /// It is used to handle method calls in a web worker environment.
-typedef MethodCallHandler = FutureOr<dynamic> Function(Object? body);
+typedef MethodCallHandler = FutureOr<dynamic> Function(Object? request);
 
 /// An abstract class representing a method channel for communication between the main thread and a web worker.
 ///

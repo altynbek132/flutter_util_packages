@@ -18,8 +18,8 @@ Future<void> main() async {
 
   // Set up method call handlers for each worker response
   Responses.workerResponses.forEach((key, value) {
-    channel.setMethodCallHandler(key, (body) async {
-      return await value.response(body);
+    channel.setMethodCallHandler(key, (request) async {
+      return await value.response(request);
     });
   });
 

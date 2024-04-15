@@ -21,9 +21,9 @@ class _MainAppState extends State<MainApp> {
     super.initState();
     () async {
       channel = WebWorkerMethodChannel(scriptURL: './web/worker_js.dart.js');
-      channel.setMethodCallHandler('echo', (body) {
+      channel.setMethodCallHandler('echo', (request) {
         print("🚀~main.dart:29~_MainAppState~");
-        return body;
+        return request;
       });
     }();
   }
