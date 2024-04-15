@@ -17,11 +17,9 @@ Future<void> main() async {
   final channel = WebWorkerMethodChannel(scriptURL: '');
 
   // Set up method call handlers for each worker response
-  Responses.workerResponses.forEach((key, value) {
-    channel.setMethodCallHandler(key, (request) async {
-      return await value.response(request);
-    });
-  });
+  for (var handler in Responses.responseHandlers) {
+    channel.setMethodCallHandler(handler.methodName, (request) => handler.response(request));
+  }
 
   // Log the method call handlers
   (channel as WebWorkerMethodChannelWeb).methodCallHandlers.forEach((key, value) {

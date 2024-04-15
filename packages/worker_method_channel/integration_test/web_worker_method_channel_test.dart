@@ -5,6 +5,7 @@ import 'dart:async';
 
 import 'package:flutter_test/flutter_test.dart';
 import 'package:integration_test/integration_test.dart';
+import 'package:utils/utils_dart/utils_dart.dart';
 import 'package:worker_method_channel/worker_method_channel.dart';
 import 'responses.dart';
 import 'package:utils/utils_dart.dart';
@@ -59,13 +60,13 @@ Future<void> _testResponses([bool parallel = true]) async {
 
   if (parallel) {
     await Future.wait(
-      Responses.workerResponses.entries.map((entry) async {
-        await _testResponse(entry, channel);
+      Responses.responseHandlers.map((handler) async {
+        await _testResponse(handler, channel);
       }),
     );
   } else {
-    for (final entry in Responses.workerResponses.entries) {
-      await _testResponse(entry, channel);
+    for (final handler in Responses.responseHandlers) {
+      await _testResponse(handler, channel);
       logger.d("---------");
     }
   }
@@ -86,32 +87,28 @@ Future<void> _testResponses([bool parallel = true]) async {
 /// passes. If an exception is thrown during the request, the function verifies
 /// that the exception matches the expected exception.
 Future<void> _testResponse(
-  MapEntry<
-          String,
-          ({
-            Future<Object?> Function(Object? request) response,
-            bool Function(Object? object)? responseTypeChecker,
-          })>
-      entry,
+  ResponseHandler handler,
   WebWorkerMethodChannel channel,
 ) async {
-  final method = entry.key;
-  final response = entry.value;
-  final requestBody = 'request';
-  await response.response(requestBody).thenSideEffect((expectedResponse) async {
-    final actualResponse = await channel.invokeMethod(method, requestBody);
-    expect(response.responseTypeChecker?.call(actualResponse) ?? true, true);
-    expect(actualResponse, expectedResponse);
-    loggerGlobal.i("method: ${method} complete");
-  }).onErrorNull(
-    cb: (error, stackTrace) async {
-      final responseFuture = channel.invokeMethod(method, requestBody);
+  await tryCatchAsync(
+    () async => await handler.response(handler.requestBody),
+    onSuccess: (responseOriginal) async {
+      final responseByWorker = await channel.invokeMethod(handler.methodName, handler.requestBody);
+
+      expect(handler.responseChecker(responseOriginal, responseByWorker, expect), true);
+
+      loggerGlobal.i("method: ${handler.methodName} complete");
+    },
+    onError: (error, stackTrace) async {
+      final responseFuture = channel.invokeMethod(handler.methodName, handler.requestBody);
+
       await expectLater(responseFuture, throwsA(isA<WebPlatformException>()));
       await expectLater(
         responseFuture,
         throwsA(predicate((WebPlatformException e) => e.exception == error.toString())),
       );
-      loggerGlobal.i("method with exception: ${method} complete");
+
+      loggerGlobal.i("method with exception: ${handler.methodName} complete");
     },
   );
 }

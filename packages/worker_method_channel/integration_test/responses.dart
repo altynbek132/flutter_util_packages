@@ -7,57 +7,67 @@ import 'package:utils/utils_dart.dart';
 class Responses {
   Responses._();
 
-  /// A map that stores worker responses.
-  static final Map<
-      String,
-      ({
-        Future<Object?> Function(Object? request) response,
-        bool Function(Object? object)? responseTypeChecker,
-      })> workerResponses = {
-    /// A response that echoes the request body.
-    'echo': (response: (body) async => body, responseTypeChecker: null),
-
-    /// A response that throws an exception with the message 'echoError'.
-    'echoError': (response: (body) async => throw Exception('echoError'), responseTypeChecker: null),
-
-    /// A response that returns a map with a single key-value pair.
-    'returnMap': (
-      response: (body) async => {'key': 'value'},
-      responseTypeChecker: (response) {
+  static final responseHandlers = <ResponseHandler>[
+    ResponseHandler(
+      methodName: 'echo',
+      response: (request) async => request,
+      responseChecker: (responseOriginal, responseByWorker, expect) {
+        expect(responseOriginal, responseByWorker);
+        return true;
+      },
+    ),
+    ResponseHandler(
+      methodName: 'echoError',
+      response: (request) async => throw Exception('echoError'),
+      responseChecker: (responseOriginal, responseByWorker, expect) {
+        expect(responseOriginal, responseByWorker);
+        return true;
+      },
+    ),
+    ResponseHandler(
+      methodName: 'returnMap',
+      response: (request) async => {'key': 'value'},
+      responseChecker: (responseOriginal, responseByWorker, expect) {
+        expect(responseOriginal, responseByWorker);
         try {
-          (response as Map).cast<String, String>();
+          (responseByWorker as Map).cast<String, String>();
           return true;
         } on Exception catch (_) {
           return false;
         }
-      }
+      },
     ),
-
-    /// A response that returns a list of strings.
-    'returnList': (
-      response: (body) async => ['value1', 'value2'],
-      responseTypeChecker: (response) {
+    ResponseHandler(
+      methodName: 'returnList',
+      response: (request) async => ['value1', 'value2'],
+      responseChecker: (responseOriginal, responseByWorker, expect) {
         try {
-          (response as List).cast<String>();
+          (responseByWorker as List).cast<String>();
           return true;
         } on Exception catch (_) {
           return false;
         }
-      }
+      },
     ),
-
-    /// A response that returns null.
-    'returnNull': (response: (body) async => null, responseTypeChecker: null),
-
-    /// A response that returns a Uint8List.
-    'returnUintList': (
-      response: (body) async => Uint8List.fromList([1, 2, 3, 4, 5]),
-      responseTypeChecker: (response) => response is Uint8List
+    ResponseHandler(
+      methodName: 'returnNull',
+      response: (request) async => null,
+      responseChecker: (responseOriginal, responseByWorker, expect) {
+        expect(responseOriginal, responseByWorker);
+        return true;
+      },
     ),
-
-    /// A response function named 'returnComplex' that returns a complex data structure.
-    'returnComplex': (
-      response: (body) async {
+    ResponseHandler(
+      methodName: 'returnUintList',
+      response: (request) async => Uint8List.fromList([1, 2, 3, 4, 5]),
+      responseChecker: (responseOriginal, responseByWorker, expect) {
+        expect(responseOriginal, responseByWorker);
+        return true;
+      },
+    ),
+    ResponseHandler(
+      methodName: 'returnComplex',
+      response: (request) async {
         final uint8list = Uint8List.fromList([1, 2, 3, 4, 5]);
         final map = {'key1': 'value1', 'key2': uint8list};
         return {
@@ -67,15 +77,46 @@ class Responses {
           'uint8list': uint8list,
         };
       },
-      responseTypeChecker: (response) {
+      responseChecker: (responseOriginal, responseByWorker, expect) {
         try {
-          final map = (response as Map).castMap();
+          final map = (responseByWorker as Map).castMap();
           final list = (map['list'] as List).map((e) => (e as Map).castMap()).toList();
           return list[0]['key2'] is Uint8List;
         } on Exception catch (_) {
           return false;
         }
-      }
+      },
     ),
-  };
+  ];
+}
+
+/// A function type used to check the response of a method call.
+typedef ResponseChecker = bool Function(
+    Object? responseOriginal, Object? responseByWorker, void Function(dynamic a, dynamic b) expect);
+
+/// A helper class for testing responses of method calls.
+class ResponseHandler {
+  final String methodName;
+
+  final Object? requestBody;
+
+  final Future<Object?> Function(Object? request) response;
+
+  /// always returns boolean
+  final ResponseChecker responseChecker;
+
+  /// Creates a new instance of [ResponseHandler].
+  ///
+  /// The [methodName] is the name of the method being tested.
+  /// The [response] is a function that takes a request object and returns a future response object.
+  /// The [responseChecker] is a function that checks if the original response matches the response received by the worker. It can return Boolean or throw an exception.
+  ResponseHandler({
+    required this.methodName,
+    this.requestBody,
+    required this.response,
+    required ResponseChecker responseChecker,
+  }) : responseChecker = ((responseOriginal, responseByWorker, expect) => onErrorSync(
+              (() => responseChecker(responseOriginal, responseByWorker, expect)),
+              (error, stackTrace) => false,
+            ));
 }
