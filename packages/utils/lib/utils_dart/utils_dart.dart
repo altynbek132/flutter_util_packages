@@ -12,3 +12,4 @@ export 'mobx_utils.dart';
 export 'null_utils.dart';
 export 'other.dart';
 export 'string_extension.dart';
+export 'errors.dart';
