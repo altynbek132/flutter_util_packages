@@ -2,9 +2,9 @@ import 'dart:convert';
 import 'dart:io';
 import 'package:path/path.dart' as p;
 
-import 'package:source_map_stack_trace/source_map_stack_trace.dart';
 import 'package:source_maps/source_maps.dart';
-import 'package:stack_trace/stack_trace.dart';
+
+import 'split_traces.dart';
 
 /// A command-line tool to deobfuscate JavaScript stack traces using source maps.
 ///
@@ -31,7 +31,7 @@ Future<void> main(List<String> args) async {
     exit(1);
   }
   final path = p.normalize(args[0]);
-  final trace = (await File(path).readAsString()).replaceAll('\r\n', '\n');
+  final log = (await File(path).readAsString()).replaceAll('\r\n', '\n');
   final sourceMap = p.joinAll([
     p.dirname(path),
     '${p.basenameWithoutExtension(path)}.dart.js.map',
@@ -39,7 +39,10 @@ Future<void> main(List<String> args) async {
 
   final mapContents = await File(sourceMap).readAsString();
   final mapping = SingleMapping.fromJson(jsonDecode(mapContents));
-  final stt = Trace.parseV8(trace);
-  final dartTrace = mapStackTrace(mapping, stt, minified: true);
-  print(dartTrace);
+
+  final segments = splitTraces(log);
+
+  final deobfuscated = segments.map((e) => e.deobfuscate(mapping));
+
+  print(deobfuscated.map((e) => e.lines.join('\n')).join('\n'));
 }
