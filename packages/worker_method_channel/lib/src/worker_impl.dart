@@ -1,7 +1,8 @@
 import 'dart:js_interop' as js_interop;
+
 import 'package:disposing/disposing_dart.dart';
-import 'package:web/web.dart' as web;
 import 'package:utils/utils_dart.dart';
+import 'package:web/web.dart' as web;
 
 import 'message.dart';
 import 'worker.dart';
@@ -16,7 +17,7 @@ mixin _WorkerBaseImp on Worker {
   ]) {
     final listenerJS = ((web.MessageEvent e) {
       final data = e.data.dartify()!;
-      listener(Message.fromMap((data as Map).castRecursiveMap()));
+      listener(Message.fromJson((data).castRecursiveMap()));
     }).toJS;
     final onErrorJS = (js_interop.JSAny error) {
       onError?.call(error.dartify());
@@ -37,7 +38,7 @@ final class WorkerImpl extends Worker with _WorkerBaseImp {
 
   @override
   void postMessage(Message message) {
-    worker.postMessage(message.toMap().jsify());
+    worker.postMessage(message.toJson().jsify());
   }
 
   @override
@@ -59,7 +60,7 @@ final class WorkerImplSelf extends Worker with _WorkerBaseImp {
 
   @override
   void postMessage(Message message) {
-    self.postMessage(message.toMap().jsify());
+    self.postMessage(message.toJson().jsify());
   }
 
   @override
