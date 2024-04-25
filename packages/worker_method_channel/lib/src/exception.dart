@@ -1,4 +1,5 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:worker_method_channel/src/exception_with_type.dart';
 import 'package:worker_method_channel/src/freezed_annotations.dart';
 
 part 'exception.freezed.dart';
@@ -17,7 +18,7 @@ class WebPlatformExceptionFreezed with _$WebPlatformExceptionFreezed {
     final String? message,
 
     /// Inner exception
-    final Object? exception,
+    final ExceptionWithType? innerExceptionWithType,
 
     /// Error stacktrace
     // ignore: invalid_annotation_target
