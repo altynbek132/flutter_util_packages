@@ -3,12 +3,15 @@ library;
 
 import 'dart:async';
 
+import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:integration_test/integration_test.dart';
+import 'package:utils/utils_dart.dart';
 import 'package:utils/utils_dart/utils_dart.dart';
 import 'package:worker_method_channel/worker_method_channel.dart';
+
+import 'custom_exception.dart';
 import 'responses.dart';
-import 'package:utils/utils_dart.dart';
 
 final logger = loggerGlobal;
 
@@ -43,7 +46,7 @@ Future<void> main() async {
     });
   });
 
-  // _doNotTerminateTests();
+  // _manualTerminateTests();
 }
 
 /// Tests the responses of the worker method channel.
@@ -58,7 +61,18 @@ Future<void> main() async {
 /// After handling the responses, the method disposes of the channel.
 Future<void> _testResponses([bool parallel = true]) async {
   loggerGlobal.i("test started");
-  final channel = WebWorkerMethodChannel(scriptURL: './integration_test/worker_js.dart.js');
+  final channel = WebWorkerMethodChannel(scriptURL: './integration_test/worker_js.dart.js')
+    ..setExceptionDeserializer((exceptionWithType) {
+      logger.d(
+          "🚀~web_worker_method_channel_test.dart:67~..setExceptionDeserializer~exceptionWithType: ${exceptionWithType}");
+      if (exceptionWithType.type == 'CustomException') {
+        logger.d("🚀~web_worker_method_channel_test.dart:70~");
+        return exceptionWithType.copyWith(
+          exception: CustomException.fromJson(exceptionWithType.exception.castRecursiveMap()),
+        );
+      }
+      return null;
+    });
 
   if (parallel) {
     await Future.wait(
@@ -92,22 +106,39 @@ Future<void> _testResponse(
   ResponseHandler handler,
   WebWorkerMethodChannel channel,
 ) async {
+  logger.d("🚀~web_worker_method_channel_test.dart:107~");
   await tryCatchAsync(
     () async => await handler.response(handler.requestBody),
     onSuccess: (responseOriginal) async {
       final responseByWorker = await channel.invokeMethod(handler.methodName, handler.requestBody);
 
-      expect(handler.responseChecker(responseOriginal, responseByWorker, expect), true);
+      expect(handler.responseChecker(responseOriginal, responseByWorker), true);
+      if (handler.expectEqualResponse) {
+        expect(responseOriginal, responseByWorker);
+      }
 
       loggerGlobal.i("method: ${handler.methodName} complete");
     },
-    onError: (error, stackTrace) async {
+    onError: (expectedError, stackTrace) async {
+      logger.d("🚀~web_worker_method_channel_test.dart:120~");
+
       final responseFuture = channel.invokeMethod(handler.methodName, handler.requestBody);
+      logger.d("🚀~web_worker_method_channel_test.dart:123~");
 
       await expectLater(responseFuture, throwsA(isA<WebPlatformException>()));
-      await expectLater(
-        responseFuture,
-        throwsA(predicate((WebPlatformException e) => e.exception == error.toString())),
+      logger.d("🚀~web_worker_method_channel_test.dart:126~");
+      await responseFuture.onErrorNull(
+        cb: (e, st) {
+          logger.d("🚀~web_worker_method_channel_test.dart:129~");
+          if (handler.expectEqualException) {
+            logger.d(
+                "🚀~web_worker_method_channel_test.dart:128~expectedError.runtimeType: ${expectedError.runtimeType}");
+            logger.d(
+                "🚀~web_worker_method_channel_test.dart:136~(e as WebPlatformException).innerExceptionWithType?.exception: ${(e as WebPlatformException).innerExceptionWithType?.exception}");
+            expect((e as WebPlatformException).innerExceptionWithType?.exception, expectedError);
+          }
+          expect(handler.exceptionChecker?.call(e as WebPlatformException), true);
+        },
       );
 
       loggerGlobal.i("method with exception: ${handler.methodName} complete");
@@ -118,12 +149,32 @@ Future<void> _testResponse(
 /// ! WARNING
 /// This method is used to prevent the tests from terminating.
 // ignore: unused_element
-void _doNotTerminateTests() {
+void _manualTerminateTests() {
   testWidgets('do not terminate', (widgetTester) async {
+    logger.d("🚀~web_worker_method_channel_test.dart:134~");
+    var terminate = false;
+    await widgetTester.pumpWidget(
+      MaterialApp(
+        home: Scaffold(
+          body: Center(
+            child: TextButton(
+              onPressed: () {
+                terminate = true;
+              },
+              child: const Text('terminate test', style: TextStyle(fontSize: 24)),
+            ),
+          ),
+        ),
+      ),
+    );
     await widgetTester.runAsync(() async {
       while (true) {
-        await Future.delayed(const Duration(hours: 10));
+        await Future.delayed(const Duration(milliseconds: 100));
+        if (terminate) {
+          break;
+        }
       }
     });
+    logger.d("🚀~web_worker_method_channel_test.dart:158~");
   });
 }
