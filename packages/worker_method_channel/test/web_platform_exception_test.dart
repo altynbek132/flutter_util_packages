@@ -1,5 +1,6 @@
 import 'package:test/test.dart';
 import 'package:worker_method_channel/src/exception.dart';
+import 'package:worker_method_channel/src/exception_with_type.dart';
 
 void main() {
   group('WebPlatformException', () {
@@ -12,14 +13,15 @@ void main() {
       final exception = WebPlatformException(
         code: 'error_code',
         message: 'error_message',
-        exception: Exception('inner_exception'),
+        innerExceptionWithType: ExceptionWithType(exception: Exception('inner_exception'), type: 'Exception'),
         stacktrace: StackTrace.current,
       );
 
       expect(exception.code, 'error_code');
       expect(exception.message, 'error_message');
-      expect(exception.exception, isA<Exception>());
-      expect(exception.exception.toString(), 'Exception: inner_exception');
+      expect(exception.innerExceptionWithType, isA<ExceptionWithType>());
+      expect(exception.innerExceptionWithType?.exception, isA<Exception>());
+      expect(exception.innerExceptionWithType?.exception.toString(), 'Exception: inner_exception');
       expect(exception.stacktrace, isA<StackTrace>());
     });
 
@@ -27,7 +29,7 @@ void main() {
       final json = {
         'code': 'error_code',
         'message': 'error_message',
-        'exception': 'inner_exception',
+        'innerExceptionWithType': {'exception': 'inner_exception', 'type': 'String'},
         'stacktrace': 'stack_trace',
       };
 
@@ -35,7 +37,7 @@ void main() {
 
       expect(exception.code, 'error_code');
       expect(exception.message, 'error_message');
-      expect(exception.exception, 'inner_exception');
+      expect(exception.innerExceptionWithType?.exception, 'inner_exception');
       expect(exception.stacktrace, isA<StackTrace>());
       expect(exception.stacktrace.toString().contains('stack_trace'), true);
     });
@@ -44,13 +46,35 @@ void main() {
       final json = {
         'code': 'error_code',
         'message': 'error_message',
-        'exception': 'inner_exception',
+        'innerExceptionWithType': {'exception': 'inner_exception', 'type': 'String'},
         'stacktrace': 'stack_trace',
       };
 
       final exception = WebPlatformException.fromJson(json);
 
       expect(exception.toJson(), json);
+    });
+
+    test('should be equal to another instance with the same values', () {
+      final exception1 = WebPlatformException(
+        code: 'error_code',
+        message: 'error_message',
+        innerExceptionWithType: ExceptionWithType(exception: Exception('inner_exception'), type: 'Exception'),
+        stacktrace: StackTrace.fromString('stackTraceString'),
+      );
+
+      final exception2 = WebPlatformException(
+        code: 'error_code',
+        message: 'error_message',
+        innerExceptionWithType: ExceptionWithType(exception: Exception('inner_exception'), type: 'Exception'),
+        stacktrace: StackTrace.fromString('stackTraceString'),
+      );
+
+      expect(exception1.code, equals(exception2.code));
+      expect(exception1.message, equals(exception2.message));
+
+      expect(exception1.innerExceptionWithType?.exception, isNot(equals(exception2.innerExceptionWithType?.exception)));
+      expect(exception1.stacktrace, isNot(equals(exception2.stacktrace)));
     });
   });
 }
