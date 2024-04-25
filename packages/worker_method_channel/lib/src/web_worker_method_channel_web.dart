@@ -1,14 +1,14 @@
 import 'dart:async';
+import 'dart:js_interop' as js_interop;
 import 'dart:math';
 
 import 'package:disposing/disposing_dart.dart';
 import 'package:logger/logger.dart';
 import 'package:meta/meta.dart';
 import 'package:utils/utils_dart.dart';
-
 import 'package:web/web.dart' as web;
+import 'package:worker_method_channel/src/exception_with_type.dart';
 import 'package:worker_method_channel/src/worker_impl.dart';
-import 'dart:js_interop' as js_interop;
 
 import 'exception.dart';
 import 'message.dart';
@@ -58,6 +58,12 @@ class WebWorkerMethodChannelWeb with LoggerMixin, DisposableBag implements WebWo
   @visibleForTesting
   final methodCallHandlers = <String, List<MethodCallHandler>>{};
 
+  /// The exception serializer used to serialize exceptions.
+  ExceptionSerializer? _exceptionSerializer;
+
+  /// The exception deserializer used to deserialize exceptions.
+  ExceptionDeserializer? _exceptionDeserializer;
+
   @override
   SyncDisposable setMethodCallHandler(String method, MethodCallHandler handler) {
     (methodCallHandlers[method] ??= []).add(handler);
@@ -94,9 +100,19 @@ class WebWorkerMethodChannelWeb with LoggerMixin, DisposableBag implements WebWo
       final method = data.method;
       final requestId = data.requestId;
       if (requests.containsKey(requestId)) {
-        final error = data.exception;
+        var error = data.exception;
         final completer = requests.remove(requestId);
         if (error != null) {
+          logger.d("🚀~web_worker_method_channel_web.dart:106~WebWorkerMethodChannelWeb~");
+          // deserialize exception
+          if (error.innerExceptionWithType != null && _exceptionDeserializer != null) {
+            logger.d("🚀~web_worker_method_channel_web.dart:109~WebWorkerMethodChannelWeb~");
+            error = error.copyWith(
+              innerExceptionWithType:
+                  _exceptionDeserializer?.call(error.innerExceptionWithType!) ?? error.innerExceptionWithType,
+            );
+            logger.d("🚀~web_worker_method_channel_web.dart:115~WebWorkerMethodChannelWeb~");
+          }
           completer!.completeError(error);
           return;
         }
@@ -130,15 +146,14 @@ class WebWorkerMethodChannelWeb with LoggerMixin, DisposableBag implements WebWo
                 requestId: requestId,
               ),
             );
-          } catch (e, st) {
+          } on Object catch (e, st) {
             logger.e('Error while handling method call (unknown error)', e, st);
             worker.postMessage(
               Message(
                 method: method,
                 exception: WebPlatformException(
-                  code: 'unknown',
-                  message: e.toString(),
-                  exception: e.toString(),
+                  innerExceptionWithType:
+                      _exceptionSerializer?.call(e) ?? ExceptionWithType(type: 'String', exception: e.toString()),
                   stacktrace: st,
                 ),
                 requestId: requestId,
@@ -148,5 +163,15 @@ class WebWorkerMethodChannelWeb with LoggerMixin, DisposableBag implements WebWo
         }),
       );
     }).disposeOn(this);
+  }
+
+  @override
+  void setExceptionDeserializer(ExceptionDeserializer? deserializer) {
+    _exceptionDeserializer = deserializer;
+  }
+
+  @override
+  void setExceptionSerializer(ExceptionSerializer? serializer) {
+    _exceptionSerializer = serializer;
   }
 }

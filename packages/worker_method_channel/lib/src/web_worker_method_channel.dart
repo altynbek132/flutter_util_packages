@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:disposing/disposing_dart.dart';
+import 'package:worker_method_channel/src/exception_with_type.dart';
 import 'package:worker_method_channel/worker_method_channel.dart';
 
 import 'web_worker_method_channel_web.dart' if (dart.library.io) 'web_worker_method_channel_stub.dart';
@@ -11,6 +12,11 @@ import 'web_worker_method_channel_web.dart' if (dart.library.io) 'web_worker_met
 /// representing the body of the method call, and returns a [Future] or [Object?].
 /// It is used to handle method calls in a web worker environment.
 typedef MethodCallHandler = FutureOr<dynamic> Function(Object? request);
+
+/// A typedef representing an exception serializer and deserializer.
+/// if null returned from serializer, default serialization will be used.
+typedef ExceptionSerializer = ExceptionWithType? Function(Object error);
+typedef ExceptionDeserializer = ExceptionWithType? Function(ExceptionWithType exceptionWithType);
 
 /// An abstract class representing a method channel for communication between the main thread and a web worker.
 ///
@@ -30,6 +36,10 @@ abstract class WebWorkerMethodChannel with DisposableBag {
   ///
   /// Returns a [SyncDisposable] that can be used to dispose the method call handler.
   SyncDisposable setMethodCallHandler(String method, MethodCallHandler handler);
+
+  void setExceptionSerializer(ExceptionSerializer? serializer);
+
+  void setExceptionDeserializer(ExceptionDeserializer? deserializer);
 
   /// Invokes the specified method on the channel.
   ///

@@ -18,4 +18,14 @@ class WebWorkerMethodChannelStub with DisposableBag implements WebWorkerMethodCh
   SyncDisposable setMethodCallHandler(String method, MethodCallHandler handler) {
     throw UnimplementedError();
   }
+
+  @override
+  void setExceptionDeserializer(ExceptionDeserializer? deserializer) {
+    throw UnimplementedError();
+  }
+
+  @override
+  void setExceptionSerializer(ExceptionSerializer? serializer) {
+    throw UnimplementedError();
+  }
 }
