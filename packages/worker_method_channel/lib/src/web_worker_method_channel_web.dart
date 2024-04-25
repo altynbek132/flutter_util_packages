@@ -103,15 +103,12 @@ class WebWorkerMethodChannelWeb with LoggerMixin, DisposableBag implements WebWo
         var error = data.exception;
         final completer = requests.remove(requestId);
         if (error != null) {
-          logger.d("🚀~web_worker_method_channel_web.dart:106~WebWorkerMethodChannelWeb~");
           // deserialize exception
           if (error.innerExceptionWithType != null && _exceptionDeserializer != null) {
-            logger.d("🚀~web_worker_method_channel_web.dart:109~WebWorkerMethodChannelWeb~");
             error = error.copyWith(
               innerExceptionWithType:
                   _exceptionDeserializer?.call(error.innerExceptionWithType!) ?? error.innerExceptionWithType,
             );
-            logger.d("🚀~web_worker_method_channel_web.dart:115~WebWorkerMethodChannelWeb~");
           }
           completer!.completeError(error);
           return;

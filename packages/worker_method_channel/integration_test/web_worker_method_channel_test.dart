@@ -63,10 +63,7 @@ Future<void> _testResponses([bool parallel = true]) async {
   loggerGlobal.i("test started");
   final channel = WebWorkerMethodChannel(scriptURL: './integration_test/worker_js.dart.js')
     ..setExceptionDeserializer((exceptionWithType) {
-      logger.d(
-          "🚀~web_worker_method_channel_test.dart:67~..setExceptionDeserializer~exceptionWithType: ${exceptionWithType}");
       if (exceptionWithType.type == 'CustomException') {
-        logger.d("🚀~web_worker_method_channel_test.dart:70~");
         return exceptionWithType.copyWith(
           exception: CustomException.fromJson(exceptionWithType.exception.castRecursiveMap()),
         );
@@ -106,7 +103,6 @@ Future<void> _testResponse(
   ResponseHandler handler,
   WebWorkerMethodChannel channel,
 ) async {
-  logger.d("🚀~web_worker_method_channel_test.dart:107~");
   await tryCatchAsync(
     () async => await handler.response(handler.requestBody),
     onSuccess: (responseOriginal) async {
@@ -120,21 +116,11 @@ Future<void> _testResponse(
       loggerGlobal.i("method: ${handler.methodName} complete");
     },
     onError: (expectedError, stackTrace) async {
-      logger.d("🚀~web_worker_method_channel_test.dart:120~");
-
       final responseFuture = channel.invokeMethod(handler.methodName, handler.requestBody);
-      logger.d("🚀~web_worker_method_channel_test.dart:123~");
-
       await expectLater(responseFuture, throwsA(isA<WebPlatformException>()));
-      logger.d("🚀~web_worker_method_channel_test.dart:126~");
       await responseFuture.onErrorNull(
         cb: (e, st) {
-          logger.d("🚀~web_worker_method_channel_test.dart:129~");
           if (handler.expectEqualException) {
-            logger.d(
-                "🚀~web_worker_method_channel_test.dart:128~expectedError.runtimeType: ${expectedError.runtimeType}");
-            logger.d(
-                "🚀~web_worker_method_channel_test.dart:136~(e as WebPlatformException).innerExceptionWithType?.exception: ${(e as WebPlatformException).innerExceptionWithType?.exception}");
             expect((e as WebPlatformException).innerExceptionWithType?.exception, expectedError);
           }
           expect(handler.exceptionChecker?.call(e as WebPlatformException), true);
@@ -151,7 +137,6 @@ Future<void> _testResponse(
 // ignore: unused_element
 void _manualTerminateTests() {
   testWidgets('do not terminate', (widgetTester) async {
-    logger.d("🚀~web_worker_method_channel_test.dart:134~");
     var terminate = false;
     await widgetTester.pumpWidget(
       MaterialApp(
@@ -175,6 +160,5 @@ void _manualTerminateTests() {
         }
       }
     });
-    logger.d("🚀~web_worker_method_channel_test.dart:158~");
   });
 }
