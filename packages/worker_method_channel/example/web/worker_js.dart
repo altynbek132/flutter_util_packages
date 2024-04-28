@@ -2,6 +2,7 @@
 
 import 'dart:js_interop' as js_interop;
 
+import 'package:example/error_serializer_registry.dart';
 import 'package:web/web.dart' as web;
 import 'package:worker_method_channel/worker_method_channel.dart';
 
@@ -10,7 +11,10 @@ external web.DedicatedWorkerGlobalScope get self;
 
 Future<void> main() async {
   print('worker_js.dart init');
-  final channel = WebWorkerMethodChannel(scriptURL: './web/worker_js.dart.js');
+  final channel = WebWorkerMethodChannel(
+    scriptURL: './web/worker_js.dart.js',
+    serializerRegistry: serializerRegistry,
+  );
   channel.setMethodCallHandler('echo', (request) {
     return request;
   });

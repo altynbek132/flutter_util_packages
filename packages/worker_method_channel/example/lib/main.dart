@@ -1,5 +1,6 @@
 // ignore_for_file: avoid_print
 
+import 'package:example/error_serializer_registry.dart';
 import 'package:flutter/material.dart';
 import 'package:worker_method_channel/worker_method_channel.dart';
 
@@ -21,7 +22,10 @@ class _MainAppState extends State<MainApp> {
   void initState() {
     super.initState();
     () async {
-      channel = WebWorkerMethodChannel(scriptURL: './web/worker_js.dart.js');
+      channel = WebWorkerMethodChannel(
+        scriptURL: './web/worker_js.dart.js',
+        serializerRegistry: serializerRegistry,
+      );
       channel.setMethodCallHandler('echo', (request) {
         print("🚀~main.dart:29~_MainAppState~");
         return request;
