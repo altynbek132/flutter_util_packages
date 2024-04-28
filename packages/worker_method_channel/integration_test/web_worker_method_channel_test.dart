@@ -10,7 +10,7 @@ import 'package:utils/utils_dart.dart';
 import 'package:utils/utils_dart/utils_dart.dart';
 import 'package:worker_method_channel/worker_method_channel.dart';
 
-import 'custom_exception.dart';
+import 'error_serializer_registry.dart';
 import 'responses.dart';
 
 final logger = loggerGlobal;
@@ -35,7 +35,10 @@ Future<void> main() async {
   testWidgets('should terminate', (widgetTester) async {
     await widgetTester.runAsync(() async {
       () async {
-        final channel = WebWorkerMethodChannel(scriptURL: './integration_test/worker_js.dart.js');
+        final channel = WebWorkerMethodChannel(
+          scriptURL: './integration_test/worker_js.dart.js',
+          serializerRegistry: serializerRegistry,
+        );
         await channel.disposeAsync();
 
         await expectLater(
@@ -61,15 +64,8 @@ Future<void> main() async {
 /// After handling the responses, the method disposes of the channel.
 Future<void> _testResponses([bool parallel = true]) async {
   loggerGlobal.i("test started");
-  final channel = WebWorkerMethodChannel(scriptURL: './integration_test/worker_js.dart.js')
-    ..setExceptionDeserializer((exceptionWithType) {
-      if (exceptionWithType.type == 'CustomException') {
-        return exceptionWithType.copyWith(
-          exception: CustomException.fromJson(exceptionWithType.exception.castRecursiveMap()),
-        );
-      }
-      return null;
-    });
+  final channel =
+      WebWorkerMethodChannel(scriptURL: './integration_test/worker_js.dart.js', serializerRegistry: serializerRegistry);
 
   if (parallel) {
     await Future.wait(
