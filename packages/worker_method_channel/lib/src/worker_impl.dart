@@ -1,6 +1,7 @@
 import 'dart:js_interop' as js_interop;
 
 import 'package:disposing/disposing_dart.dart';
+import 'package:meta/meta.dart';
 import 'package:utils/utils_dart.dart';
 import 'package:web/web.dart' as web;
 
@@ -31,6 +32,7 @@ mixin _WorkerBaseImp on Worker {
   }
 }
 
+@internal
 final class WorkerImpl extends Worker with _WorkerBaseImp {
   final web.Worker worker;
 
@@ -53,6 +55,7 @@ final class WorkerImpl extends Worker with _WorkerBaseImp {
   bool get isMainThread => true;
 }
 
+@internal
 final class WorkerImplSelf extends Worker with _WorkerBaseImp {
   final web.DedicatedWorkerGlobalScope self;
 
