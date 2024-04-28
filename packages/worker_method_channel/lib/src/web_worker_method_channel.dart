@@ -1,7 +1,7 @@
 import 'dart:async';
 
 import 'package:disposing/disposing_dart.dart';
-import 'package:worker_method_channel/src/exception_with_type.dart';
+import 'package:worker_method_channel/src/exception_serializing/error_serializer_registry.dart';
 import 'package:worker_method_channel/worker_method_channel.dart';
 
 import 'web_worker_method_channel_web.dart' if (dart.library.io) 'web_worker_method_channel_stub.dart';
@@ -13,11 +13,6 @@ import 'web_worker_method_channel_web.dart' if (dart.library.io) 'web_worker_met
 /// It is used to handle method calls in a web worker environment.
 typedef MethodCallHandler = FutureOr<dynamic> Function(Object? request);
 
-/// A typedef representing an exception serializer and deserializer.
-/// if null returned from serializer, default serialization will be used.
-typedef ExceptionSerializer = ExceptionWithType? Function(Object error);
-typedef ExceptionDeserializer = ExceptionWithType? Function(ExceptionWithType exceptionWithType);
-
 /// An abstract class representing a method channel for communication between the main thread and a web worker.
 ///
 /// This class provides methods for setting a method call handler and invoking methods on the channel.
@@ -26,8 +21,12 @@ abstract class WebWorkerMethodChannel with DisposableBag {
   ///
   /// The [scriptURL] parameter specifies the name of the method channel.
   /// The [worker] parameter specifies and overrides the web worker associated with the channel.
-  factory WebWorkerMethodChannel({required String scriptURL, Worker? worker}) =>
-      getWebWorkerMethodChannel(scriptURL: scriptURL, worker: worker);
+  factory WebWorkerMethodChannel({
+    required String scriptURL,
+    required ErrorSerializerRegistry serializerRegistry,
+    Worker? worker,
+  }) =>
+      getWebWorkerMethodChannel(scriptURL: scriptURL, worker: worker, serializerRegistry: serializerRegistry);
 
   /// Sets the method call handler for the specified method.
   ///
@@ -36,10 +35,6 @@ abstract class WebWorkerMethodChannel with DisposableBag {
   ///
   /// Returns a [SyncDisposable] that can be used to dispose the method call handler.
   SyncDisposable setMethodCallHandler(String method, MethodCallHandler handler);
-
-  void setExceptionSerializer(ExceptionSerializer? serializer);
-
-  void setExceptionDeserializer(ExceptionDeserializer? deserializer);
 
   /// Invokes the specified method on the channel.
   ///

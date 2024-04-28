@@ -7,6 +7,8 @@ import 'package:logger/logger.dart';
 import 'package:meta/meta.dart';
 import 'package:utils/utils_dart.dart';
 import 'package:web/web.dart' as web;
+import 'package:worker_method_channel/src/exception_serializing/error_serializer_registry.dart';
+import 'package:worker_method_channel/src/exception_serializing/exception_serializer.dart';
 import 'package:worker_method_channel/src/exception_with_type.dart';
 import 'package:worker_method_channel/src/worker_impl.dart';
 
@@ -26,14 +28,21 @@ external js_interop.JSAny get self;
 /// If [worker] is not provided, a [WebWorkerMethodChannelWeb] is created based on the type of the global scope.
 /// If the global scope is a 'Window' instance, a [WebWorkerMethodChannelWeb] is created with a new web worker using the given [scriptURL].
 /// If the global scope is a 'DedicatedWorkerGlobalScope' instance, a [WebWorkerMethodChannelWeb] is created with the current web worker.
-WebWorkerMethodChannel getWebWorkerMethodChannel({required String scriptURL, Worker? worker}) {
+WebWorkerMethodChannel getWebWorkerMethodChannel({
+  required String scriptURL,
+  required ErrorSerializerRegistry serializerRegistry,
+  Worker? worker,
+}) {
   if (worker != null) {
-    return WebWorkerMethodChannelWeb(worker: worker);
+    return WebWorkerMethodChannelWeb(worker: worker, serializerRegistry: serializerRegistry);
   }
   if (self.instanceOfString('Window')) {
-    return WebWorkerMethodChannelWeb(worker: WorkerImpl(web.Worker(scriptURL)));
+    return WebWorkerMethodChannelWeb(worker: WorkerImpl(web.Worker(scriptURL)), serializerRegistry: serializerRegistry);
   }
-  return WebWorkerMethodChannelWeb(worker: WorkerImplSelf(self as web.DedicatedWorkerGlobalScope));
+  return WebWorkerMethodChannelWeb(
+    worker: WorkerImplSelf(self as web.DedicatedWorkerGlobalScope),
+    serializerRegistry: serializerRegistry,
+  );
 }
 
 /// A class that represents a web implementation of the WorkerMethodChannel.
@@ -48,6 +57,8 @@ class WebWorkerMethodChannelWeb with LoggerMixin, DisposableBag implements WebWo
   @override
   Logger get logger => getLogger('${runtimeType} worker.isMainThread:${worker.isMainThread}');
 
+  final ErrorSerializerRegistry serializerRegistry;
+
   final Worker worker;
 
   /// A map that stores the pending requests along with their corresponding completers.
@@ -57,12 +68,6 @@ class WebWorkerMethodChannelWeb with LoggerMixin, DisposableBag implements WebWo
   /// A map that stores the method call handlers for different method names.
   @visibleForTesting
   final methodCallHandlers = <String, List<MethodCallHandler>>{};
-
-  /// The exception serializer used to serialize exceptions.
-  ExceptionSerializer? _exceptionSerializer;
-
-  /// The exception deserializer used to deserialize exceptions.
-  ExceptionDeserializer? _exceptionDeserializer;
 
   @override
   SyncDisposable setMethodCallHandler(String method, MethodCallHandler handler) {
@@ -91,6 +96,7 @@ class WebWorkerMethodChannelWeb with LoggerMixin, DisposableBag implements WebWo
   }
 
   WebWorkerMethodChannelWeb({
+    required this.serializerRegistry,
     required this.worker,
   }) {
     if (!worker.isMainThread) {
@@ -100,19 +106,25 @@ class WebWorkerMethodChannelWeb with LoggerMixin, DisposableBag implements WebWo
       final method = data.method;
       final requestId = data.requestId;
       if (requests.containsKey(requestId)) {
-        var error = data.exception;
+        var webPlatformException = data.exception;
         final completer = requests.remove(requestId);
-        if (error != null) {
+
+        if (webPlatformException != null) {
           // deserialize exception
-          if (error.innerExceptionWithType != null && _exceptionDeserializer != null) {
-            error = error.copyWith(
-              innerExceptionWithType:
-                  _exceptionDeserializer?.call(error.innerExceptionWithType!) ?? error.innerExceptionWithType,
+          if (webPlatformException.innerExceptionWithType != null) {
+            final serializer = serializerRegistry.getSerializer(webPlatformException.innerExceptionWithType!.type) ??
+                ExceptionSerializer();
+            logger.d(
+                "🚀~web_worker_method_channel_web.dart:118~WebWorkerMethodChannelWeb~worker.addEventListener~serializer.serializedExceptionType: ${serializer.serializedExceptionType}");
+
+            webPlatformException = webPlatformException.copyWith.innerExceptionWithType!(
+              exception: serializer.deserializeError(webPlatformException.innerExceptionWithType!.exception),
             );
           }
-          completer!.completeError(error);
+          completer!.completeError(webPlatformException);
           return;
         }
+
         final responseBody = data.body;
         completer!.complete(responseBody);
         return;
@@ -145,12 +157,17 @@ class WebWorkerMethodChannelWeb with LoggerMixin, DisposableBag implements WebWo
             );
           } on Object catch (e, st) {
             logger.e('Error while handling method call (unknown error)', e, st);
+            final serializer = serializerRegistry.getSerializerByType(e.runtimeType) ?? ExceptionSerializer();
+            logger.d(
+                "🚀~web_worker_method_channel_web.dart:161~WebWorkerMethodChannelWeb~handlers.map~serializer.serializedExceptionType: ${serializer.serializedExceptionType}");
             worker.postMessage(
               Message(
                 method: method,
                 exception: WebPlatformException(
-                  innerExceptionWithType:
-                      _exceptionSerializer?.call(e) ?? ExceptionWithType(type: 'String', exception: e.toString()),
+                  innerExceptionWithType: ExceptionWithType(
+                    type: serializer.serializedExceptionType,
+                    exception: serializer.serializeError(e),
+                  ),
                   stacktrace: st,
                 ),
                 requestId: requestId,
@@ -160,15 +177,5 @@ class WebWorkerMethodChannelWeb with LoggerMixin, DisposableBag implements WebWo
         }),
       );
     }).disposeOn(this);
-  }
-
-  @override
-  void setExceptionDeserializer(ExceptionDeserializer? deserializer) {
-    _exceptionDeserializer = deserializer;
-  }
-
-  @override
-  void setExceptionSerializer(ExceptionSerializer? serializer) {
-    _exceptionSerializer = serializer;
   }
 }
