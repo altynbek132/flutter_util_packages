@@ -11,17 +11,31 @@ class Responses {
   Responses._();
 
   static final responseHandlers = <ResponseHandler>[
-    ResponseHandler(
-      methodName: 'echo',
-      response: (request) async => request,
-      expectEqualResponse: true,
-    ),
+    ...basicResponseHandlers,
+    ...errorResponseHandlers,
+  ];
+
+  static final errorResponseHandlers = <ResponseHandler>[
     ResponseHandler(
       methodName: 'echoError',
       response: (request) async => throw Exception('echoError'),
       exceptionChecker: (exceptionByWorker) {
         return exceptionByWorker.innerExceptionWithType?.exception.toString() == 'Exception: echoError';
       },
+    ),
+    ResponseHandler(
+      methodName: 'custom exception',
+      response: (request) async => throw CustomException(message: 'exception message'),
+      expectEqualException: true,
+      exceptionChecker: (exceptionByWorker) => exceptionByWorker.innerExceptionWithType?.exception is Exception,
+    ),
+  ];
+
+  static final basicResponseHandlers = <ResponseHandler>[
+    ResponseHandler(
+      methodName: 'echo',
+      response: (request) async => request,
+      expectEqualResponse: true,
     ),
     ResponseHandler(
       methodName: 'returnMap',
@@ -67,12 +81,6 @@ class Responses {
         final list = (map['list'] as List).map((e) => (e as Map).castMap()).toList();
         assert(list[0]['key2'] is Uint8List);
       },
-    ),
-    ResponseHandler(
-      methodName: 'custom exception',
-      response: (request) async => throw CustomException(message: 'exception message'),
-      expectEqualException: true,
-      exceptionChecker: (exceptionByWorker) => exceptionByWorker.innerExceptionWithType?.exception is Exception,
     ),
   ];
 }
