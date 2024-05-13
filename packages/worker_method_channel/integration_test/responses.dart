@@ -20,14 +20,18 @@ class Responses {
       methodName: 'echoError',
       response: (request) async => throw Exception('echoError'),
       exceptionChecker: (exceptionByWorker) {
-        return exceptionByWorker.innerExceptionWithType?.exception.toString() == 'Exception: echoError';
+        return exceptionByWorker.innerExceptionWithType?.exception is Exception &&
+            exceptionByWorker.innerExceptionWithType?.exception.toString() == 'Exception: echoError';
       },
     ),
     ResponseHandler(
       methodName: 'custom exception',
       response: (request) async => throw CustomException(message: 'exception message'),
       expectEqualException: true,
-      exceptionChecker: (exceptionByWorker) => exceptionByWorker.innerExceptionWithType?.exception is Exception,
+      exceptionChecker: (exceptionByWorker) {
+        return exceptionByWorker.innerExceptionWithType?.exception is Exception &&
+            exceptionByWorker.innerExceptionWithType?.exception is CustomException;
+      },
     ),
   ];
 
