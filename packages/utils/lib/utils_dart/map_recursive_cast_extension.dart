@@ -8,12 +8,29 @@ extension MapRecursiveCastExtension on Map {
       if (value is Map) {
         return MapEntry(key as K, value.castRecursive<K>());
       }
+      if (value is Iterable) {
+        return MapEntry(key as K, value.castRecursive<K>());
+      }
       return MapEntry(key as K, value);
     }).cast<K, dynamic>();
   }
 
   Map<String, dynamic> castRecursiveMap() {
     return castRecursive<String>();
+  }
+}
+
+extension IterableCastExtension on Iterable {
+  List castRecursive<MapKey>() {
+    return map((e) {
+      if (e is Map) {
+        return e.castRecursive<MapKey>();
+      }
+      if (e is Iterable) {
+        return e.castRecursive().toList();
+      }
+      return e;
+    }).toList();
   }
 }
 
