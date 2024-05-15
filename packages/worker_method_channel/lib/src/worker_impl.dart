@@ -5,6 +5,8 @@ import 'package:meta/meta.dart';
 import 'package:utils/utils_dart.dart';
 import 'package:web/web.dart' as web;
 
+import 'package:worker_method_channel/src/bigint_wrapper.dart';
+
 import 'message.dart';
 import 'worker.dart';
 
@@ -17,8 +19,8 @@ mixin _WorkerBaseImp on Worker {
     void Function(Object?)? onError,
   ]) {
     final listenerJS = ((web.MessageEvent e) {
-      final data = e.data.dartify()!;
-      listener(Message.fromJson((data).castRecursiveMap()));
+      final data = unWrapBigIntRecurse(e.data.dartify()!) as Object;
+      listener(Message.fromJson(data.castMap()));
     }).toJS;
     final onErrorJS = (js_interop.JSAny error) {
       onError?.call(error.dartify());
@@ -40,7 +42,10 @@ final class WorkerImpl extends Worker with _WorkerBaseImp {
 
   @override
   void postMessage(Message message) {
-    worker.postMessage(message.toJson().jsify());
+    final wrappedBigInt = (wrapBigIntRecurse(message.toJson()) as Map);
+    final jsify = wrappedBigInt.jsify();
+
+    worker.postMessage(jsify);
   }
 
   @override
@@ -63,7 +68,10 @@ final class WorkerImplSelf extends Worker with _WorkerBaseImp {
 
   @override
   void postMessage(Message message) {
-    self.postMessage(message.toJson().jsify());
+    final wrappedBigInt = (wrapBigIntRecurse(message.toJson()) as Map);
+    final jsify = wrappedBigInt.jsify();
+
+    self.postMessage(jsify);
   }
 
   @override
