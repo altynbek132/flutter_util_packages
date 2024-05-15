@@ -42,6 +42,14 @@ class Responses {
       expectEqualResponse: true,
     ),
     ResponseHandler(
+      methodName: 'bigInt',
+      response: (request) async => BigInt.from(1),
+      expectEqualResponse: true,
+      responseChecker: (responseOriginal, responseByWorker) {
+        assert(responseByWorker is BigInt);
+      },
+    ),
+    ResponseHandler(
       methodName: 'returnMap',
       response: (request) async => {'key': 'value'},
       expectEqualResponse: true,
