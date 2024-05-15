@@ -1,7 +1,6 @@
 import 'dart:async';
 
 import 'package:disposing/disposing_dart.dart';
-import 'package:worker_method_channel/src/exception_serializing/error_serializer_registry.dart';
 import 'package:worker_method_channel/worker_method_channel.dart';
 
 import 'web_worker_method_channel_web.dart' if (dart.library.io) 'web_worker_method_channel_stub.dart';
