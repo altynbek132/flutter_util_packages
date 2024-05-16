@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:typed_data';
 
 import 'package:meta/meta.dart';
 import 'package:utils/utils_dart.dart';
@@ -32,7 +33,7 @@ dynamic wrapBigIntRecurse(dynamic obj) {
   if (obj is Map) {
     return obj.map((key, value) => MapEntry(key, wrapBigIntRecurse(value)));
   }
-  if (obj is List) {
+  if (obj is List && obj is! TypedData) {
     return obj.map((e) => wrapBigIntRecurse(e)).toList();
   }
   return obj;
@@ -46,7 +47,7 @@ dynamic unWrapBigIntRecurse(dynamic obj) {
     }
     return obj.map((key, value) => MapEntry(key, unWrapBigIntRecurse(value)));
   }
-  if (obj is List) {
+  if (obj is List && obj is! TypedData) {
     return obj.map((e) => unWrapBigIntRecurse(e)).toList();
   }
   return obj;
