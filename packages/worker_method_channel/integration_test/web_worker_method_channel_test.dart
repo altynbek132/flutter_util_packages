@@ -104,9 +104,16 @@ Future<void> _testResponse(
     onSuccess: (responseOriginal) async {
       final responseByWorker = await channel.invokeMethod(handler.methodName, handler.requestBody);
 
-      expect(handler.responseChecker(responseOriginal, responseByWorker), true);
-      if (handler.expectEqualResponse) {
-        expect(responseOriginal, responseByWorker);
+      loggerGlobal.i("method: ${handler.methodName} started");
+
+      try {
+        expect(handler.responseChecker(responseOriginal, responseByWorker), true);
+        if (handler.expectEqualResponse) {
+          expect(responseOriginal, responseByWorker);
+        }
+      } on Exception {
+        loggerGlobal.e("method: ${handler.methodName} failed");
+        rethrow;
       }
 
       loggerGlobal.i("method: ${handler.methodName} complete");
