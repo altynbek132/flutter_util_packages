@@ -1,3 +1,5 @@
+import 'dart:typed_data';
+
 extension MapRecursiveCastExtension on Map {
   Map<String, dynamic> castMap() {
     return cast<String, dynamic>();
@@ -8,7 +10,7 @@ extension MapRecursiveCastExtension on Map {
       if (value is Map) {
         return MapEntry(key as K, value.castRecursive<K>());
       }
-      if (value is Iterable) {
+      if (value is List && value is! TypedData) {
         return MapEntry(key as K, value.castRecursive<K>());
       }
       return MapEntry(key as K, value);
@@ -20,13 +22,13 @@ extension MapRecursiveCastExtension on Map {
   }
 }
 
-extension IterableCastExtension on Iterable {
+extension ListCastExtension on List {
   List castRecursive<MapKey>() {
     return map((e) {
       if (e is Map) {
         return e.castRecursive<MapKey>();
       }
-      if (e is Iterable) {
+      if (e is List && e is! TypedData) {
         return e.castRecursive().toList();
       }
       return e;
