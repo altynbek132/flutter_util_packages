@@ -20,7 +20,7 @@ mixin _WorkerBaseImp on Worker {
   ]) {
     final listenerJS = ((web.MessageEvent e) {
       final data = unWrapBigIntRecurse(e.data.dartify()!) as Object;
-      listener(Message.fromJson(data.castMap()));
+      listener(Message.fromJson(data.castRecursiveMap()));
     }).toJS;
     final onErrorJS = (js_interop.JSAny error) {
       onError?.call(error.dartify());
