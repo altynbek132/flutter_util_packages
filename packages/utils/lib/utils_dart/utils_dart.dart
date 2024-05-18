@@ -13,3 +13,4 @@ export 'null_utils.dart';
 export 'other.dart';
 export 'string_extension.dart';
 export 'errors.dart';
+export 'stream_sink_add_stream_non_blocking_extension.dart';
