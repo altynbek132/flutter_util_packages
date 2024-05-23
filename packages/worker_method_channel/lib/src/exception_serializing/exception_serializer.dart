@@ -4,7 +4,7 @@ import 'package:worker_method_channel/src/exception_serializing/error_serializer
 class ExceptionSerializer extends ErrorSerializer {
   @override
   Object serializeError(Object error) {
-    final str = (error as Exception).toString();
+    final str = error.toString();
 
     if (str.startsWith('Exception: ')) {
       return str.substring('Exception: '.length);
