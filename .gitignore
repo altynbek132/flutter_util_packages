@@ -246,3 +246,6 @@ packages/**/pubspec.lock
 **/example/macos
 **/example/web
 **/example/windows
+
+chromedriver.*
+chromedriver
