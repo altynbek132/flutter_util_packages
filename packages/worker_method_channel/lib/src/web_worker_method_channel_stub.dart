@@ -3,7 +3,11 @@ import 'package:meta/meta.dart';
 import 'package:worker_method_channel/worker_method_channel.dart';
 
 @internal
-WebWorkerMethodChannel getWebWorkerMethodChannel({required String scriptURL, Worker? worker}) =>
+WebWorkerMethodChannel getWebWorkerMethodChannel({
+  required String scriptURL,
+  required ErrorSerializerRegistry serializerRegistry,
+  Worker? worker,
+}) =>
     WebWorkerMethodChannelStub();
 
 /// A stub implementation of the [WebWorkerMethodChannel] interface.
