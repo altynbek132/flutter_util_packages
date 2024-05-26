@@ -53,6 +53,10 @@ dev_dependencies:
 
   freezed: ^2.5.2
 
+  compile_dart2js:
+    git:
+      url: https://github.com/altynbek132/compile_dart2js
+
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
 
