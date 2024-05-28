@@ -147,7 +147,7 @@ class WebWorkerMethodChannelWeb with LoggerMixin, DisposableBag implements WebWo
               ),
             );
           } on WebPlatformException catch (e) {
-            logger.e('Error while handling method call (WebPlatformException)', e);
+            logger.e('Error while handling method call (WebPlatformException)', error: e);
             worker.postMessage(
               Message(
                 method: method,
@@ -156,7 +156,7 @@ class WebWorkerMethodChannelWeb with LoggerMixin, DisposableBag implements WebWo
               ),
             );
           } on Object catch (e, st) {
-            logger.e('Error while handling method call (unknown error)', e, st);
+            logger.e('Error while handling method call (unknown error)', error: e, stackTrace: st);
             final serializer = serializerRegistry.getSerializerByType(e.runtimeType) ?? ExceptionSerializer();
             logger.d(
                 "🚀~web_worker_method_channel_web.dart:161~WebWorkerMethodChannelWeb~handlers.map~serializer.serializedExceptionType: ${serializer.serializedExceptionType}");
