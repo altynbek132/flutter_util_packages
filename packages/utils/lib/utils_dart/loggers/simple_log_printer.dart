@@ -1,5 +1,7 @@
 part of 'logger_mixin.dart';
 
+var kUseAlwaysPrint = false;
+
 /// A simple log printer that implements the [LogPrinter] interface.
 class SimpleLogPrinter extends LogPrinter {
   final String className;
@@ -123,6 +125,11 @@ class DevLogOutput extends LogOutput {
   @override
   void output(OutputEvent event) {
     if (!_kLoggerShouldLog) {
+      return;
+    }
+    if (kUseAlwaysPrint) {
+      // ignore: avoid_print
+      event.lines.forEach(print);
       return;
     }
     // ignore: avoid_print
