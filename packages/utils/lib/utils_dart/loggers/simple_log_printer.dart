@@ -143,7 +143,7 @@ class DevLogOutput extends LogOutput {
   // ! workaround for dart compile js imported with [Worker] class
   bool get _isIO {
     try {
-      return Platform.I.isIO;
+      return Platform.I.vm;
     } catch (e) {
       return false;
     }
