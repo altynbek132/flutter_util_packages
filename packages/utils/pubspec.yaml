@@ -38,8 +38,8 @@ dependencies:
   rxdart: ^0.27.7
   provider: ^6.1.0
   dio: ^5.4.0
-  get_it: ^7.6.7
-  platform_info: ^4.0.2
+  get_it: ^8.0.0
+  platform_info: ^5.0.0
   meta: ^1.11.0
 
 dev_dependencies:
@@ -47,7 +47,7 @@ dev_dependencies:
     sdk: flutter
   test: ^1.24.9
 
-  flutter_lints: ^3.0.1
+  flutter_lints: ">=4.0.0 <6.0.0"
 
   # Generators
   build_runner: ^2.4.8
