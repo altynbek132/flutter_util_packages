@@ -6,3 +6,4 @@ export 'mobx_store_base.dart';
 export 'mobx_utils.dart';
 export 'text_style_height_extension.dart';
 export 'invisibility_keep_size.dart';
+export 'size_reporting_widget.dart';
