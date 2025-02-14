@@ -51,4 +51,4 @@ dev_dependencies:
 
   # Generators
   build_runner: ^2.4.8
-  dart_code_metrics: ^5.7.6
+  # dart_code_metrics: ^5.7.6
