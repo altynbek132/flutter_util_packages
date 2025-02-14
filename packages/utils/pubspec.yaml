@@ -52,7 +52,3 @@ dev_dependencies:
   # Generators
   build_runner: ^2.4.8
   dart_code_metrics: ^5.7.6
-  mobx_codegen:
-    git:
-      url: https://github.com/altynbek132/mobx.dart
-      path: mobx_codegen
