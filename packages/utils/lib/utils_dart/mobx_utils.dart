@@ -81,6 +81,9 @@ extension ObservableFutureExtension<T> on ObservableFuture<T> {
   bool get isRejected => status == FutureStatus.rejected;
 }
 
-Observable<ObservableFuture<T>?> makeEmptyObsF<T>() {
-  return Observable<ObservableFuture<T>?>(null);
-}
+Future<T> runInAsyncAction<T>(
+  Future<T> Function() fn, {
+  String? name,
+  ReactiveContext? context,
+}) async =>
+    AsyncAction(name ?? 'unnamed_async_action', context: context).run(fn);
