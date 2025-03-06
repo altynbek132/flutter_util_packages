@@ -8,6 +8,45 @@ import 'package:mobx/mobx.dart' hide Listenable;
 import 'package:rxdart/rxdart.dart';
 import 'package:utils/utils_dart.dart';
 
+abstract class MobxMVController with LoggerMixin, DisposableBag {
+  Future<void> init() async {
+    logger.i('initWidgetModel');
+    setupLoggers();
+  }
+
+  @protected
+  void setupLoggers() {}
+
+  @protected
+  void setupObservableLoggers(Iterable<ValueGetter> formattedValueGetters, Logger log) {
+    _setupObservableLoggers(formattedValueGetters, log, this);
+  }
+
+  @override
+  Future<void> disposeAsync() async {
+    await super.disposeAsync();
+  }
+}
+
+mixin MobxMVControllerMixin<C extends MobxMVController, T extends StatefulWidget> on State<T> {
+  C controllerFactory();
+
+  late final C controller = controllerFactory();
+  C get c => controller;
+
+  @override
+  void dispose() {
+    controller.disposeAsync();
+    super.dispose();
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    controller.init();
+  }
+}
+
 abstract class MobxWM<W extends ElementaryWidget> extends WidgetModel<W, Null> with LoggerMixin, DisposableBag {
   @override
   void initWidgetModel() {
