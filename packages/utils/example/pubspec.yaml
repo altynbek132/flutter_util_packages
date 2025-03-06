@@ -1,14 +1,36 @@
 name: example
 description: "A new Flutter project."
-publish_to: 'none'
+publish_to: "none"
 version: 0.1.0
 
 environment:
   sdk: ^3.7.0
 
+dependency_overrides:
+  mobx:
+    git:
+      url: https://github.com/altynbek132/mobx.dart
+      path: mobx
+
 dependencies:
   flutter:
     sdk: flutter
+
+  utils:
+    path: ../
+
+  mobx: any
+  flutter_mobx:
+    git:
+      url: https://github.com/altynbek132/mobx.dart
+      path: flutter_mobx
+  disposing:
+    git:
+      url: https://github.com/altynbek132/dart_disposing
+      path: packages/disposing
+  awesome_extensions:
+    git:
+      url: https://github.com/altynbek132/awesome_extensions
 
 dev_dependencies:
   flutter_test:
