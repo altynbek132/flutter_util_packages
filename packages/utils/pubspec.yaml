@@ -42,7 +42,7 @@ dependencies:
   platform_info: ^5.0.0
   meta: ^1.11.0
   synchronized: ^3.0.0
-  flutter_secure_storage: ^4.0.0
+  flutter_secure_storage: ^9.0.0
   reactive_forms: ^18.0.0
 
 dev_dependencies:
