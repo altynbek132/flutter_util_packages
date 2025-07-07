@@ -58,12 +58,16 @@ class _CounterScreenWidgetState extends State<CounterScreenWidget>
       builder: (context) {
         return Scaffold(
           body: Center(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: <Widget>[
-                const Text('You have pushed the button this many times:'),
-                Text('${c.counter.value}', style: Theme.of(context).textTheme.headlineMedium),
-              ],
+            child: Observer(
+              builder: (context) {
+                return Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: <Widget>[
+                    const Text('You have pushed the button this many times:'),
+                    Text('${c.counter.value}', style: Theme.of(context).textTheme.headlineMedium),
+                  ],
+                );
+              },
             ),
           ),
           floatingActionButton: FloatingActionButton(
