@@ -19,18 +19,27 @@ class _SizeBuilderState extends State<SizeBuilder> {
   Size? _size;
 
   @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    MediaQuery.of(context); // subscribe to MediaQuery changes
+    _size = null;
+    setState(() {});
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Stack(
       children: [
-        Offstage(
-          child: SizeReportingWidget(
-            onSizeChange: (size) {
-              _size = size;
-              setState(() {});
-            },
-            child: widget.subject,
+        if (_size == null)
+          Offstage(
+            child: SizeReportingWidget(
+              onSizeChange: (size) {
+                _size = size;
+                setState(() {});
+              },
+              child: widget.subject,
+            ),
           ),
-        ),
         if (_size != null) widget.builder(context, _size!),
       ],
     );
