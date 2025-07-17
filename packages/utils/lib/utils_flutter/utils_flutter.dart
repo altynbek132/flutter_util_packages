@@ -7,7 +7,7 @@ export 'hex_color.dart';
 export 'invisibility_keep_size.dart';
 export 'mobx_store_base.dart';
 export 'mobx_utils.dart';
-export 'rx_db.dart';
+export 'rx_secure_storage.dart';
 export 'safe_area_only.dart';
 export 'size_builder.dart';
 export 'size_reporting_widget.dart';

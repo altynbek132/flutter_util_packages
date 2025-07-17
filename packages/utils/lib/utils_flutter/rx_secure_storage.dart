@@ -2,10 +2,10 @@ import 'dart:async';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:rxdart/rxdart.dart';
 
-class RxDb {
+class RxSecureStorage {
   final FlutterSecureStorage storage;
 
-  RxDb({required this.storage});
+  RxSecureStorage({required this.storage});
 
   final streams = <String, BehaviorSubject<String?>>{};
 
