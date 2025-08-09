@@ -15,3 +15,4 @@ export 'observable_lock.dart';
 export 'other.dart';
 export 'stream_sink_add_stream_non_blocking_extension.dart';
 export 'string_extension.dart';
+export 'yx_scope_async_dep.dart';
