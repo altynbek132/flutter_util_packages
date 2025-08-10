@@ -1,4 +1,5 @@
 export 'async.dart';
+export 'async_initializer_dep.dart';
 export 'dio_utils.dart';
 export 'dispose_extensions.dart';
 export 'enum_map.dart';
