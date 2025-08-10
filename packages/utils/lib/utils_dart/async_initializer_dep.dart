@@ -2,22 +2,23 @@ import 'dart:async';
 import 'package:yx_scope/yx_scope.dart';
 
 class AsyncInitializerDep<T> implements AsyncLifecycle {
-  final Future<T> Function() initializer;
-  final Future<void> Function(T)? disposer;
   late final T value;
 
+  final Future<T> Function() _initializer;
+  final Future<void> Function(T)? _disposer;
+
   AsyncInitializerDep(
-    this.initializer, {
-    this.disposer,
-  });
+    this._initializer, {
+    Future<void> Function(T)? disposer,
+  }) : _disposer = disposer;
 
   @override
   Future<void> init() async {
-    value = await initializer();
+    value = await _initializer();
   }
 
   @override
   Future<void> dispose() async {
-    await disposer?.call(value);
+    await _disposer?.call(value);
   }
 }

@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'package:utils/utils_dart/utils_dart.dart';
 import 'package:yx_scope/yx_scope.dart';
 
 extension ScopeModuleRawAsyncDepExtension on ScopeModule {
@@ -16,6 +17,18 @@ extension ScopeModuleRawAsyncDepExtension on ScopeModule {
       name: name,
     );
   }
+
+  AsyncDep<AsyncInitializerDep<Value>> asyncDep_<Value>(
+    Future<Value> Function() initializer, {
+    Future<void> Function(Value)? disposer,
+    String? name,
+  }) {
+    // ignore: invalid_use_of_protected_member
+    return asyncDep(
+      () => AsyncInitializerDep<Value>(initializer, disposer: disposer),
+      name: name,
+    );
+  }
 }
 
 extension ScopeContainerRawAsyncDepExtension on ScopeContainer {
@@ -30,6 +43,18 @@ extension ScopeContainerRawAsyncDepExtension on ScopeContainer {
       builder,
       init: (dep) async => await init?.call(dep),
       dispose: (dep) async => await dispose?.call(dep),
+      name: name,
+    );
+  }
+
+  AsyncDep<AsyncInitializerDep<Value>> asyncDep_<Value>(
+    Future<Value> Function() initializer, {
+    Future<void> Function(Value)? disposer,
+    String? name,
+  }) {
+    // ignore: invalid_use_of_protected_member
+    return asyncDep(
+      () => AsyncInitializerDep<Value>(initializer, disposer: disposer),
       name: name,
     );
   }
