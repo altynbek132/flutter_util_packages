@@ -46,6 +46,8 @@ dependencies:
   reactive_forms: ^18.0.0
   yx_scope: ^1.0.0
   yx_scope_flutter: ^1.0.0
+  octopus: ^0.0.9
+  l: ^5.0.0
 
 dev_dependencies:
   flutter_test:
