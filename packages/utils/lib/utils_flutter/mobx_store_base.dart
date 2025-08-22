@@ -48,7 +48,8 @@ mixin MobxMVControllerMixin<C extends MobxMVController, T extends StatefulWidget
 }
 
 abstract class MobxWM<W extends ElementaryWidget> extends WidgetModel<W, Null> with LoggerMixin, DisposableBag {
-  final screenLock = ObservableLock();
+  final screenLoadingLock = ObservableLock();
+  bool get isLoading => screenLoadingLock.obs.value.locked;
 
   @override
   void initWidgetModel() {
