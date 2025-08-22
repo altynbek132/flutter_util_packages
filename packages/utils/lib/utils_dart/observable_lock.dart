@@ -14,11 +14,14 @@ class ObservableLock {
     runInAction(() {
       obs.reportManualChange();
     });
-    final res = await _lock.synchronized(computation, timeout: timeout);
-    runInAction(() {
-      obs.reportManualChange();
-    });
-    loggerGlobal.d('synchronized end: $label');
-    return res;
+
+    try {
+      return await _lock.synchronized(computation, timeout: timeout);
+    } finally {
+      runInAction(() {
+        obs.reportManualChange();
+      });
+      loggerGlobal.d('synchronized end: $label');
+    }
   }
 }
