@@ -19,3 +19,4 @@ export 'size_builder.dart';
 export 'size_reporting_widget.dart';
 export 'stream_notifier.dart';
 export 'text_style_height_extension.dart';
+export 'yx_scope_controller_base.dart';
