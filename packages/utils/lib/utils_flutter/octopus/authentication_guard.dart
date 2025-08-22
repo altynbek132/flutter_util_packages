@@ -10,7 +10,6 @@ class AuthenticationGuard extends OctopusGuard {
     required Set<String> authRoutes,
     required OctopusState signinNavigation,
     required OctopusState homeNavigation,
-    OctopusState? lastNavigation,
     super.refresh,
   })  : _checkAuth = checkAuth,
         _authRoutes = authRoutes,
