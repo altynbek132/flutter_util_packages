@@ -10,18 +10,21 @@ class ObservableLock {
   ObservableLock([Lock? lock]) : _lock = lock ?? Lock();
 
   Future<T> synchronized<T>(FutureOr<T> Function() computation, {Duration? timeout, String? label}) async {
-    loggerGlobal.d('synchronized start: $label');
-    runInAction(() {
-      obs.reportManualChange();
-    });
-
-    try {
-      return await _lock.synchronized(computation, timeout: timeout);
-    } finally {
+    FutureOr<T> computation_() async {
+      // report lock
       runInAction(() {
         obs.reportManualChange();
       });
-      loggerGlobal.d('synchronized end: $label');
+      return await computation();
+    }
+
+    try {
+      return await _lock.synchronized(computation_, timeout: timeout);
+    } finally {
+      // report unlock
+      runInAction(() {
+        obs.reportManualChange();
+      });
     }
   }
 }
