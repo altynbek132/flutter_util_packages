@@ -2,7 +2,6 @@ import 'dart:async';
 
 import 'package:octopus/octopus.dart';
 import 'package:utils/utils_dart/ll.dart';
-import 'package:utils/utils_flutter/octopus/authentication_guard.dart';
 
 /// Check routes always contain the home route at the first position.
 /// Only exception for not authenticated users.
