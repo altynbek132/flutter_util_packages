@@ -35,7 +35,7 @@ dependencies:
 
   # Other
   logger: ^2.3.0
-  rxdart: ^0.28.0
+  rxdart: ^0.27.7
   provider: ^6.1.0
   dio: ^5.4.0
   get_it: ^8.0.0
