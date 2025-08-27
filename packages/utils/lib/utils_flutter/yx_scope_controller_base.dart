@@ -7,6 +7,9 @@ import 'package:utils/utils_flutter/utils_flutter.dart';
 import 'package:yx_scope/yx_scope.dart';
 
 abstract class YxScopeControllerBase with DisposableBag, LoggerMixin implements AsyncLifecycle {
+  final loadingLock = ObservableLock();
+  bool get isLoading => loadingLock.obs.value.locked;
+
   @override
   @mustCallSuper
   Future<void> init() async {
@@ -40,6 +43,6 @@ abstract class YxScopeControllerBase with DisposableBag, LoggerMixin implements 
 
   @protected
   void setupObservableLoggers(Iterable<ValueGetter> formattedValueGetters, Logger log) {
-    setupObservableLoggersInner(formattedValueGetters, log, this);
+    setupObservableLoggersInner([() => 'isLoading: $isLoading', ...formattedValueGetters], log, this);
   }
 }

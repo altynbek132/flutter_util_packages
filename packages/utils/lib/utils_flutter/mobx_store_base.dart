@@ -49,8 +49,8 @@ mixin MobxMVControllerMixin<C extends MobxMVController, T extends StatefulWidget
 }
 
 abstract class MobxWM<W extends ElementaryWidget> extends WidgetModel<W, Null> with LoggerMixin, DisposableBag {
-  final screenLoadingLock = ObservableLock();
-  bool get isLoading => screenLoadingLock.obs.value.locked;
+  final loadingLock = ObservableLock();
+  bool get isLoading => loadingLock.obs.value.locked;
 
   @override
   void initWidgetModel() {
@@ -64,7 +64,7 @@ abstract class MobxWM<W extends ElementaryWidget> extends WidgetModel<W, Null> w
 
   @protected
   void setupObservableLoggers(Iterable<ValueGetter> formattedValueGetters, Logger log) {
-    setupObservableLoggersInner(formattedValueGetters, log, this);
+    setupObservableLoggersInner([() => 'isLoading: $isLoading', ...formattedValueGetters], log, this);
   }
 
   Future<void> get disposeFuture => _disposeCompleter.future;
