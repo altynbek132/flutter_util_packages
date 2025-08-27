@@ -7,13 +7,14 @@ import 'package:utils/utils_flutter/utils_flutter.dart';
 import 'package:yx_scope/yx_scope.dart';
 
 abstract class YxScopeControllerBase with DisposableBag, LoggerMixin implements AsyncLifecycle {
-  bool? _disposeCalledForBag;
-
   @override
+  @mustCallSuper
   Future<void> init() async {
     logger.i('YxScopeControllerBase');
     setupLoggers();
   }
+
+  bool? _disposeCalledForBag;
 
   @override
   Future<void> dispose() async {
