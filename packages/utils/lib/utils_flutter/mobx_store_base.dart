@@ -4,6 +4,7 @@ import 'package:disposing/disposing_dart.dart';
 import 'package:elementary/elementary.dart';
 import 'package:flutter/widgets.dart';
 import 'package:logger/logger.dart';
+import 'package:meta/meta.dart';
 import 'package:mobx/mobx.dart' hide Listenable;
 import 'package:rxdart/rxdart.dart';
 import 'package:utils/utils_dart.dart';
@@ -19,7 +20,7 @@ abstract class MobxMVController with LoggerMixin, DisposableBag {
 
   @protected
   void setupObservableLoggers(Iterable<ValueGetter> formattedValueGetters, Logger log) {
-    _setupObservableLoggers(formattedValueGetters, log, this);
+    setupObservableLoggersInner(formattedValueGetters, log, this);
   }
 
   @override
@@ -63,7 +64,7 @@ abstract class MobxWM<W extends ElementaryWidget> extends WidgetModel<W, Null> w
 
   @protected
   void setupObservableLoggers(Iterable<ValueGetter> formattedValueGetters, Logger log) {
-    _setupObservableLoggers(formattedValueGetters, log, this);
+    setupObservableLoggersInner(formattedValueGetters, log, this);
   }
 
   Future<void> get disposeFuture => _disposeCompleter.future;
@@ -89,7 +90,7 @@ abstract class MobxWM<W extends ElementaryWidget> extends WidgetModel<W, Null> w
 abstract class MobxStoreBase with LoggerMixin, DisposableBag {
   @protected
   void setupObservableLoggers(Iterable<ValueGetter> formattedValueGetters, Logger log) {
-    _setupObservableLoggers(formattedValueGetters, log, this);
+    setupObservableLoggersInner(formattedValueGetters, log, this);
   }
 
   @override
@@ -109,7 +110,8 @@ abstract class MobxStoreBase with LoggerMixin, DisposableBag {
   final _disposeStreamC = StreamController<void>();
 }
 
-void _setupObservableLoggers(Iterable<ValueGetter<dynamic>> formattedValueGetters, Logger log, DisposableBag bag) {
+@internal
+void setupObservableLoggersInner(Iterable<ValueGetter<dynamic>> formattedValueGetters, Logger log, DisposableBag bag) {
   // calling toList invokes lambda
   final disposers = formattedValueGetters.map((e) => autorun((_) => log.i(e()))).toList();
   SyncCallbackDisposable(() {
