@@ -1,7 +1,7 @@
 // ignore_for_file: require_trailing_commas
 
 import 'package:test/test.dart';
-import 'package:utils/utils_dart/map_recursive_cast_extension.dart';
+import 'package:utils/src/utils_dart/map_recursive_cast_extension.dart';
 
 void main() {
   group('cast map', () {

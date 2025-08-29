@@ -3,7 +3,7 @@ import 'package:flutter/foundation.dart';
 import 'package:logger/logger.dart';
 import 'package:meta/meta.dart';
 import 'package:utils/utils_dart.dart';
-import 'package:utils/utils_flutter/utils_flutter.dart';
+import 'package:utils/src/utils_flutter/utils_flutter.dart';
 import 'package:yx_scope/yx_scope.dart';
 
 abstract class YxScopeControllerBase with DisposableBag, LoggerMixin implements AsyncLifecycle {

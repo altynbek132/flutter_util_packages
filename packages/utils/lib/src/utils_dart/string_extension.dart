@@ -1,7 +1,7 @@
 import 'dart:async';
 import 'dart:convert';
 
-import 'package:utils/utils_dart/index_start_end.dart';
+import 'package:utils/src/utils_dart/index_start_end.dart';
 
 extension StringExtension on String {
   String substring_(int start, [int? end]) {

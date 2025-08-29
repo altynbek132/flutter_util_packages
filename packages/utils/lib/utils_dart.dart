@@ -1,3 +1,3 @@
 library utils_dart;
 
-export 'utils_dart/utils_dart.dart';
+export 'src/utils_dart/utils_dart.dart';

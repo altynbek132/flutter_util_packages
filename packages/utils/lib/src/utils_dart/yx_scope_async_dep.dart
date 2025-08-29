@@ -1,5 +1,5 @@
 import 'dart:async';
-import 'package:utils/utils_dart/utils_dart.dart';
+import 'package:utils/src/utils_dart/utils_dart.dart';
 import 'package:yx_scope/yx_scope.dart';
 
 extension ScopeModuleRawAsyncDepExtension on ScopeModule {

@@ -1,7 +1,7 @@
 import 'package:disposing/disposing_dart.dart';
 import 'package:mobx/mobx.dart';
 import 'package:reactive_forms/reactive_forms.dart';
-import 'package:utils/utils_flutter/reactive_forms/form_control_extension.dart';
+import 'package:utils/src/utils_flutter/reactive_forms/form_control_extension.dart';
 
 extension FormGroupExtensionToObs on FormGroup {
   SyncValueDisposable<Observable<FormGroup>> toObs() {

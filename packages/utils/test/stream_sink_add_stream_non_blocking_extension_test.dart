@@ -3,7 +3,7 @@
 import 'dart:async';
 
 import 'package:test/test.dart';
-import 'package:utils/utils_dart/stream_sink_add_stream_non_blocking_extension.dart';
+import 'package:utils/src/utils_dart/stream_sink_add_stream_non_blocking_extension.dart';
 
 Future<void> main() async {
   test('should add stream', () async {

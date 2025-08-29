@@ -2,7 +2,7 @@ import 'dart:async';
 
 import 'package:octopus/octopus.dart';
 import 'package:utils/utils_dart.dart';
-import 'package:utils/utils_flutter/octopus/octopus_tab_route.dart';
+import 'package:utils/src/utils_flutter/octopus/octopus_tab_route.dart';
 
 class TabsGuard extends OctopusGuard {
   TabsGuard({required this.tabRoutes, required this.tabsRootRoute, this.verbose = false});
