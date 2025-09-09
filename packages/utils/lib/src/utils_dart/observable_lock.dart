@@ -9,6 +9,9 @@ class ObservableLock {
 
   ObservableLock([Lock? lock]) : _lock = lock ?? Lock();
 
+  Lock get lock => obs.value;
+  bool get locked => obs.value.locked;
+
   Future<T> synchronized<T>(FutureOr<T> Function() computation, {Duration? timeout, String? label}) async {
     FutureOr<T> computation_() async {
       // report lock
