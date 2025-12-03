@@ -6,7 +6,7 @@ import 'package:utils/utils_dart.dart';
 import 'package:utils/src/utils_flutter/utils_flutter.dart';
 import 'package:yx_scope/yx_scope.dart';
 
-abstract class YxScopeControllerBase with DisposableBag, LoggerMixin implements AsyncLifecycle {
+abstract class YxScopeControllerBase with DisposableBag, LoggerMixin, SafeDisposeMixin implements AsyncLifecycle {
   final loadingLock = ObservableLock();
   bool get isLoading => loadingLock.obs.value.locked;
 
@@ -17,32 +17,27 @@ abstract class YxScopeControllerBase with DisposableBag, LoggerMixin implements 
     setupLoggers();
   }
 
-  bool? _disposeCalledForBag;
-
-  @override
-  Future<void> dispose() async {
-    if (_disposeCalledForBag == true) {
-      return;
-    }
-    _disposeCalledForBag = false;
-    return disposeAsync();
-  }
-
-  @override
-  Future<void> disposeAsync() async {
-    if (_disposeCalledForBag == false) {
-      return;
-    }
-    _disposeCalledForBag = true;
-    await super.disposeAsync();
-    return dispose();
-  }
-
   @protected
   void setupLoggers() {}
 
   @protected
   void setupObservableLoggers(Iterable<ValueGetter> formattedValueGetters, Logger log) {
     setupObservableLoggersInner([() => 'isLoading: $isLoading', ...formattedValueGetters], log, this);
+  }
+}
+
+mixin SafeDisposeMixin on DisposableBag implements AsyncLifecycle {
+  bool _disposed = false;
+
+  @override
+  Future<void> dispose() async {
+    if (_disposed) return;
+    _disposed = true;
+    await super.disposeAsync();
+  }
+
+  @override
+  Future<void> disposeAsync() async {
+    await dispose();
   }
 }
