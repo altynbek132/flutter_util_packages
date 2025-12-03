@@ -30,6 +30,7 @@ mixin SafeDisposeMixin on DisposableBag implements AsyncLifecycle {
   bool _disposed = false;
 
   @override
+  @mustCallSuper
   Future<void> dispose() async {
     if (_disposed) return;
     _disposed = true;
@@ -37,6 +38,7 @@ mixin SafeDisposeMixin on DisposableBag implements AsyncLifecycle {
   }
 
   @override
+  @mustCallSuper
   Future<void> disposeAsync() async {
     await dispose();
   }
