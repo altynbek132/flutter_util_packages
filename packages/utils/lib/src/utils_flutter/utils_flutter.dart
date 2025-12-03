@@ -3,6 +3,7 @@ export 'clip_material_ink.dart';
 export 'color_opacity_extension.dart';
 export 'dispose_extensions.dart';
 export 'flutter_utils.dart';
+export 'form_group_string_form_extension.dart';
 export 'hex_color.dart';
 export 'invisibility_keep_size.dart';
 export 'l_log_options.dart';
