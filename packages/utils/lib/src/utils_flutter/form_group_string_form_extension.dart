@@ -10,7 +10,7 @@ extension FormGroupStringFormExtension on FormGroup {
     }
   }
 
-  FormControl controlDynamic(String key) {
-    return control(key) as FormControl;
+  FormControl<T> controlDynamic<T>(String key) {
+    return control(key) as FormControl<T>;
   }
 }
