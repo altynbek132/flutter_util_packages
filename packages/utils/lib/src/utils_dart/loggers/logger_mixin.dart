@@ -9,7 +9,8 @@ import 'package:platform_info/platform_info.dart';
 /// This mixin adds a `logger` getter that returns a logger instance based on the runtime type.
 /// It uses the `getLogger` function from the `logger` package to create the logger.
 mixin LoggerMixin {
-  Logger get logger => getLogger('$runtimeType');
+  static var useRuntimeType = true;
+  Logger get logger => getLogger(useRuntimeType ? runtimeType.toString() : 'LoggerMixin');
 }
 
 /// A global logger instance.
