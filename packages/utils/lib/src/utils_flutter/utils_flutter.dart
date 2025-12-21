@@ -6,7 +6,7 @@ export 'flutter_utils.dart';
 export 'form_group_string_form_extension.dart';
 export 'hex_color.dart';
 export 'invisibility_keep_size.dart';
-export 'l_log_options.dart';
+export 'l_config.dart';
 export 'mobx_store_base.dart';
 export 'mobx_utils.dart';
 export 'octopus/anonymous_route.dart';
