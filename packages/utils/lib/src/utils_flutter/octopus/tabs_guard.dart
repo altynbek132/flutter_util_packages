@@ -46,7 +46,8 @@ class TabsGuard extends OctopusGuard {
 
     if (childrenToRemove.isNotEmpty) {
       _log(
-          'TabsGuard: Removing ${childrenToRemove.length} unexpected children: ${childrenToRemove.map((e) => e.name).toList()}');
+        'TabsGuard: Removing ${childrenToRemove.length} unexpected children: ${childrenToRemove.map((e) => e.name).toList()}',
+      );
     }
 
     tabsRootNode.removeWhere(

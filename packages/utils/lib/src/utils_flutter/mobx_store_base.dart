@@ -3,7 +3,6 @@ import 'dart:async';
 import 'package:disposing/disposing_dart.dart';
 import 'package:elementary/elementary.dart';
 import 'package:flutter/widgets.dart';
-import 'package:logger/logger.dart';
 import 'package:meta/meta.dart';
 import 'package:mobx/mobx.dart' hide Listenable;
 import 'package:rxdart/rxdart.dart';
@@ -19,7 +18,7 @@ abstract class MobxMVController with LoggerMixin, DisposableBag {
   void setupLoggers() {}
 
   @protected
-  void setupObservableLoggers(Iterable<ValueGetter> formattedValueGetters, Logger log) {
+  void setupObservableLoggers(Iterable<ValueGetter> formattedValueGetters, LNullable log) {
     setupObservableLoggersInner(formattedValueGetters, log, this);
   }
 
@@ -63,7 +62,7 @@ abstract class MobxWM<W extends ElementaryWidget> extends WidgetModel<W, Null> w
   void setupLoggers() {}
 
   @protected
-  void setupObservableLoggers(Iterable<ValueGetter> formattedValueGetters, Logger log) {
+  void setupObservableLoggers(Iterable<ValueGetter> formattedValueGetters, LNullable log) {
     setupObservableLoggersInner([() => 'isLoading: $isLoading', ...formattedValueGetters], log, this);
   }
 
@@ -89,7 +88,7 @@ abstract class MobxWM<W extends ElementaryWidget> extends WidgetModel<W, Null> w
 
 abstract class MobxStoreBase with LoggerMixin, DisposableBag {
   @protected
-  void setupObservableLoggers(Iterable<ValueGetter> formattedValueGetters, Logger log) {
+  void setupObservableLoggers(Iterable<ValueGetter> formattedValueGetters, LNullable log) {
     setupObservableLoggersInner(formattedValueGetters, log, this);
   }
 
@@ -111,7 +110,11 @@ abstract class MobxStoreBase with LoggerMixin, DisposableBag {
 }
 
 @internal
-void setupObservableLoggersInner(Iterable<ValueGetter<dynamic>> formattedValueGetters, Logger log, DisposableBag bag) {
+void setupObservableLoggersInner(
+  Iterable<ValueGetter<dynamic>> formattedValueGetters,
+  LNullable log,
+  DisposableBag bag,
+) {
   // calling toList invokes lambda
   final disposers = formattedValueGetters.map((e) => autorun((_) => log.i(e()))).toList();
   SyncCallbackDisposable(() {

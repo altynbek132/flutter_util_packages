@@ -1,7 +1,5 @@
 import 'package:disposing/disposing_dart.dart';
 import 'package:flutter/foundation.dart';
-import 'package:logger/logger.dart';
-import 'package:meta/meta.dart';
 import 'package:utils/utils_dart.dart';
 import 'package:utils/src/utils_flutter/utils_flutter.dart';
 import 'package:yx_scope/yx_scope.dart';
@@ -21,7 +19,7 @@ abstract class YxScopeControllerBase with DisposableBag, LoggerMixin, SafeDispos
   void setupLoggers() {}
 
   @protected
-  void setupObservableLoggers(Iterable<ValueGetter> formattedValueGetters, Logger log) {
+  void setupObservableLoggers(Iterable<ValueGetter> formattedValueGetters, LNullable log) {
     setupObservableLoggersInner([() => 'isLoading: $isLoading', ...formattedValueGetters], log, this);
   }
 }

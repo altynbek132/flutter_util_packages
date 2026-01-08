@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'package:flutter/src/foundation/basic_types.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:rxdart/rxdart.dart';
 
