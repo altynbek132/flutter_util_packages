@@ -1,7 +1,6 @@
 import 'dart:async';
 import 'package:mobx/mobx.dart';
 import 'package:synchronized/synchronized.dart';
-import 'package:utils/utils_dart.dart';
 
 class ObservableLock {
   final Lock _lock;

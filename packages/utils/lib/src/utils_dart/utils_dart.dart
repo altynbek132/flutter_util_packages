@@ -1,6 +1,5 @@
 export 'async.dart';
 export 'async_initializer_dep.dart';
-export 'dio_utils.dart';
 export 'dispose_extensions.dart';
 export 'enum_map.dart';
 export 'errors.dart';
@@ -13,7 +12,6 @@ export 'loggers/logger_mixin.dart';
 export 'map_recursive_cast_extension.dart';
 export 'mobx_obs_extensions.dart';
 export 'mobx_utils.dart';
-export 'null_utils.dart';
 export 'observable_lock.dart';
 export 'other.dart';
 export 'stream_sink_add_stream_non_blocking_extension.dart';

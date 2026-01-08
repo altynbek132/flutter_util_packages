@@ -3,7 +3,6 @@ import 'dart:async';
 import 'package:mobx/mobx.dart' hide Listenable;
 import 'package:rxdart/rxdart.dart';
 import 'package:mobx/mobx.dart';
-import 'package:utils/utils_dart.dart';
 
 class MobxUtilsDart {
   MobxUtilsDart._();
@@ -50,19 +49,6 @@ Stream<T> _fromGetter<T>(T Function() getter) {
     onListen: () => disposer = autorun((_) => controller!.add(getter())),
     onCancel: () => disposer?.call(),
   );
-}
-
-void configMobx([bool? spy]) {
-  spy ??= false;
-  final logger = getLogger('MOBX');
-  mainContext
-    ..config = mainContext.config.clone(
-      writePolicy: ReactiveWritePolicy.never,
-      isSpyEnabled: spy, /* disableErrorBoundaries: true */
-    )
-    ..spy((event) {
-      if (spy!) logger.i('event: ${event}');
-    });
 }
 
 Observable<T> makeObs<T>(T value) => Observable<T>(value);
