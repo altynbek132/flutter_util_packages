@@ -9,8 +9,6 @@ class RxSecureStorage {
 
   final _streams = <String, BehaviorSubject<String?>>{};
 
-  AndroidOptions get aOptions => _storage.aOptions;
-
   Future<bool> containsKey({
     required String key,
     IOSOptions? iOptions,
@@ -70,18 +68,23 @@ class RxSecureStorage {
     );
   }
 
-  IOSOptions get iOptions => _storage.iOptions;
-
   Future<bool?> isCupertinoProtectedDataAvailable() {
     return _storage.isCupertinoProtectedDataAvailable();
   }
 
+  IOSOptions get iOptions => _storage.iOptions;
+
+  AndroidOptions get aOptions => _storage.aOptions;
+
   LinuxOptions get lOptions => _storage.lOptions;
 
-  MacOsOptions get mOptions => _storage.mOptions;
+  WindowsOptions get wOptions => _storage.wOptions;
 
-  Stream<bool>? get onCupertinoProtectedDataAvailabilityChanged =>
-      _storage.onCupertinoProtectedDataAvailabilityChanged;
+  WebOptions get webOptions => _storage.webOptions;
+
+  AppleOptions get mOptions => _storage.mOptions;
+
+  Stream<bool>? get onCupertinoProtectedDataAvailabilityChanged => _storage.onCupertinoProtectedDataAvailabilityChanged;
 
   Future<String?> read({
     required String key,
@@ -144,10 +147,6 @@ class RxSecureStorage {
       wOptions: wOptions,
     );
   }
-
-  WindowsOptions get wOptions => _storage.wOptions;
-
-  WebOptions get webOptions => _storage.webOptions;
 
   Future<void> write({
     required String key,

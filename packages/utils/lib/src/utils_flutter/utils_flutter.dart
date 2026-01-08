@@ -16,7 +16,6 @@ export 'octopus/octopus_tab_route.dart';
 export 'octopus/tabs_guard.dart';
 export 'reactive_forms/form_control_extension.dart';
 export 'reactive_forms/form_obs_extension.dart';
-export 'rx_secure_storage.dart';
 export 'safe_area_only.dart';
 export 'size_builder.dart';
 export 'size_reporting_widget.dart';
