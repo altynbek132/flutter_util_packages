@@ -34,14 +34,10 @@ dependencies:
       path: packages/elementary
 
   # Other
-  logger: ^2.3.0
   rxdart: ^0.27.7
-  provider: ^6.1.0
-  dio: ^5.4.0
-  get_it: ^8.0.0
-  platform_info: ^5.0.0
   meta: ^1.11.0
   synchronized: ^3.0.0
+  # todo: move to package
   flutter_secure_storage: ^9.0.0
   reactive_forms: ^18.0.0
   yx_scope: ^1.0.0
