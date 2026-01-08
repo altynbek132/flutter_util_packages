@@ -1,5 +1,4 @@
 import 'package:mobx/mobx.dart';
-import 'package:rxdart/rxdart.dart';
 import 'package:test/test.dart';
 import 'package:utils/utils_dart.dart';
 

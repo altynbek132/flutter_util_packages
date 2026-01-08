@@ -1,3 +1,3 @@
 library utils_flutter;
 
-export 'src/utils_flutter/utils_flutter.dart';
+export 'src/utils_flutter/utils_flutter.dart' hide setupObservableLoggersInner;
