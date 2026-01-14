@@ -86,6 +86,16 @@ final class PrefixedL extends LNullable {
   void e(Object? message, [StackTrace? stackTrace, LogMessageContext? context]) =>
       super.e('$prefix $message', stackTrace, context);
 
+  /// Warning [message] with verbose level 2
+  @override
+  void ww(Object? message, [Object? exception, StackTrace? stackTrace, LogMessageContext? context]) =>
+      super.ww('$prefix $message', exception, stackTrace, context);
+
+  /// Error [message] with verbose level 1
+  @override
+  void ee(Object? message, [Object? exception, StackTrace? stackTrace, LogMessageContext? context]) =>
+      super.ee('$prefix $message', exception, stackTrace, context);
+
   /// Debug [message] with verbose level 4
   @override
   void d(Object? message, [LogMessageContext? context]) => super.d('$prefix $message', context);

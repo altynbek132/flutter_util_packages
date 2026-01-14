@@ -94,6 +94,24 @@ base class LNullable extends InnerLogger
   void e(Object? message, [StackTrace? stackTrace, LogMessageContext? context]) =>
       super.e(message ?? '', stackTrace, context);
 
+  /// Warning [message] with verbose level 2
+  void ww(Object? message, [Object? exception, StackTrace? stackTrace, LogMessageContext? context]) {
+    final msg = <Object>[
+      if (message != null && message.toString().isNotEmpty) message,
+      if (exception != null) exception,
+    ].join('\n');
+    super.w(msg, stackTrace, context);
+  }
+
+  /// Error [message] with verbose level 1
+  void ee(Object? message, [Object? exception, StackTrace? stackTrace, LogMessageContext? context]) {
+    final msg = <Object>[
+      if (message != null && message.toString().isNotEmpty) message,
+      if (exception != null) exception,
+    ].join('\n');
+    super.e(msg, stackTrace, context);
+  }
+
   /// Debug [message] with verbose level 4
   @override
   void d(Object? message, [LogMessageContext? context]) => super.d(message ?? '', context);
